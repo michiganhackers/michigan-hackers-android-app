@@ -3,12 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/nav_list"
         android:icon="@drawable/ic_action_list"
         android:title="@string/nav_list" />
     <item
+        android:id="@+id/nav_calendar"
         android:icon="@drawable/ic_action_calendar"
         android:title="@string/nav_calendar" />
     <item
+        android:id="@+id/nav_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/nav_settings" />
 </menu>
