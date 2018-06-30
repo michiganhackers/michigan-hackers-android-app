@@ -30,18 +30,23 @@ public class MainActivity extends AppCompatActivity {
         calendarFragment = new CalendarFragment();
         settingsFragment = new SettingsFragment();
 
+        // Set initial fragment to listFragment
+        // Todo: should the initial fragment use add instead of replace?
+        replaceFragment(listFragment, R.id.main_frame);
+
+        // Replace current fragment with one corresponding to which navigation item is selected
         mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.nav_list:
-                        setFragment(listFragment);
+                        replaceFragment(listFragment, R.id.main_frame);
                         return true;
                     case R.id.nav_calendar:
-                        setFragment(calendarFragment);
+                        replaceFragment(calendarFragment, R.id.main_frame);
                         return true;
                     case R.id.nav_settings:
-                        setFragment(settingsFragment);
+                        replaceFragment(settingsFragment, R.id.main_frame);
                         return true;
                     default:
                         return false;
@@ -50,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setFragment(Fragment fragment) {
+    // Replace fragment in specified container
+    private void replaceFragment(Fragment fragment, int containerViewId) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.replace(containerViewId, fragment);
         fragmentTransaction.commit();
     }
 }
