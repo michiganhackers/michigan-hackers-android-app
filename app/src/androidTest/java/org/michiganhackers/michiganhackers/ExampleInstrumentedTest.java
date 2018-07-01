@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackersapp;
+package org.michiganhackers.michiganhackers;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.michiganhackers.michiganhackersapp", appContext.getPackageName());
+        assertEquals("org.michiganhackers.michiganhackers", appContext.getPackageName());
     }
 }

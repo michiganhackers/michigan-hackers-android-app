@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackersapp;
+package org.michiganhackers.michiganhackers;
 
 import org.junit.Test;
 

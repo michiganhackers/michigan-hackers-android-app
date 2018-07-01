@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackersapp;
+package org.michiganhackers.michiganhackers;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
