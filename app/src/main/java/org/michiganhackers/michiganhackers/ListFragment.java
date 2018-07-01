@@ -12,7 +12,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +35,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,6 +64,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
         // Required empty public constructor
     }
 
+    /*
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,19 +78,27 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
 
         // Todo: Use TextView errorText (or something else. Toast message?) to display error from google API
     }
+    */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_list, container, false);
+
+        // Initialize credentials and service object.
+        mCredential = GoogleAccountCredential.usingOAuth2(
+                getActivity().getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff());
+
+        getResultsFromApi();
 
         recyclerView = layout.findViewById(R.id.list_recycler);
         // Improves recyclerView performance
         recyclerView.setHasFixedSize(true);
         // Initialize adapter with empty list. Adapter will be updated in onPostExecute()
-        // Todo: Is this correct? Give it dataSet after doing onCreate?
-        // listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), new ArrayList<Event>());
+        listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), new ArrayList<Event>());
         recyclerView.setAdapter(listRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;
@@ -364,7 +373,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
             mOutputText.setText("No results returned.");
             }
             */
-            listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), output);
+            listRecyclerViewAdapter.updateData(output);
         }
 
         @Override

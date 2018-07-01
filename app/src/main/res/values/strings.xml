@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Michigan Hackers App</string>
+    <string name="app_name">Michigan Hackers</string>
     <string name="nav_list">List</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_calendar">Calendar</string>
