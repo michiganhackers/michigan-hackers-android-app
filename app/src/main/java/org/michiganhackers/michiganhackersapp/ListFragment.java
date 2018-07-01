@@ -36,12 +36,14 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+
+// Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity.
+// OR getActivity() == null
 
 public class ListFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
 
@@ -68,7 +70,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
+                getActivity().getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
 
         getResultsFromApi();
@@ -87,7 +89,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
         recyclerView.setHasFixedSize(true);
         // Initialize adapter with empty list. Adapter will be updated in onPostExecute()
         // Todo: Is this correct? Give it dataSet after doing onCreate?
-        listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), new ArrayList<Event>());
+        // listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), new ArrayList<Event>());
         recyclerView.setAdapter(listRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;
@@ -125,8 +127,8 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
-                this, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = getPreferences(Context.MODE_PRIVATE)
+                getContext(), Manifest.permission.GET_ACCOUNTS)) {
+            String accountName = getActivity().getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
@@ -159,12 +161,12 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
      *                    activity result.
      */
     @Override
-    protected void onActivityResult(
+    public void onActivityResult(
             int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
-                if (resultCode != RESULT_OK) {
+                if (resultCode != getActivity().RESULT_OK) {
                     /*Todo:
                     mOutputText.setText(
                                     "This app requires Google Play Services. Please install " +
@@ -175,13 +177,13 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
                 }
                 break;
             case REQUEST_ACCOUNT_PICKER:
-                if (resultCode == RESULT_OK && data != null &&
+                if (resultCode == getActivity().RESULT_OK && data != null &&
                         data.getExtras() != null) {
                     String accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
                         SharedPreferences settings =
-                                getPreferences(Context.MODE_PRIVATE);
+                                getActivity().getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
@@ -191,7 +193,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
                 }
                 break;
             case REQUEST_AUTHORIZATION:
-                if (resultCode == RESULT_OK) {
+                if (resultCode == getActivity().RESULT_OK) {
                     getResultsFromApi();
                 }
                 break;
@@ -249,7 +251,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
      */
     private boolean isDeviceOnline() {
         ConnectivityManager connMgr =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
@@ -264,7 +266,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(this);
+                apiAvailability.isGooglePlayServicesAvailable(getContext());
         return connectionStatusCode == ConnectionResult.SUCCESS;
     }
 
@@ -276,7 +278,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(this);
+                apiAvailability.isGooglePlayServicesAvailable(getContext());
         if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
             showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
         }
@@ -293,7 +295,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
-                MainActivity.this,
+                getActivity(), // Todo: Is this correct? Used to be MainActivity.this
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
@@ -362,8 +364,7 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
             mOutputText.setText("No results returned.");
             }
             */
-            RecyclerView.Adapter mAdapter = new EventAdapter(output);
-            mRecyclerView.setAdapter(mAdapter);
+            listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), output);
         }
 
         @Override
@@ -375,9 +376,10 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
                             ((GooglePlayServicesAvailabilityIOException) mLastError)
                                     .getConnectionStatusCode());
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                    startActivityForResult(
+                    // Todo:
+/*                    startActivityForResult(
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            MainActivity.REQUEST_AUTHORIZATION);
+                            getActivity().REQUEST_AUTHORIZATION);*/
                 } else {
                         /* Todo:
                             mOutputText.setText("The following error occurred:\n"

@@ -47,6 +47,15 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         return dataSet.size();
     }
 
+    // Used to update event data in onPostExecute()
+    public void updateData (List<Event> data) {
+        if (data != null && data.size() > 0) {
+            dataSet.clear();
+            dataSet.addAll(data);
+            notifyDataSetChanged();
+        }
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView eventName;
         TextView eventTime;
