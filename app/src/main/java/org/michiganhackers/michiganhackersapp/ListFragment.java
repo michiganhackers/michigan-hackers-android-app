@@ -391,6 +391,4 @@ public class ListFragment extends Fragment implements EasyPermissions.Permission
             }
         }
     }
-
-
 }

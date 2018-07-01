@@ -43,7 +43,6 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
 
     @Override
     public int getItemCount() {
-
         return dataSet.size();
     }
 
