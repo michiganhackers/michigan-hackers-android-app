@@ -36,7 +36,7 @@ public class ListFragment extends Fragment{
         // Improves recyclerView performance
         recyclerView.setHasFixedSize(true);
         // Initialize adapter with empty list. Adapter will be updated in onPostExecute() in MainActivity
-        listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), new ArrayList<Event>());
+        listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), LISTOFCALENDAREVENTS);
         recyclerView.setAdapter(listRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

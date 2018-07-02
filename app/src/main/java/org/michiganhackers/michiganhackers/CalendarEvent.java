@@ -2,13 +2,15 @@ package org.michiganhackers.michiganhackers;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /*
 Implementation of Event class from google API. Needed to do this so that it could be made parcelable.
 Refer to the following: https://developers.google.com/calendar/v3/reference/events
  */
 // Todo: Implement parcel https://www.youtube.com/watch?v=qIhwPaa6rlU
-// Todo: Change occurrences of List<Event> and such with List<CalendarEvent> in other files
-// Todo: Implement static function to turn List<Event> to List<CalendarEvent>
 public class CalendarEvent {
     private String summary;
     private String description;
@@ -28,6 +30,14 @@ public class CalendarEvent {
         this.start = new Start(event.getStart().getDate(), event.getStart().getDateTime());
         this.end = new End(event.getEnd().getDate(), event.getEnd().getDateTime());
         this.originalStartTime = new OriginalStartTime(event.getOriginalStartTime().getDate(), event.getOriginalStartTime().getDateTime());
+    }
+    // create a list of CalendarEvent from a list of Event
+    public static List<CalendarEvent> createCalendarEventList(List<Event> events){
+        List<CalendarEvent> calendarEventList = new ArrayList<>();
+        for(int i = 0; i<events.size(); ++i){
+            calendarEventList.add(new CalendarEvent(events.get(i)));
+        }
+        return calendarEventList;
     }
 
     public String getSummary() {

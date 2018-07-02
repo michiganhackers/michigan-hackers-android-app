@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
                     .execute();
-            return CalendarEvent.makeCalendarEventList(events.getItems());
+            return CalendarEvent.createCalendarEventList(events.getItems());
         }
 
         @Override
