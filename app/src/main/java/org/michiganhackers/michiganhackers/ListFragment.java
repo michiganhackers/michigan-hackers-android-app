@@ -40,6 +40,9 @@ public class ListFragment extends Fragment{
         recyclerView.setAdapter(listRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        //            listRecyclerViewAdapter.updateData(output);
+
+
         return layout;
     }
 }

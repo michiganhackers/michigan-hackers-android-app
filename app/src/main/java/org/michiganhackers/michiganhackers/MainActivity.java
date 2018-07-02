@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -318,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    private class MakeRequestTask extends AsyncTask<Void, Void, List<Event>> {
+    private class MakeRequestTask extends AsyncTask<Void, Void, List<CalendarEvent>> {
         private com.google.api.services.calendar.Calendar mService = null;
         private Exception mLastError = null;
 
@@ -337,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
          * @param params no parameters needed for this task.
          */
         @Override
-        protected List<Event> doInBackground(Void... params) {
+        protected List<CalendarEvent> doInBackground(Void... params) {
             try {
                 return getDataFromApi();
             } catch (Exception e) {
@@ -353,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
          * @return List of Strings describing returned events.
          * @throws IOException
          */
-        private List<Event> getDataFromApi() throws IOException {
+        private List<CalendarEvent> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             //Events events = mService.events().list("8n8u58ssric1hmm84jvkvl9d68@group.calendar.google.com")
@@ -362,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
                     .execute();
-            return events.getItems();
+            return CalendarEvent.makeCalendarEventList(events.getItems());
         }
 
         @Override
@@ -371,18 +372,18 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         }
 
         @Override
-        protected void onPostExecute(List<Event> output) {
+        protected void onPostExecute(List<CalendarEvent> output) {
             /* Todo:
             if (output == null || output.size() == 0) {
             mOutputText.setText("No results returned.");
             }
             */
-            listRecyclerViewAdapter.updateData(output);
+            // Todo: Make parcel here?
+
         }
 
         @Override
         protected void onCancelled() {
-
             if (mLastError != null) {
                 if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
                     showGooglePlayServicesAvailabilityErrorDialog(
