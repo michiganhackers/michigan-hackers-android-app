@@ -9,15 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.api.services.calendar.model.Event;
-
 import java.util.ArrayList;
 
-// Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity.
-// OR getActivity() == null
-
+// Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
+// Todo: Implement google API in here?
 public class ListFragment extends Fragment{
 
+    private static final String STATE_EVENTS = "state_events";
     private RecyclerView recyclerView;
     private ListRecyclerViewAdapter listRecyclerViewAdapter;
 
@@ -31,17 +29,15 @@ public class ListFragment extends Fragment{
 
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_list, container, false);
-
         recyclerView = layout.findViewById(R.id.list_recycler);
         // Improves recyclerView performance
         recyclerView.setHasFixedSize(true);
-        // Initialize adapter with empty list. Adapter will be updated in onPostExecute() in MainActivity
-        listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), LISTOFCALENDAREVENTS);
+        // Initialize adapter with data from savedInstanceState
+        ArrayList<CalendarEvent> calendarEvents = savedInstanceState.getParcelableArrayList(STATE_EVENTS);
+        listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), calendarEvents);
+
         recyclerView.setAdapter(listRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        //            listRecyclerViewAdapter.updateData(output);
-
 
         return layout;
     }

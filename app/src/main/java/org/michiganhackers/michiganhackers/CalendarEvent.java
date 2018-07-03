@@ -11,7 +11,7 @@ import java.util.List;
 
 /*
 Implementation of Event class from google API. Needed to do this so that it could be made parcelable.
-Refer to the following: https://developers.google.com/calendar/v3/reference/events
+Refer to the following if you want to implement more data from Event: https://developers.google.com/calendar/v3/reference/events
  */
 public class CalendarEvent implements Parcelable{
     private String summary;
@@ -34,8 +34,8 @@ public class CalendarEvent implements Parcelable{
         this.originalStartTime = new OriginalStartTime(event.getOriginalStartTime().getDate(), event.getOriginalStartTime().getDateTime());
     }
     // create a list of CalendarEvent from a list of Event
-    public static List<CalendarEvent> createCalendarEventList(List<Event> events){
-        List<CalendarEvent> calendarEventList = new ArrayList<>();
+    public static ArrayList<CalendarEvent> createCalendarEventList(List<Event> events){
+        ArrayList<CalendarEvent> calendarEventList = new ArrayList<>();
         for(int i = 0; i<events.size(); ++i){
             calendarEventList.add(new CalendarEvent(events.get(i)));
         }

@@ -33,6 +33,7 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Events;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,12 +42,15 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
+    private static final String STATE_EVENTS = "state_events";
     private BottomNavigationView mainNav;
     private FrameLayout mainFrame;
 
     private ListFragment listFragment;
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
+
+    private ArrayList<CalendarEvent> calendarEventList;
 
     GoogleAccountCredential mCredential;
 
@@ -70,6 +74,18 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         calendarFragment = new CalendarFragment();
         settingsFragment = new SettingsFragment();
 
+        // Initialize credentials and service object.
+        mCredential = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff());
+
+        getResultsFromApi();
+
+        // Set listFragment arguments to send bundle of calendar events
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(STATE_EVENTS, calendarEventList);
+        listFragment.setArguments(bundle);
+
         // Set initial fragment to listFragment
         // Todo: should the initial fragment use add instead of replace?
         replaceFragment(R.id.main_frame, listFragment);
@@ -81,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 switch (item.getItemId()) {
                     case R.id.nav_list:
                         replaceFragment(R.id.main_frame, listFragment);
+                        // Todo: Pass parcelable in bundle
                         return true;
                     case R.id.nav_calendar:
                         replaceFragment(R.id.main_frame, calendarFragment);
@@ -94,12 +111,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             }
         });
 
-        // Initialize credentials and service object.
-        mCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff());
-
-        getResultsFromApi();
     }
 
     // Replace fragment in specified container
@@ -319,7 +330,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    private class MakeRequestTask extends AsyncTask<Void, Void, List<CalendarEvent>> {
+    // Todo: Move this class to another file
+    private class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<CalendarEvent>> {
         private com.google.api.services.calendar.Calendar mService = null;
         private Exception mLastError = null;
 
@@ -338,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
          * @param params no parameters needed for this task.
          */
         @Override
-        protected List<CalendarEvent> doInBackground(Void... params) {
+        protected ArrayList<CalendarEvent> doInBackground(Void... params) {
             try {
                 return getDataFromApi();
             } catch (Exception e) {
@@ -354,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
          * @return List of Strings describing returned events.
          * @throws IOException
          */
-        private List<CalendarEvent> getDataFromApi() throws IOException {
+        private ArrayList<CalendarEvent> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             //Events events = mService.events().list("8n8u58ssric1hmm84jvkvl9d68@group.calendar.google.com")
@@ -372,13 +384,14 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         }
 
         @Override
-        protected void onPostExecute(List<CalendarEvent> output) {
+        protected void onPostExecute(ArrayList<CalendarEvent> output) {
             /* Todo:
             if (output == null || output.size() == 0) {
             mOutputText.setText("No results returned.");
             }
             */
-            // Todo: Make parcel here?
+            // Todo: Should I just do this in getDataFromApi? Or should
+            calendarEventList = output;
 
         }
 

@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerViewAdapter.ViewHolder>{
     private LayoutInflater inflater;
-    private List<CalendarEvent> dataSet;
-    public ListRecyclerViewAdapter(Context context, List<CalendarEvent> dataSet){
+    private ArrayList<CalendarEvent> dataSet;
+    public ListRecyclerViewAdapter(Context context, ArrayList<CalendarEvent> dataSet){
         inflater = LayoutInflater.from(context);
         this.dataSet = dataSet;
     }
@@ -46,7 +46,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     }
 
     // Used to update event data
-    public void updateData (List<CalendarEvent> data) {
+    public void updateData (ArrayList<CalendarEvent> data) {
         if (data != null && data.size() > 0) {
             dataSet.clear();
             dataSet.addAll(data);
