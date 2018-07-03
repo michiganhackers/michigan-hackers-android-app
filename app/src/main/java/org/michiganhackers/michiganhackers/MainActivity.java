@@ -372,8 +372,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         private ArrayList<CalendarEvent> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
-            //Events events = mService.events().list("8n8u58ssric1hmm84jvkvl9d68@group.calendar.google.com")
-            Events events = mService.events().list("vnagel@umich.edu")
+            Events events = mService.events().list("8n8u58ssric1hmm84jvkvl9d68@group.calendar.google.com")
+            //Events events = mService.events().list("vnagel@umich.edu")
                     .setTimeMin(now)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
