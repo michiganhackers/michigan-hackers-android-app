@@ -15,6 +15,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -50,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
 
-    private ArrayList<CalendarEvent> calendarEventList;
-
     GoogleAccountCredential mCredential;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -74,18 +73,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         calendarFragment = new CalendarFragment();
         settingsFragment = new SettingsFragment();
 
-        // Initialize credentials and service object.
-        mCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff());
-
-        getResultsFromApi();
-
-        // Set listFragment arguments to send bundle of calendar events
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(STATE_EVENTS, calendarEventList);
-        listFragment.setArguments(bundle);
-
         // Set initial fragment to listFragment
         // Todo: should the initial fragment use add instead of replace?
         replaceFragment(R.id.main_frame, listFragment);
@@ -97,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 switch (item.getItemId()) {
                     case R.id.nav_list:
                         replaceFragment(R.id.main_frame, listFragment);
-                        // Todo: Pass parcelable in bundle
                         return true;
                     case R.id.nav_calendar:
                         replaceFragment(R.id.main_frame, calendarFragment);
@@ -110,6 +96,14 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 }
             }
         });
+
+        // Todo: Do this before or after the code above?
+        // Initialize credentials and service object.
+        mCredential = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff());
+
+        getResultsFromApi();
 
     }
 
@@ -390,9 +384,11 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             mOutputText.setText("No results returned.");
             }
             */
-            // Todo: Should I just do this in getDataFromApi? Or should
-            calendarEventList = output;
-
+            // Set listFragment arguments to send bundle of calendar events
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(STATE_EVENTS, output);
+            listFragment.updateListFragmentData(bundle);
+            Log.i("tag","yes");
         }
 
         @Override
