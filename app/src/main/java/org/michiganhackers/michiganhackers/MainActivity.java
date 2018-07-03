@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(STATE_EVENTS, output);
             listFragment.updateListFragmentData(bundle);
-            Log.d("debug","onePostExecute");
+            Log.d("debug","onPostExecute");
         }
 
         @Override

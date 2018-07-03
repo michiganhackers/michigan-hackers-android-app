@@ -17,7 +17,7 @@ public class CalendarEvent implements Parcelable{
     private String summary;
     private String description;
     private String location;
-    private boolean endTimeUnspecified;
+    private Boolean endTimeUnspecified;
     private String status;
     private Start start;
     private End end;
@@ -29,9 +29,24 @@ public class CalendarEvent implements Parcelable{
         this.location = event.getLocation();
         this.endTimeUnspecified = event.getEndTimeUnspecified();
         this.status = event.getStatus();
-        this.start = new Start(event.getStart().getDate(), event.getStart().getDateTime());
-        this.end = new End(event.getEnd().getDate(), event.getEnd().getDateTime());
-        this.originalStartTime = new OriginalStartTime(event.getOriginalStartTime().getDate(), event.getOriginalStartTime().getDateTime());
+        if(event.getStart() != null){
+            this.start = new Start(event.getStart().getDate(), event.getStart().getDateTime());
+        }
+        else{
+            this.start = null;
+        }
+        if(event.getEnd() != null){
+            this.end = new End(event.getEnd().getDate(), event.getEnd().getDateTime());
+        }
+        else{
+            this.end = null;
+        }
+        if(event.getOriginalStartTime() != null){
+            this.originalStartTime = new OriginalStartTime(event.getOriginalStartTime().getDate(), event.getOriginalStartTime().getDateTime());
+        }
+        else{
+            this.originalStartTime = null;
+        }
     }
     // create a list of CalendarEvent from a list of Event
     public static ArrayList<CalendarEvent> createCalendarEventList(List<Event> events){
@@ -224,7 +239,7 @@ public class CalendarEvent implements Parcelable{
         dest.writeString(this.summary);
         dest.writeString(this.description);
         dest.writeString(this.location);
-        dest.writeByte(this.endTimeUnspecified ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.endTimeUnspecified);
         dest.writeString(this.status);
         dest.writeParcelable(this.start, flags);
         dest.writeParcelable(this.end, flags);
@@ -235,7 +250,7 @@ public class CalendarEvent implements Parcelable{
         this.summary = in.readString();
         this.description = in.readString();
         this.location = in.readString();
-        this.endTimeUnspecified = in.readByte() != 0;
+        this.endTimeUnspecified = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.status = in.readString();
         this.start = in.readParcelable(Start.class.getClassLoader());
         this.end = in.readParcelable(End.class.getClassLoader());
