@@ -2,6 +2,8 @@ package org.michiganhackers.michiganhackers;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,9 +23,18 @@ public class ListFragment extends Fragment{
     private static final String STATE_EVENTS = "state_events";
     private RecyclerView recyclerView;
     private ListRecyclerViewAdapter listRecyclerViewAdapter;
+    private ArrayList<CalendarEvent> calendarEvents;
 
     public ListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState != null){
+            calendarEvents = savedInstanceState.getParcelableArrayList(STATE_EVENTS);
+        }
     }
 
     @Override
@@ -37,15 +48,8 @@ public class ListFragment extends Fragment{
         //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // Initialize adapter
-/*        if(savedInstanceState != null){
-            Log.d("debug","ListFragment savedInstanceState");
-            calendarEvents = savedInstanceState.getParcelableArrayList(STATE_EVENTS);
-        }
-        else{
-            Log.d("debug","ListFragment no savedInstanceState");
-        }*/
-        if(getArguments() != null){
-
+        if(calendarEvents == null){
+            calendarEvents = new ArrayList<>();
         }
         listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), calendarEvents);
         recyclerView.setAdapter(listRecyclerViewAdapter);
@@ -57,9 +61,10 @@ public class ListFragment extends Fragment{
         listRecyclerViewAdapter.updateData(calendarEventArrayList);
     }
 
-/*    @Override
+    // Todo: Not sure about this
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(STATE_EVENTS, calendarEvents);
-    }*/
+    }
 }

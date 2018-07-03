@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
 
-    private ArrayList<CalendarEvent> calendarEvents;
-
     GoogleAccountCredential mCredential;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -401,10 +399,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 Log.d("debug", "No results returned");
             }
 
-            calendarEvents = output;
             // Set send bundle of calendar events
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(STATE_EVENTS, calendarEvents);
+            bundle.putParcelableArrayList(STATE_EVENTS, output);
             listFragment.updateListFragmentData(bundle);
             Log.d("debug","onPostExecute");
         }
