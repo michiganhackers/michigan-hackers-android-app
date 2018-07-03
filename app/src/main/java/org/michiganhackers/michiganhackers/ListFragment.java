@@ -15,6 +15,7 @@ import java.util.ArrayList;
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 // Todo: Implement google API in here?
 // Todo: Save calendar info if fragment is stopped so it can restore later
+// Todo: Should UI elements not be set until onActivityCreated?
 public class ListFragment extends Fragment{
 
     private static final String STATE_EVENTS = "state_events";
@@ -32,17 +33,19 @@ public class ListFragment extends Fragment{
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_list, container, false);
         recyclerView = layout.findViewById(R.id.list_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // Improves recyclerView performance
         //recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // Initialize adapter
-        ArrayList<CalendarEvent> calendarEvents = new ArrayList<>();
-        if(this.getArguments() != null){
+/*        if(savedInstanceState != null){
             Log.d("debug","ListFragment savedInstanceState");
-            calendarEvents = this.getArguments().getParcelableArrayList(STATE_EVENTS);
+            calendarEvents = savedInstanceState.getParcelableArrayList(STATE_EVENTS);
         }
         else{
             Log.d("debug","ListFragment no savedInstanceState");
+        }*/
+        if(getArguments() != null){
+
         }
         listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), calendarEvents);
         recyclerView.setAdapter(listRecyclerViewAdapter);
@@ -50,7 +53,13 @@ public class ListFragment extends Fragment{
         return layout;
     }
     public void updateListFragmentData(Bundle bundle){
-        ArrayList<CalendarEvent> events = bundle.getParcelableArrayList(STATE_EVENTS);
-        listRecyclerViewAdapter.updateData(events);
+        ArrayList<CalendarEvent> calendarEventArrayList = bundle.getParcelableArrayList(STATE_EVENTS);
+        listRecyclerViewAdapter.updateData(calendarEventArrayList);
     }
+
+/*    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STATE_EVENTS, calendarEvents);
+    }*/
 }

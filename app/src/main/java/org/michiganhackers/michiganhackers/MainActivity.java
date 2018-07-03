@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
 
-    ArrayList<CalendarEvent> calendarEvents;
+    private ArrayList<CalendarEvent> calendarEvents;
 
     GoogleAccountCredential mCredential;
 
@@ -88,9 +88,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_list:
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList(STATE_EVENTS, calendarEvents);
-                        listFragment.setArguments(bundle);
                         replaceFragment(R.id.main_frame, listFragment);
                         return true;
                     case R.id.nav_calendar:
@@ -404,8 +401,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 Log.d("debug", "No results returned");
             }
 
-            // Set listFragment arguments to send bundle of calendar events
             calendarEvents = output;
+            // Set send bundle of calendar events
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(STATE_EVENTS, calendarEvents);
             listFragment.updateListFragmentData(bundle);

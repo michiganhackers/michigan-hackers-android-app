@@ -20,5 +20,5 @@
         android:gravity="center_horizontal"
         android:text="TextView"
         android:textColor="@color/colorAccent" />
-    
+
 </LinearLayout>
