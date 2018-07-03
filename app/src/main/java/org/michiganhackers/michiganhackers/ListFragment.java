@@ -32,6 +32,7 @@ public class ListFragment extends Fragment{
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_list, container, false);
         recyclerView = layout.findViewById(R.id.list_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // Improves recyclerView performance
         //recyclerView.setHasFixedSize(true);
         // Initialize adapter
@@ -44,9 +45,7 @@ public class ListFragment extends Fragment{
             Log.d("debug","ListFragment no savedInstanceState");
         }
         listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), calendarEvents);
-
         recyclerView.setAdapter(listRecyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return layout;
     }
