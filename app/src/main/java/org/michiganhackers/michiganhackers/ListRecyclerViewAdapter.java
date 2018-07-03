@@ -38,7 +38,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             // the start date.
             start = dataSet.get(position).getStart().getDate();
         }
-        holder.eventTime.setText(start.toString());
+        //holder.eventTime.setText(start.toString());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         public ViewHolder(View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.event_name);
-            eventTime = itemView.findViewById(R.id.event_time);
+            //eventTime = itemView.findViewById(R.id.event_time);
         }
     }
 }
