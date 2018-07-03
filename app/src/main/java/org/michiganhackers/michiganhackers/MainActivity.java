@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
 
+    ArrayList<CalendarEvent> calendarEvents;
+
     GoogleAccountCredential mCredential;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         // Set initial fragment to listFragment
         // Todo: should the initial fragment use add instead of replace?
         replaceFragment(R.id.main_frame, listFragment);
+/*      FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.main_frame, listFragment);
+        fragmentTransaction.commit();*/
 
         // Replace current fragment with one corresponding to which navigation item is selected
         mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -83,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_list:
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList(STATE_EVENTS, calendarEvents);
+                        listFragment.setArguments(bundle);
                         replaceFragment(R.id.main_frame, listFragment);
                         return true;
                     case R.id.nav_calendar:
@@ -397,8 +405,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             }
 
             // Set listFragment arguments to send bundle of calendar events
+            calendarEvents = output;
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(STATE_EVENTS, output);
+            bundle.putParcelableArrayList(STATE_EVENTS, calendarEvents);
             listFragment.updateListFragmentData(bundle);
             Log.d("debug","onPostExecute");
         }

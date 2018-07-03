@@ -45,7 +45,6 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         return dataSet.size();
     }
 
-    // Used to update event data
     public void updateData (ArrayList<CalendarEvent> data) {
         if (data != null && data.size() > 0) {
             dataSet.clear();
