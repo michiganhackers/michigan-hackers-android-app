@@ -24,7 +24,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_row, parent, false);
+        View view = inflater.inflate(R.layout.fragment_cardview, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -38,7 +38,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             // the start date.
             start = dataSet.get(position).getStart().getDate();
         }
-        holder.eventTime.setText(start.toString());
+        //holder.eventTime.setText(start.toString());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         public ViewHolder(View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.event_name);
-            eventTime = itemView.findViewById(R.id.event_time);
+            //eventTime = itemView.findViewById(R.id.event_time);
         }
     }
 }
