@@ -18,17 +18,24 @@ public class EventActivity extends AppCompatActivity {
         calendarEvent = getIntent().getExtras().getParcelable(STATE_EVENT);
 
         TextView eventName = findViewById(R.id.event_name);
+        TextView eventDate = findViewById(R.id.event_date);
         TextView eventTime = findViewById(R.id.event_time);
         TextView eventDescription = findViewById(R.id.event_description);
 
         eventName.setText(calendarEvent.getSummary());
-        DateTime start = calendarEvent.getStart().getDateTime();
-        if (start == null) {
-            // All-day events don't have start times, so just use
-            // the start date.
-            start = calendarEvent.getStart().getDate();
+        // Set start time
+        DateTime startDateTime = calendarEvent.getStart().getDateTime();
+        if (startDateTime != null) {
+            eventDate.setText(TimeReformat.getDate(startDateTime));
+            eventTime.setText(TimeReformat.getTime(startDateTime));
         }
-        eventTime.setText(start.toString());
+        // All-day events don't have start times, so just use
+        // the start date.
+        else{
+            eventDate.setText(TimeReformat.getDate(calendarEvent.getStart().getDate()));
+        }
+        // Todo: Set end time
         eventDescription.setText(calendarEvent.getDescription());
     }
+
 }

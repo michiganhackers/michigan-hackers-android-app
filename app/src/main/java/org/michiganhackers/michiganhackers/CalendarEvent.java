@@ -268,4 +268,5 @@ public class CalendarEvent implements Parcelable{
             return new CalendarEvent[size];
         }
     };
+
 }
