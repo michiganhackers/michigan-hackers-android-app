@@ -1,6 +1,7 @@
 package org.michiganhackers.michiganhackers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -59,10 +60,22 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         TextView eventName;
         TextView eventTime;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.event_name);
             //eventTime = itemView.findViewById(R.id.event_time);
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        // Todo: Use position to send data to event activity
+                        Intent intent = new Intent(itemView.getContext(), EventActivity.class);
+                        itemView.getContext().startActivity(intent);
+                    }
+                }
+            });
         }
     }
 }
+
