@@ -24,7 +24,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_row, parent, false);
+        View view = inflater.inflate(R.layout.fragment_cardview, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
