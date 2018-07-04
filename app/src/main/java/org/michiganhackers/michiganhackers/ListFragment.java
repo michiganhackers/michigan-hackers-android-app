@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class ListFragment extends Fragment{
 
     private static final String STATE_EVENTS = "state_events";
+    private static final String STATE_EVENT = "state_event";
     private RecyclerView recyclerView;
     private ListRecyclerViewAdapter listRecyclerViewAdapter;
     private ArrayList<CalendarEvent> calendarEvents;
@@ -58,6 +59,7 @@ public class ListFragment extends Fragment{
             public void onItemClick(int position) {
                 // Todo: Use position to send data to event activity
                 Intent intent = new Intent(getActivity(), EventActivity.class);
+                intent.putExtra(STATE_EVENT,calendarEvents.get(position));
                 getActivity().startActivity(intent);
             }
         });
