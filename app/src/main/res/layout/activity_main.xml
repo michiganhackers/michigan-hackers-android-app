@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/main_nav"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@color/colorBlack"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/main_nav"
