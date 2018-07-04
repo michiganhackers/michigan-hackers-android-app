@@ -1,6 +1,7 @@
 package org.michiganhackers.michiganhackers;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,6 +53,14 @@ public class ListFragment extends Fragment{
         }
         listRecyclerViewAdapter = new ListRecyclerViewAdapter(getActivity(), calendarEvents);
         recyclerView.setAdapter(listRecyclerViewAdapter);
+        listRecyclerViewAdapter.setOnItemClickListener(new ListRecyclerViewAdapter.onItemClickListener(){
+            @Override
+            public void onItemClick(int position) {
+                // Todo: Use position to send data to event activity
+                Intent intent = new Intent(getActivity(), EventActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
 
         return layout;
     }

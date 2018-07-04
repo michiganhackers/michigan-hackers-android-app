@@ -1,7 +1,6 @@
 package org.michiganhackers.michiganhackers;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,9 +16,16 @@ import java.util.ArrayList;
 public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerViewAdapter.ViewHolder>{
     private LayoutInflater inflater;
     private ArrayList<CalendarEvent> dataSet;
+    private onItemClickListener clickListener;
     public ListRecyclerViewAdapter(Context context, ArrayList<CalendarEvent> dataSet){
         inflater = LayoutInflater.from(context);
         this.dataSet = dataSet;
+    }
+    public interface onItemClickListener{
+        void onItemClick(int position);
+    }
+    public void setOnItemClickListener(onItemClickListener listener){
+        clickListener = listener;
     }
 
     @NonNull
@@ -67,15 +73,14 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION){
-                        // Todo: Use position to send data to event activity
-                        Intent intent = new Intent(itemView.getContext(), EventActivity.class);
-                        itemView.getContext().startActivity(intent);
+                    if(clickListener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            clickListener.onItemClick(position);
+                        }
                     }
                 }
             });
         }
     }
 }
-
