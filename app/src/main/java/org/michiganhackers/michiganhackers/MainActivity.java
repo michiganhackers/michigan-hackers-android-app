@@ -3,6 +3,7 @@ package org.michiganhackers.michiganhackers;
 import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Dialog;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +14,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -48,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private BottomNavigationView mainNav;
     private FrameLayout mainFrame;
 
-    private ListFragment listFragment;
-    private CalendarFragment calendarFragment;
-    private SettingsFragment settingsFragment;
+    private static ListFragment listFragment;
+    private static CalendarFragment calendarFragment;
+    private static SettingsFragment settingsFragment;
 
     GoogleAccountCredential mCredential;
 
@@ -62,24 +65,23 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
 
+    FragmentPagerAdapter adapterViewPager;
+    android.view.MenuItem prevMenuItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        adapterViewPager = new MyPageAdapater(getSupportFragmentManager());
+        pager.setAdapter(adapterViewPager);
+
         mainNav = findViewById(R.id.main_nav);
-        mainFrame = findViewById(R.id.main_frame);
 
         listFragment = new ListFragment();
         calendarFragment = new CalendarFragment();
         settingsFragment = new SettingsFragment();
-
-        // Set initial fragment to listFragment
-        // Todo: should the initial fragment use add instead of replace?
-        replaceFragment(R.id.main_frame, listFragment);
-/*      FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.main_frame, listFragment);
-        fragmentTransaction.commit();*/
 
         // Replace current fragment with one corresponding to which navigation item is selected
         mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -87,17 +89,39 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_list:
-                        replaceFragment(R.id.main_frame, listFragment);
+                        pager.setCurrentItem(0);
                         return true;
                     case R.id.nav_calendar:
-                        replaceFragment(R.id.main_frame, calendarFragment);
+                        pager.setCurrentItem(1);
                         return true;
                     case R.id.nav_settings:
-                        replaceFragment(R.id.main_frame, settingsFragment);
+                        pager.setCurrentItem(2);
                         return true;
                     default:
                         return false;
                 }
+            }
+        });
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (prevMenuItem != null) {
+                    prevMenuItem.setChecked(false);
+                } else {
+                    mainNav.getMenu().getItem(0).setChecked(false);
+                }
+                mainNav.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = mainNav.getMenu().getItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state){
+
             }
         });
 
@@ -111,11 +135,32 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     }
 
-    // Replace fragment in specified container
-    private void replaceFragment(int containerViewId, Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(containerViewId, fragment);
-        fragmentTransaction.commit();
+    public static class MyPageAdapater extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 3;
+
+        public MyPageAdapater(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return listFragment;
+                case 1:
+                    return calendarFragment;
+                case 2:
+                    return settingsFragment;
+                default:
+                    return null;
+            }
+
+        }
     }
 
     /**
@@ -405,6 +450,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             bundle.putParcelableArrayList(STATE_EVENTS, output);
             listFragment.updateListFragmentData(bundle);
             Log.d("debug","onPostExecute");
+
         }
 
         @Override
