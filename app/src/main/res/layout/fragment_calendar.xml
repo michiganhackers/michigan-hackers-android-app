@@ -5,7 +5,7 @@
     tools:context="org.michiganhackers.michiganhackers.CalendarFragment">
 
     <CalendarView
-        android:id="@+id/calendarView"
+        android:id="@+id/calendar_calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"/>

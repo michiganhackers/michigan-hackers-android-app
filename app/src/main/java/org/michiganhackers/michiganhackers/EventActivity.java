@@ -8,14 +8,13 @@ import com.google.api.client.util.DateTime;
 
 public class EventActivity extends AppCompatActivity {
 
-    private CalendarEvent calendarEvent;
     private static final String STATE_EVENT = "state_event";
     private static final String TAG = EventActivity.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-        calendarEvent = getIntent().getExtras().getParcelable(STATE_EVENT);
+        CalendarEvent calendarEvent = getIntent().getExtras().getParcelable(STATE_EVENT);
 
         TextView eventName = findViewById(R.id.event_name);
         TextView eventDate = findViewById(R.id.event_date);

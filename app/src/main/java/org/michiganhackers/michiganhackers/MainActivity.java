@@ -12,8 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +41,6 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-// Todo: Use FragmentPagerAdapter to manage fragments?
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     private static final String STATE_EVENTS = "state_events";
@@ -51,9 +48,11 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private FrameLayout mainFrame;
     private static final String TAG = EventActivity.class.getName();
 
-    private static ListFragment listFragment;
-    private static CalendarFragment calendarFragment;
-    private static SettingsFragment settingsFragment;
+    private ListFragment listFragment;
+    private CalendarFragment calendarFragment;
+    private SettingsFragment settingsFragment;
+
+    private android.view.MenuItem prevMenuItem;
 
     GoogleAccountCredential mCredential;
 
@@ -65,17 +64,14 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
 
-    FragmentPagerAdapter adapterViewPager;
-    android.view.MenuItem prevMenuItem;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        adapterViewPager = new MyPageAdapater(getSupportFragmentManager());
-        pager.setAdapter(adapterViewPager);
+        final ViewPager mainPager = (ViewPager) findViewById(R.id.main_pager);
+        FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
+        mainPager.setAdapter(mainPagerAdapter);
 
         mainNav = findViewById(R.id.main_nav);
 
@@ -87,22 +83,23 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 switch (item.getItemId()) {
                     case R.id.nav_list:
-                        pager.setCurrentItem(0);
+                        mainPager.setCurrentItem(0);
                         return true;
                     case R.id.nav_calendar:
-                        pager.setCurrentItem(1);
+                        mainPager.setCurrentItem(1);
                         return true;
                     case R.id.nav_settings:
-                        pager.setCurrentItem(2);
+                        mainPager.setCurrentItem(2);
                         return true;
                     default:
                         return false;
                 }
             }
         });
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mainPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
 
@@ -135,33 +132,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     }
 
-    public static class MyPageAdapater extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 3;
 
-        public MyPageAdapater(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_ITEMS;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return listFragment;
-                case 1:
-                    return calendarFragment;
-                case 2:
-                    return settingsFragment;
-                default:
-                    return null;
-            }
-
-        }
-    }
 
     /**
      * Attempt to call the API, after verifying that all the preconditions are
@@ -472,6 +443,17 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
             }
         }
+    }
+    public ListFragment getListFragment() {
+        return listFragment;
+    }
+
+    public CalendarFragment getCalendarFragment() {
+        return calendarFragment;
+    }
+
+    public SettingsFragment getSettingsFragment() {
+        return settingsFragment;
     }
 }
 

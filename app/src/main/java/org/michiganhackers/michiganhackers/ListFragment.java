@@ -23,7 +23,6 @@ public class ListFragment extends Fragment{
 
     private static final String STATE_EVENTS = "state_events";
     private static final String STATE_EVENT = "state_event";
-    private RecyclerView recyclerView;
     private ListRecyclerViewAdapter listRecyclerViewAdapter;
     private ArrayList<CalendarEvent> calendarEvents;
 
@@ -45,7 +44,7 @@ public class ListFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_list, container, false);
-        recyclerView = layout.findViewById(R.id.list_recycler);
+        RecyclerView recyclerView = layout.findViewById(R.id.list_recycler);
         // Improves recyclerView performance
         //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -61,7 +60,6 @@ public class ListFragment extends Fragment{
                 Intent intent = new Intent(getActivity(), EventActivity.class);
                 intent.putExtra(STATE_EVENT,calendarEvents.get(position));
                 if (Build.VERSION.SDK_INT >= 16){
-                    // Todo: Fix transition
                     ActivityOptionsCompat options = ActivityOptionsCompat.
                             makeSceneTransitionAnimation(getActivity(),
                                     imageView,
