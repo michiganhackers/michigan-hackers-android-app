@@ -57,11 +57,10 @@ public class ListFragment extends Fragment{
         recyclerView.setAdapter(listRecyclerViewAdapter);
         listRecyclerViewAdapter.setOnItemClickListener(new ListRecyclerViewAdapter.onItemClickListener(){
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position, View imageView) {
                 Intent intent = new Intent(getActivity(), EventActivity.class);
                 intent.putExtra(STATE_EVENT,calendarEvents.get(position));
                 if (Build.VERSION.SDK_INT >= 16){
-                    final View imageView = getActivity().findViewById(R.id.card_imageView);
                     // Todo: Fix transition
                     ActivityOptionsCompat options = ActivityOptionsCompat.
                             makeSceneTransitionAnimation(getActivity(),

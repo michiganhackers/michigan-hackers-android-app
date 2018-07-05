@@ -21,7 +21,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         this.dataSet = dataSet;
     }
     public interface onItemClickListener{
-        void onItemClick(int position);
+        void onItemClick(int position, View imageView);
     }
     public void setOnItemClickListener(onItemClickListener listener){
         clickListener = listener;
@@ -74,7 +74,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                     if(clickListener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            clickListener.onItemClick(position);
+                            clickListener.onItemClick(position, v.findViewById(R.id.card_imageView));
                         }
                     }
                 }
