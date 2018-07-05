@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="AppTheme" parent="BaseAppTheme"/>
     <style name="BaseEventNameText">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">36sp</item>

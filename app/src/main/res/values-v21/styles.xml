@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="V21AppTheme" parent="BaseAppTheme">
+    <style name="BaseAppTheme.V21AppTheme">
         <!-- Customize your theme here. -->
         <item name="android:windowContentTransitions">true</item>
     </style>
