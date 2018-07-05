@@ -2,6 +2,7 @@ package org.michiganhackers.michiganhackers;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -59,13 +60,18 @@ public class ListFragment extends Fragment{
             public void onItemClick(int position) {
                 Intent intent = new Intent(getActivity(), EventActivity.class);
                 intent.putExtra(STATE_EVENT,calendarEvents.get(position));
-                final View imageView = getActivity().findViewById(R.id.card_imageView);
-                // Todo: Fix transition
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(getActivity(),
-                                imageView,
-                                ViewCompat.getTransitionName(imageView));
-                getActivity().startActivity(intent);
+                if (Build.VERSION.SDK_INT >= 16){
+                    final View imageView = getActivity().findViewById(R.id.card_imageView);
+                    // Todo: Fix transition
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(getActivity(),
+                                    imageView,
+                                    ViewCompat.getTransitionName(imageView));
+                    getActivity().startActivity(intent, options.toBundle());
+                }
+                else{
+                    getActivity().startActivity(intent);
+                }
             }
         });
 
