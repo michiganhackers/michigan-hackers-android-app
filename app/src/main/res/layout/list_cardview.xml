@@ -32,11 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:fontFamily="monospace"
                 android:textAlignment="center"
-                android:textColor="@color/colorWhite"
-                android:textSize="36sp"
-                android:textStyle="bold" />
+                style="@style/BaseEventNameText"/>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
