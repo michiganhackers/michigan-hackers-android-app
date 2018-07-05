@@ -3,7 +3,6 @@ package org.michiganhackers.michiganhackers;
 import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Dialog;
-import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,8 +13,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private static final String STATE_EVENTS = "state_events";
     private BottomNavigationView mainNav;
     private FrameLayout mainFrame;
+    private static final String TAG = EventActivity.class.getName();
 
     private static ListFragment listFragment;
     private static CalendarFragment calendarFragment;
@@ -177,10 +177,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             chooseAccount();
         } else if (!isDeviceOnline()) {
             // Todo: mOutputText.setText("No network connection available.");
-            Log.d("debug","No network connection available");
+            Log.e("TAG","No network connection available");
         } else {
             new MakeRequestTask(mCredential).execute();
-            Log.d("debug","MakeRequestTask called");
         }
     }
 
@@ -242,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                                     "This app requires Google Play Services. Please install " +
                                     "Google Play Services on your device and relaunch this app.);
                      */
-                    Log.d("debug","This app requires Google Play Services");
+                    Log.e("TAG","This app requires Google Play Services");
                 } else {
                     getResultsFromApi();
                 }
@@ -388,7 +387,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     transport, jsonFactory, credential)
                     .setApplicationName("Michigan Hackers")
                     .build();
-            Log.d("debug","MakeRequestTask ctor");
         }
 
         /**
@@ -399,7 +397,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         @Override
         protected ArrayList<CalendarEvent> doInBackground(Void... params) {
             try {
-                Log.d("debug","getDataFromApi called");
                 return getDataFromApi();
             } catch (Exception e) {
                 mLastError = e;
@@ -423,15 +420,12 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
                     .execute();
-            Log.d("debug","In getDataFromApi");
             return CalendarEvent.createCalendarEventList(events.getItems());
         }
 
         @Override
         protected void onPreExecute() {
             // Todo: Set UI to something?
-            Log.d("debug", "onPreExecute");
-
         }
 
         @Override
@@ -442,15 +436,13 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             }
             */
             if (output == null || output.size() == 0) {
-                Log.d("debug", "No results returned");
+                Log.e("TAG", "No results returned");
             }
 
             // Set send bundle of calendar events
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(STATE_EVENTS, output);
             listFragment.updateListFragmentData(bundle);
-            Log.d("debug","onPostExecute");
-
         }
 
         @Override
@@ -470,13 +462,13 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                             mOutputText.setText("The following error occurred:\n"
                             + mLastError.getMessage());
                          */
-                    Log.d("debug","The following error occurred:\n"
+                    Log.e("TAG","The following error occurred:\n"
                             + mLastError.getMessage());
 
                 }
             } else {
                 // Todo: mOutputText.setText("Request cancelled.");
-                Log.d("debug","Request cancelled");
+                Log.e("TAG","Request cancelled");
 
             }
         }
