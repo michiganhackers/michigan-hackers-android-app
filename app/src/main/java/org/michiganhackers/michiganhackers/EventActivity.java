@@ -34,7 +34,23 @@ public class EventActivity extends AppCompatActivity {
         else{
             eventDate.setText(TimeReformat.getDate(calendarEvent.getStart().getDate()));
         }
-        // Todo: Set end time
+        // Set end time
+        //Todo: Change format for multi-day events
+        DateTime endDateTime = calendarEvent.getEnd().getDateTime();
+        if (endDateTime != null) {
+            if(!TimeReformat.getDate(endDateTime).equals(TimeReformat.getDate(startDateTime))){
+                eventDate.append(" - " + TimeReformat.getDate(endDateTime));
+            }
+            eventTime.append(" - " + TimeReformat.getTime(endDateTime));
+        }
+        // All-day events don't have start times, so just use
+        // the start date.
+        else{
+            if(!TimeReformat.getDate(calendarEvent.getEnd().getDate()).equals(TimeReformat.getDate(calendarEvent.getStart().getDate()))){
+                eventDate.append(" - " + TimeReformat.getDate(calendarEvent.getEnd().getDate()));
+            }
+        }
+
         eventDescription.setText(calendarEvent.getDescription());
     }
 
