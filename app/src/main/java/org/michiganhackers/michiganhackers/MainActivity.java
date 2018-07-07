@@ -17,7 +17,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -43,26 +42,29 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
+    private static final int REQUEST_ACCOUNT_PICKER = 1000;
+    private static final int REQUEST_AUTHORIZATION = 1001;
+    private static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+    private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+
+    private static final String PREF_ACCOUNT_NAME = "accountName";
+    private static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
+
     private static final String STATE_EVENTS = "state_events";
-    private BottomNavigationView mainNav;
-    private FrameLayout mainFrame;
     private static final String TAG = EventActivity.class.getName();
+
+    private BottomNavigationView mainNav;
+    private android.view.MenuItem prevMenuItem;
 
     private ListFragment listFragment;
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
 
-    private android.view.MenuItem prevMenuItem;
+    private ArrayList<CalendarEvent> calendarEvents;
 
     GoogleAccountCredential mCredential;
 
-    static final int REQUEST_ACCOUNT_PICKER = 1000;
-    static final int REQUEST_AUTHORIZATION = 1001;
-    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
-    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,17 +124,22 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             }
         });
 
-        // Todo: Do this before or after the code above?
-        // Initialize credentials and service object.
-        mCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff());
+        if(savedInstanceState == null){
+            // Initialize credentials and service object.
+            mCredential = GoogleAccountCredential.usingOAuth2(
+                    getApplicationContext(), Arrays.asList(SCOPES))
+                    .setBackOff(new ExponentialBackOff());
 
-        getResultsFromApi();
-
+            getResultsFromApi();
+        }
     }
 
-
+    // Todo: Bundles should only hold a small amount of data. Change to viewmodel
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Todo: Something
+    }
 
     /**
      * Attempt to call the API, after verifying that all the preconditions are
@@ -396,7 +403,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
         @Override
         protected void onPreExecute() {
-            // Todo: Set UI to something?
+            // Todo: Set UI to something? Loading screen?
         }
 
         @Override
@@ -410,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 Log.e("TAG", "No results returned");
             }
 
-            // Set send bundle of calendar events
+            // Send bundle of calendar events
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(STATE_EVENTS, output);
             listFragment.updateListFragmentData(bundle);

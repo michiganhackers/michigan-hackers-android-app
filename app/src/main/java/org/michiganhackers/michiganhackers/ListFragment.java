@@ -4,6 +4,8 @@ package org.michiganhackers.michiganhackers;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 // Todo: Implement google API in here?
 // Todo: Save calendar info if fragment is stopped so it can restore later
-// Todo: Should UI elements not be set until onActivityCreated?
+// Todo: Should UI elements not be set until onActivityCreated to make sure MainActivity onCreate is done?
 public class ListFragment extends Fragment{
 
     private static final String STATE_EVENTS = "state_events";
@@ -30,14 +32,13 @@ public class ListFragment extends Fragment{
         // Required empty public constructor
     }
 
-    // Todo: Not sure about this
-/*    @Override
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null){
             calendarEvents = savedInstanceState.getParcelableArrayList(STATE_EVENTS);
         }
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,10 +80,10 @@ public class ListFragment extends Fragment{
         listRecyclerViewAdapter.updateData(calendarEventArrayList);
     }
 
-/*    // Todo: Not sure about this
+    // Todo: Bundles should only hold a small amount of data. Change to viewmodel
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(STATE_EVENTS, calendarEvents);
-    }*/
+    }
 }
