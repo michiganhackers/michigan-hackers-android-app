@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             chooseAccount();
         } else if (!isDeviceOnline()) {
             // Todo: mOutputText.setText("No network connection available.");
-            Log.e("TAG","No network connection available");
+            Log.e(TAG,"No network connection available");
         } else {
             new MakeRequestTask(mCredential).execute();
         }
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                                     "This app requires Google Play Services. Please install " +
                                     "Google Play Services on your device and relaunch this app.);
                      */
-                    Log.e("TAG","This app requires Google Play Services");
+                    Log.e(TAG,"This app requires Google Play Services");
                 } else {
                     getResultsFromApi();
                 }
@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             }
             */
             if (output == null || output.size() == 0) {
-                Log.e("TAG", "No results returned");
+                Log.e(TAG, "No results returned");
             }
 
             // Send bundle of calendar events
@@ -440,17 +440,19 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                             mOutputText.setText("The following error occurred:\n"
                             + mLastError.getMessage());
                          */
-                    Log.e("TAG","The following error occurred:\n"
+                    Log.e(TAG,"The following error occurred:\n"
                             + mLastError.getMessage());
 
                 }
             } else {
                 // Todo: mOutputText.setText("Request cancelled.");
-                Log.e("TAG","Request cancelled");
+                Log.e(TAG,"Request cancelled");
 
             }
         }
     }
+
+    // Todo: Is this getting returned by value?
     public ListFragment getListFragment() {
         return listFragment;
     }
