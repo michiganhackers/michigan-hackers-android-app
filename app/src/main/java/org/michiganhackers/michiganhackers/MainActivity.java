@@ -1,5 +1,6 @@
 package org.michiganhackers.michiganhackers;
 
+import android.app.Activity;
 import android.icu.text.LocaleDisplayNames;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CalenderAPI.MakeRequestTask(CalenderAPI.MakeRequestTask(CalenderAPI.mCredential)).execute();
+        
 
         final ViewPager mainPager = (ViewPager) findViewById(R.id.main_pager);
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
