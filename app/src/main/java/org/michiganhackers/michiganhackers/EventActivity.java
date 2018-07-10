@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
 
+import org.w3c.dom.Text;
+
 public class EventActivity extends AppCompatActivity {
 
     private static final String STATE_EVENT = "state_event";
@@ -19,6 +21,7 @@ public class EventActivity extends AppCompatActivity {
         TextView eventName = findViewById(R.id.event_name);
         TextView eventDate = findViewById(R.id.event_date);
         TextView eventTime = findViewById(R.id.event_time);
+        TextView eventLocation = findViewById(R.id.event_location);
         TextView eventDescription = findViewById(R.id.event_description);
 
         eventName.setText(calendarEvent.getSummary());
@@ -51,6 +54,7 @@ public class EventActivity extends AppCompatActivity {
         }
 
         eventDescription.setText(calendarEvent.getDescription());
+        eventLocation.setText("Location: " + calendarEvent.getLocation());
     }
 
 }

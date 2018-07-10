@@ -25,7 +25,8 @@
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@color/nav_item_colors"
         app:itemTextColor="@color/nav_item_colors"
-        app:menu="@menu/nav_items">
+        app:menu="@menu/nav_items"
+        android:background="@color/colorPrimary">
 
     </android.support.design.widget.BottomNavigationView>
 
