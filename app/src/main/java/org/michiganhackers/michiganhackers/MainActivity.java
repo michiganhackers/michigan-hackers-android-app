@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CalenderAPI.MakeRequestTask(CalenderAPI.MakeRequestTask);
+        CalenderAPI.MakeRequestTask(CalenderAPI.MakeRequestTask(CalenderAPI.mCredential)).execute();
 
         final ViewPager mainPager = (ViewPager) findViewById(R.id.main_pager);
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
