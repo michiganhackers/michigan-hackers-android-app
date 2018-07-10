@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private ListFragment listFragment;
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
+    private DirectoryFragment directoryFragment;
 
     private ArrayList<CalendarEvent> calendarEvents;
 
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         listFragment = new ListFragment();
         calendarFragment = new CalendarFragment();
         settingsFragment = new SettingsFragment();
+        directoryFragment = new DirectoryFragment();
 
         // Replace current fragment with one corresponding to which navigation item is selected
         mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -93,8 +95,11 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     case R.id.nav_calendar:
                         mainPager.setCurrentItem(1);
                         return true;
-                    case R.id.nav_settings:
+                    case R.id.nav_directory:
                         mainPager.setCurrentItem(2);
+                        return true;
+                    case R.id.nav_settings:
+                        mainPager.setCurrentItem(3);
                         return true;
                     default:
                         return false;
@@ -452,17 +457,22 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         }
     }
 
-    // Todo: Is this getting returned by value?
     public ListFragment getListFragment() {
         return listFragment;
     }
 
     public CalendarFragment getCalendarFragment() {
+
         return calendarFragment;
     }
 
     public SettingsFragment getSettingsFragment() {
+
         return settingsFragment;
+    }
+
+    public DirectoryFragment getDirectoryFragment() {
+        return directoryFragment;
     }
 }
 
