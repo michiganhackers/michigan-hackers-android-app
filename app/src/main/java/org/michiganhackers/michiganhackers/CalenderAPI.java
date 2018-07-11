@@ -2,6 +2,7 @@ package org.michiganhackers.michiganhackers;
 
 import android.Manifest;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -36,8 +37,10 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
 
-public class CalenderAPI extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+
+public class CalenderAPI {
 
     private static final int REQUEST_ACCOUNT_PICKER = 1000;
     private static final int REQUEST_AUTHORIZATION = 1001;
@@ -50,27 +53,33 @@ public class CalenderAPI extends AppCompatActivity implements EasyPermissions.Pe
     private static final String STATE_EVENTS = "state_events";
     private static final String TAG = EventActivity.class.getName();
 
-    GoogleAccountCredential mCredential;
+    private Context context;
+    private Activity activity;
+    public GoogleAccountCredential mCredential;
 
-    /*
-    if(MainActivity.savedInstanceState == null){
-        // Initialize credentials and service object.
-        GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff());
-
-        getResultsFromApi();
+    CalenderAPI(Context context, Activity activity, Bundle savedInstanceState){
+        this.context = context;
+        this.activity = activity;
+        if(savedInstanceState == null) {
+            mCredential = GoogleAccountCredential.usingOAuth2(
+                    activity.getApplicationContext(), Arrays.asList(SCOPES))
+                    .setBackOff(new ExponentialBackOff());
+        }
     }
-    */
+
     public void getResultsFromApi() {
+
         if (!isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
-        } else if (mCredential.getSelectedAccountName() == null) {
+        }
+        if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-        } else if (!isDeviceOnline()) {
+        }
+        if (!isDeviceOnline()) {
             // Todo: mOutputText.setText("No network connection available.");
             Log.e(TAG,"No network connection available");
-        } else {
+        }
+        else {
             new MakeRequestTask(mCredential).execute();
         }
     }
@@ -78,28 +87,29 @@ public class CalenderAPI extends AppCompatActivity implements EasyPermissions.Pe
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
-                this, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = getPreferences(Context.MODE_PRIVATE)
+                context, Manifest.permission.GET_ACCOUNTS)) {
+            String accountName = activity.getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
-                startActivityForResult(
+                activity.startActivityForResult(
                         mCredential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
             }
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
-                    this,
+                    activity,
                     "This app needs to access your Google account (via Contacts).",
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     Manifest.permission.GET_ACCOUNTS);
         }
     }
 
+    /*
     @Override
     protected void onActivityResult(
             int requestCode, int resultCode, Intent data) {
@@ -111,7 +121,7 @@ public class CalenderAPI extends AppCompatActivity implements EasyPermissions.Pe
                     mOutputText.setText(
                                     "This app requires Google Play Services. Please install " +
                                     "Google Play Services on your device and relaunch this app.);
-                     */
+
                     Log.e(TAG,"This app requires Google Play Services");
                 } else {
                     getResultsFromApi();
@@ -124,7 +134,7 @@ public class CalenderAPI extends AppCompatActivity implements EasyPermissions.Pe
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
                         SharedPreferences settings =
-                                getPreferences(Context.MODE_PRIVATE);
+                               activity.getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
@@ -140,29 +150,11 @@ public class CalenderAPI extends AppCompatActivity implements EasyPermissions.Pe
                 break;
         }
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(
-                requestCode, permissions, grantResults, this);
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> list) {
-        // Do nothing.
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> list) {
-        // Do nothing.
-    }
+    */
 
     private boolean isDeviceOnline() {
         ConnectivityManager connMgr =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
@@ -171,7 +163,7 @@ public class CalenderAPI extends AppCompatActivity implements EasyPermissions.Pe
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(this);
+                apiAvailability.isGooglePlayServicesAvailable(context);
         return connectionStatusCode == ConnectionResult.SUCCESS;
     }
 
@@ -179,7 +171,7 @@ public class CalenderAPI extends AppCompatActivity implements EasyPermissions.Pe
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
         final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(this);
+                apiAvailability.isGooglePlayServicesAvailable(context);
         if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
             showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
         }
@@ -189,7 +181,7 @@ public class CalenderAPI extends AppCompatActivity implements EasyPermissions.Pe
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
-                this,
+                activity,
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
