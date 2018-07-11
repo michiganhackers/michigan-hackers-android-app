@@ -65,8 +65,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     GoogleAccountCredential mCredential;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
