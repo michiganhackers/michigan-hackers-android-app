@@ -72,7 +72,7 @@ public class CalenderAPI {
         if (!isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
         }
-        if (mCredential.getSelectedAccountName() == null) {
+        else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         }
         if (!isDeviceOnline()) {
