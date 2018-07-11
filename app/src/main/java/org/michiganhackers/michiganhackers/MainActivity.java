@@ -1,7 +1,5 @@
 package org.michiganhackers.michiganhackers;
 
-import android.app.Activity;
-import android.icu.text.LocaleDisplayNames;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,18 +7,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.util.ExponentialBackOff;
+import java.util.List;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
 
     private BottomNavigationView mainNav;
     private android.view.MenuItem prevMenuItem;
 
-    static ListFragment listFragment;
+    public static ListFragment listFragment;
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
 
@@ -29,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        
+        CalenderAPI calAPI = new CalenderAPI(this, this, savedInstanceState);
+
+        calAPI.getResultsFromApi();
 
         final ViewPager mainPager = (ViewPager) findViewById(R.id.main_pager);
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
@@ -87,6 +85,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        // Do nothing.
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        // Do nothing.
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(
+                requestCode, permissions, grantResults, this);
+    }
     // Todo: Bundles should only hold a small amount of data. Change to viewmodel
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
