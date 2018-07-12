@@ -37,34 +37,32 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
 
 
 public class CalenderAPI {
 
-    private static final int REQUEST_ACCOUNT_PICKER = 1000;
-    private static final int REQUEST_AUTHORIZATION = 1001;
-    private static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+    public static final int REQUEST_ACCOUNT_PICKER = 1000;
+    public static final int REQUEST_AUTHORIZATION = 1001;
+    public static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
+    public static final String PREF_ACCOUNT_NAME = "accountName";
+    public static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
 
     private static final String STATE_EVENTS = "state_events";
-    private static final String TAG = EventActivity.class.getName();
+    public static final String TAG = EventActivity.class.getName();
 
     private Context context;
     private Activity activity;
     public GoogleAccountCredential mCredential;
 
-    CalenderAPI(Context context, Activity activity, Bundle savedInstanceState){
+    CalenderAPI(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
-        if(savedInstanceState == null) {
-            mCredential = GoogleAccountCredential.usingOAuth2(
-                    activity.getApplicationContext(), Arrays.asList(SCOPES))
-                    .setBackOff(new ExponentialBackOff());
-        }
+
     }
 
     public void getResultsFromApi() {
@@ -88,7 +86,7 @@ public class CalenderAPI {
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 context, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = activity.getPreferences(Context.MODE_PRIVATE)
+            String accountName = activity.getPreferences(MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
@@ -108,49 +106,6 @@ public class CalenderAPI {
                     Manifest.permission.GET_ACCOUNTS);
         }
     }
-
-    /*
-    @Override
-    protected void onActivityResult(
-            int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_GOOGLE_PLAY_SERVICES:
-                if (resultCode != RESULT_OK) {
-                    /*Todo:
-                    mOutputText.setText(
-                                    "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.);
-
-                    Log.e(TAG,"This app requires Google Play Services");
-                } else {
-                    getResultsFromApi();
-                }
-                break;
-            case REQUEST_ACCOUNT_PICKER:
-                if (resultCode == RESULT_OK && data != null &&
-                        data.getExtras() != null) {
-                    String accountName =
-                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    if (accountName != null) {
-                        SharedPreferences settings =
-                               activity.getPreferences(Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString(PREF_ACCOUNT_NAME, accountName);
-                        editor.apply();
-                        mCredential.setSelectedAccountName(accountName);
-                        getResultsFromApi();
-                    }
-                }
-                break;
-            case REQUEST_AUTHORIZATION:
-                if (resultCode == RESULT_OK) {
-                    getResultsFromApi();
-                }
-                break;
-        }
-    }
-    */
 
     private boolean isDeviceOnline() {
         ConnectivityManager connMgr =
