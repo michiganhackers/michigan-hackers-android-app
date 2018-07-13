@@ -14,13 +14,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 public class DirectoryFragment extends Fragment {
 
-    private DirectoryRecyclerViewAdapter directoryRecyclerViewAdapter;
+    private DirectoryExpandableListAdapter directoryExpandableListAdapter;
+    private List<Team> teams;
+    HashMap<String, List<Member>> members;
 
     public DirectoryFragment() {
         // Required empty public constructor
@@ -29,17 +36,17 @@ public class DirectoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-// Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_directory, container, false);
-        RecyclerView recyclerView = layout.findViewById(R.id.directory_recycler);
-        // Improves recyclerView performance
-        //recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // Initialize adapter
-        directoryRecyclerViewAdapter = new DirectoryRecyclerViewAdapter();
-        recyclerView.setAdapter(directoryRecyclerViewAdapter);
+        ExpandableListView expandableListView = layout.findViewById(R.id.directory_expandableListView);
+        getDirectoryData();
+        directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teams,members);
+        expandableListView.setAdapter(directoryExpandableListAdapter);
         return layout;
         
+    }
+
+    private void getDirectoryData(){
     }
 
 }

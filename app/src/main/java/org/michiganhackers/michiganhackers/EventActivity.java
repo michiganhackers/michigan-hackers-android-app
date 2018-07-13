@@ -6,8 +6,6 @@ import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
 
-import org.w3c.dom.Text;
-
 public class EventActivity extends AppCompatActivity {
 
     private static final String STATE_EVENT = "state_event";

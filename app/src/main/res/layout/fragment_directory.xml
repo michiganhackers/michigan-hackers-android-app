@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     tools:context="org.michiganhackers.michiganhackers.DirectoryFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/directory_recycler"
+    <ExpandableListView
+        android:id="@+id/directory_expandableListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true">
-    </android.support.v7.widget.RecyclerView>
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:divider="@color/colorBlack"
+        android:dividerHeight="0.5dp"/>
+
 
 </FrameLayout>

@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "70310236813",
+    "firebase_url": "https://lucky-album-197502.firebaseio.com",
+    "project_id": "lucky-album-197502",
+    "storage_bucket": "lucky-album-197502.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70310236813:android:e5df5740c4362c00",
+        "android_client_info": {
+          "package_name": "michiganhackers.michiganhackers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70310236813-sobj94r6ebl6g7iu4nqev879ie0ut30b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "michiganhackers.michiganhackers",
+            "certificate_hash": "dc9d16ea575853ded772af41cc9e7ca2fba68360"
+          }
+        },
+        {
+          "client_id": "70310236813-h61hrvq5so3j6l60rkk671qjj4pf3gh0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "michiganhackers.michiganhackers",
+            "certificate_hash": "96d984e52520cac1f36f1460fe599134d7eaef5c"
+          }
+        },
+        {
+          "client_id": "70310236813-2n4cfurcljhmtp4qi3dgm63bsltjtq9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB_gw1CD7gFLJ2PfPBZemNKr3MC_sa54M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70310236813-2n4cfurcljhmtp4qi3dgm63bsltjtq9q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
