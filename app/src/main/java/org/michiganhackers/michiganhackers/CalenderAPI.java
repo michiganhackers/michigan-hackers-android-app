@@ -73,7 +73,7 @@ public class CalenderAPI {
         else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         }
-        if (!isDeviceOnline()) {
+        else if (!isDeviceOnline()) {
             // Todo: mOutputText.setText("No network connection available.");
             Log.e(TAG,"No network connection available");
         }
