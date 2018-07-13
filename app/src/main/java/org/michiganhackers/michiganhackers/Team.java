@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Team {
     private String name;
+    private String info;
     private List<Member> members;
 
     public Team(String name) {
@@ -20,5 +21,13 @@ public class Team {
 
     public String getName() {
         return name;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 }

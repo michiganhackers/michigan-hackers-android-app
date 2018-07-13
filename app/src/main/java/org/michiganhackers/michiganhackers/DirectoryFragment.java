@@ -16,7 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +32,7 @@ public class DirectoryFragment extends Fragment {
 
     private DirectoryExpandableListAdapter directoryExpandableListAdapter;
     private List<Team> teams;
-    HashMap<String, List<Member>> members;
+    HashMap<String, List<Member>> membersByTeam;
 
     public DirectoryFragment() {
         // Required empty public constructor
@@ -40,13 +45,53 @@ public class DirectoryFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_directory, container, false);
         ExpandableListView expandableListView = layout.findViewById(R.id.directory_expandableListView);
         getDirectoryData();
-        directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teams,members);
+        directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teams,membersByTeam);
         expandableListView.setAdapter(directoryExpandableListAdapter);
         return layout;
         
     }
 
     private void getDirectoryData(){
+        DatabaseReference teamRef = FirebaseDatabase.getInstance().getReference("Teams");
+        teamRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<List<String>>  typeIndicator = new GenericTypeIndicator<>();
+                List<String> teamNames = dataSnapshot.getValue(typeIndicator);
+                // Todo: Prevent duplicates
+                for(String teamName : teamNames){
+                    teams.add(new Team(teamName));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //Todo
+            }
+        });
+        for(final Team team : teams){
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(team.getName());
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    GenericTypeIndicator<List<String>>  typeIndicator = new GenericTypeIndicator<>();
+                    List<String> memberNames = dataSnapshot.getValue(typeIndicator);
+                    List<Member> members = new ArrayList<>();
+                    // Todo: Prevent duplicates
+                    for(String memberName : memberNames){
+                        members.add(new Member(memberName, team.getName()));
+                    }
+                    membersByTeam.put(team.getName(), members);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    //Todo
+                }
+            });
+
+        }
+
     }
 
 }

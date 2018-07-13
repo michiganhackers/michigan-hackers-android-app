@@ -14,18 +14,18 @@ import java.util.List;
 
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     private List<Team> teams;
-    private HashMap<String, List<Member>> members;
+    private HashMap<String, List<Member>> membersByTeam;
     private LayoutInflater inflater;
 
-    public DirectoryExpandableListAdapter(Context context, List<Team> teams, HashMap<String, List<Member>> members) {
+    public DirectoryExpandableListAdapter(Context context, List<Team> teams, HashMap<String, List<Member>> membersByTeam) {
         this.inflater = LayoutInflater.from(context);
         this.teams = teams;
-        this.members = members;
+        this.membersByTeam = membersByTeam;
     }
 
     @Override
     public Member getChild(int groupPosition, int childPosition){
-        return members.get(teams.get(groupPosition).getName()).get(childPosition);
+        return membersByTeam.get(teams.get(groupPosition).getName()).get(childPosition);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return members.get(teams.get(groupPosition).getName()).size();
+        return membersByTeam.get(teams.get(groupPosition).getName()).size();
     }
 
     @Override
