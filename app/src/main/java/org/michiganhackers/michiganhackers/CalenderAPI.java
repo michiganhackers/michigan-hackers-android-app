@@ -42,7 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
 
 
-public class CalenderAPI {
+public class CalenderAPI extends AppCompatActivity{
 
     public static final int REQUEST_ACCOUNT_PICKER = 1000;
     public static final int REQUEST_AUTHORIZATION = 1001;
@@ -93,7 +93,7 @@ public class CalenderAPI {
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
-                activity.startActivityForResult(
+                startActivityForResult(
                         mCredential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
             }
@@ -197,6 +197,46 @@ public class CalenderAPI {
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(STATE_EVENTS, output);
             MainActivity.listFragment.updateListFragmentData(bundle);
+        }
+    }
+    @Override
+    public void onActivityResult(
+            int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_GOOGLE_PLAY_SERVICES:
+                if (resultCode != RESULT_OK) {
+                    /*Todo:
+                    mOutputText.setText(
+                                    "This app requires Google Play Services. Please install " +
+                                    "Google Play Services on your device and relaunch this app.);
+                    */
+                    //Log.e(TAG,"This app requires Google Play Services");
+                } else {
+                    getResultsFromApi();
+                }
+                break;
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == RESULT_OK && data != null &&
+                        data.getExtras() != null) {
+                    String accountName =
+                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        SharedPreferences settings =
+                                getPreferences(MODE_PRIVATE);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(PREF_ACCOUNT_NAME, accountName);
+                        editor.apply();
+                        mCredential.setSelectedAccountName(accountName);
+                        getResultsFromApi();
+                    }
+                }
+                break;
+            case REQUEST_AUTHORIZATION:
+                if (resultCode == RESULT_OK) {
+                    getResultsFromApi();
+                }
+                break;
         }
     /*
         @Override
