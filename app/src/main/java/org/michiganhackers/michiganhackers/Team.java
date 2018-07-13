@@ -6,17 +6,17 @@ import java.util.SortedSet;
 public class Team {
     private String name;
     private String info;
-    private SortedSet<Member> members;
+    private List<Member> members;
 
     public Team(String name) {
         this.name = name;
     }
 
-    public SortedSet<Member> getMembers() {
+    public List<Member> getMembers() {
         return members;
     }
 
-    public void setMembers(SortedSet<Member> members) {
+    public void setMembers(List<Member> members) {
         this.members = members;
     }
 

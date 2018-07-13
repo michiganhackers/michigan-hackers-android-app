@@ -26,14 +26,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 public class DirectoryFragment extends Fragment {
 
     private DirectoryExpandableListAdapter directoryExpandableListAdapter;
-    private SortedSet<Team> teams;
-    HashMap<String, SortedSet<Member>> membersByTeam;
+    private TreeMap<String, Team> teamsByName;
 
     public DirectoryFragment() {
         // Required empty public constructor
@@ -45,14 +46,11 @@ public class DirectoryFragment extends Fragment {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_directory, container, false);
         ExpandableListView expandableListView = layout.findViewById(R.id.directory_expandableListView);
-        if(teams == null){
-            teams = new ArrayList<>();
-        }
-        if(membersByTeam == null){
-            membersByTeam = new HashMap<>();
+        if(teamsByName == null){
+            teamsByName = new TreeMap<>();
         }
         getDirectoryData();
-        directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teams,membersByTeam);
+        directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teamsByName);
         expandableListView.setAdapter(directoryExpandableListAdapter);
         return layout;
         
@@ -76,11 +74,11 @@ public class DirectoryFragment extends Fragment {
             }
         });
         for(final Team team : teams){
-            DatabaseReference memberRef = FirebaseDatabase.getInstance().getReference().child(team.getName());
+            DatabaseReference memberRef = FirebaseDatabase.getInstance().getReference().child(team.getName()).child("Members");
             memberRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    SortedSet<Member> members = new
+                    List<Member> members = new
                     // Todo: Prevent duplicates
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                         String memberName = snapshot.getValue(String.class);
