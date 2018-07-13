@@ -27,7 +27,7 @@ import static org.michiganhackers.michiganhackers.CalenderAPI.REQUEST_AUTHORIZAT
 import static org.michiganhackers.michiganhackers.CalenderAPI.REQUEST_GOOGLE_PLAY_SERVICES;
 import static org.michiganhackers.michiganhackers.CalenderAPI.SCOPES;
 
-public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+public class MainActivity extends AppCompatActivity{
 
     private BottomNavigationView mainNav;
     private android.view.MenuItem prevMenuItem;
@@ -108,25 +108,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         });
 
 
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> list) {
-        // Do nothing.
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> list) {
-        // Do nothing.
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(
-                requestCode, permissions, grantResults, this);
     }
 
     // Todo: Bundles should only hold a small amount of data. Change to viewmodel

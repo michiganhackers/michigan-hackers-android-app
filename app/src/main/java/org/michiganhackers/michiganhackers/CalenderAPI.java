@@ -42,7 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
 
 
-public class CalenderAPI extends AppCompatActivity{
+public class CalenderAPI extends AppCompatActivity  implements EasyPermissions.PermissionCallbacks{
 
     public static final int REQUEST_ACCOUNT_PICKER = 1000;
     public static final int REQUEST_AUTHORIZATION = 1001;
@@ -100,7 +100,7 @@ public class CalenderAPI extends AppCompatActivity{
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
-                    activity,
+                    this,
                     "This app needs to access your Google account (via Contacts).",
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     Manifest.permission.GET_ACCOUNTS);
@@ -267,5 +267,24 @@ public class CalenderAPI extends AppCompatActivity{
             }
         }
         */
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        // Do nothing.
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        // Do nothing.
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(
+                requestCode, permissions, grantResults, this);
     }
 }
