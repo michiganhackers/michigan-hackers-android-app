@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.SortedSet;
 
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
-    private List<Team> teams;
-    private HashMap<String, List<Member>> membersByTeam;
+    private SortedSet<Team> teams;
+    private HashMap<String, SortedSet<Member>> membersByTeam;
     private LayoutInflater inflater;
 
-    public DirectoryExpandableListAdapter(Context context, List<Team> teams, HashMap<String, List<Member>> membersByTeam) {
+    public DirectoryExpandableListAdapter(Context context, SortedSet<Team> teams, HashMap<String, SortedSet<Member>> membersByTeam) {
         this.inflater = LayoutInflater.from(context);
         this.teams = teams;
         this.membersByTeam = membersByTeam;
