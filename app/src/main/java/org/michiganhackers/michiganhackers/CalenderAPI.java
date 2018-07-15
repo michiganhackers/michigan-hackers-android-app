@@ -1,6 +1,7 @@
 package org.michiganhackers.michiganhackers;
 
 import android.Manifest;
+import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
@@ -57,7 +58,7 @@ public class CalenderAPI extends AppCompatActivity  implements EasyPermissions.P
 
     private Context context;
     private Activity activity;
-    public GoogleAccountCredential mCredential;
+    GoogleAccountCredential mCredential;
 
     CalenderAPI(Context context, Activity activity){
         this.context = context;
@@ -89,7 +90,7 @@ public class CalenderAPI extends AppCompatActivity  implements EasyPermissions.P
             String accountName = activity.getPreferences(MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
-                mCredential.setSelectedAccountName(accountName);
+                mCredential.setSelectedAccount(new Account(accountName, "org.michiganhackers.michiganhackers"));
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
@@ -100,7 +101,7 @@ public class CalenderAPI extends AppCompatActivity  implements EasyPermissions.P
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
-                    this,
+                    activity,
                     "This app needs to access your Google account (via Contacts).",
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     Manifest.permission.GET_ACCOUNTS);
