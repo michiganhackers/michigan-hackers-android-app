@@ -56,7 +56,7 @@ public class CalenderAPI extends AppCompatActivity{
     public static final String TAG = EventActivity.class.getName();
 
     private Context context;
-    private Activity activity;
+    private static Activity activity;
     public GoogleAccountCredential mCredential;
 
     CalenderAPI(Context context, Activity activity){
@@ -93,7 +93,7 @@ public class CalenderAPI extends AppCompatActivity{
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
-                startActivityForResult(
+                activity.startActivityForResult(
                         mCredential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
             }
@@ -132,7 +132,7 @@ public class CalenderAPI extends AppCompatActivity{
         }
     }
 
-    void showGooglePlayServicesAvailabilityErrorDialog(
+    static void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
@@ -198,9 +198,35 @@ public class CalenderAPI extends AppCompatActivity{
             bundle.putParcelableArrayList(STATE_EVENTS, output);
             MainActivity.listFragment.updateListFragmentData(bundle);
         }
+        @Override
+        protected void onCancelled() {
+            if (mLastError != null) {
+                if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
+                    showGooglePlayServicesAvailabilityErrorDialog(
+                            ((GooglePlayServicesAvailabilityIOException) mLastError)
+                                    .getConnectionStatusCode());
+                } else if (mLastError instanceof UserRecoverableAuthIOException) {
+
+                    activity.startActivityForResult(
+                            ((UserRecoverableAuthIOException) mLastError).getIntent(),
+                            REQUEST_AUTHORIZATION);
+                } else {
+                    Todo:
+                    //mOutputText.setText("The following error occurred:\n" + mLastError.getMessage());
+
+                    Log.e(TAG,"The following error occurred:\n"
+                            + mLastError.getMessage());
+
+                }
+            } else {
+                // Todo: mOutputText.setText("Request cancelled.");
+                Log.e(TAG,"Request cancelled");
+
+            }
+        }
     }
     @Override
-    public void onActivityResult(
+    protected void onActivityResult(
             int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
@@ -211,7 +237,7 @@ public class CalenderAPI extends AppCompatActivity{
                                     "This app requires Google Play Services. Please install " +
                                     "Google Play Services on your device and relaunch this app.);
                     */
-                    //Log.e(TAG,"This app requires Google Play Services");
+                    Log.e(TAG,"This app requires Google Play Services");
                 } else {
                     getResultsFromApi();
                 }
@@ -223,7 +249,7 @@ public class CalenderAPI extends AppCompatActivity{
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
                         SharedPreferences settings =
-                                getPreferences(MODE_PRIVATE);
+                                getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
@@ -238,34 +264,5 @@ public class CalenderAPI extends AppCompatActivity{
                 }
                 break;
         }
-    /*
-        @Override
-        protected void onCancelled() {
-            if (mLastError != null) {
-                if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
-                    showGooglePlayServicesAvailabilityErrorDialog(
-                            ((GooglePlayServicesAvailabilityIOException) mLastError)
-                                    .getConnectionStatusCode());
-                } else if (mLastError instanceof UserRecoverableAuthIOException) {
-
-                    startActivityForResult(
-                            ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            REQUEST_AUTHORIZATION);
-                } else {
-                         Todo:
-                            mOutputText.setText("The following error occurred:\n"
-                            + mLastError.getMessage());
-
-                    Log.e(TAG,"The following error occurred:\n"
-                            + mLastError.getMessage());
-
-                }
-            } else {
-                // Todo: mOutputText.setText("Request cancelled.");
-                Log.e(TAG,"Request cancelled");
-
-            }
-        }
-        */
     }
 }
