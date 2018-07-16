@@ -49,10 +49,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             calAPI.mCredential = GoogleAccountCredential.usingOAuth2(
                     getApplicationContext(), Arrays.asList(SCOPES))
                     .setBackOff(new ExponentialBackOff());
+            calAPI.getResultsFromApi();
         }
-
-
-        calAPI.getResultsFromApi();
 
         final ViewPager mainPager = (ViewPager) findViewById(R.id.main_pager);
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
@@ -146,6 +144,45 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public SettingsFragment getSettingsFragment() {
         return settingsFragment;
     }
-
+    @Override
+    protected void onActivityResult(
+            int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_GOOGLE_PLAY_SERVICES:
+                if (resultCode != RESULT_OK) {
+                    /*Todo:
+                    mOutputText.setText(
+                                    "This app requires Google Play Services. Please install " +
+                                    "Google Play Services on your device and relaunch this app.);
+                    */
+                    //Log.e(TAG, "This app requires Google Play Services");
+                } else {
+                    calAPI.getResultsFromApi();
+                }
+                break;
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == RESULT_OK && data != null &&
+                        data.getExtras() != null) {
+                    String accountName =
+                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        SharedPreferences settings =
+                                getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(PREF_ACCOUNT_NAME, accountName);
+                        editor.apply();
+                        calAPI.mCredential.setSelectedAccountName(accountName);
+                        calAPI.getResultsFromApi();
+                    }
+                }
+                break;
+            case REQUEST_AUTHORIZATION:
+                if (resultCode == RESULT_OK) {
+                    calAPI.getResultsFromApi();
+                }
+                break;
+        }
+    }
 
 }
