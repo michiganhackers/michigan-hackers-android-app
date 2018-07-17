@@ -3,9 +3,9 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'key0'
+            keyAlias '***REMOVED***'
             keyPassword '***REMOVED***'
-            storeFile file('C:/Users/Owain/MichiganHackersKey.jks')
+            storeFile file('C:/Users/Owain/***REMOVED***')
             storePassword '***REMOVED***'
         }
     }
@@ -14,7 +14,7 @@ android {
         applicationId "michiganhackers.michiganhackers"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 4
+        versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -44,8 +44,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.google.firebase:firebase-messaging:17.1.0'
+    implementation 'com.google.firebase:firebase-database:15.0.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -62,4 +61,4 @@ dependencies {
 }
 
 
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'
