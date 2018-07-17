@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'yodawgiheardyouliketohack1'
+            storeFile file('C:/Users/Owain/MichiganHackersKey.jks')
+            storePassword 'yodawgiheardyouliketohack1'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "michiganhackers.michiganhackers"
@@ -14,6 +22,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            debuggable true
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
     /*
@@ -42,7 +55,6 @@ dependencies {
     implementation('com.google.api-client:google-api-client-android:1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-
     implementation('com.google.apis:google-api-services-calendar:v3-rev300-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
