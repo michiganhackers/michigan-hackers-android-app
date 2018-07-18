@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     CalenderAPI calAPI = new CalenderAPI(this, this);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public SettingsFragment getSettingsFragment() {
         return settingsFragment;
     }
+
     @Override
     protected void onActivityResult(
             int requestCode, int resultCode, Intent data) {
@@ -182,5 +184,4 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 break;
         }
     }
-
 }
