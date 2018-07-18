@@ -26,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -61,10 +63,9 @@ public class DirectoryFragment extends Fragment {
         teamsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Todo: Prevent duplicates
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String teamName = snapshot.getValue(String.class);
-                    teams.add(new Team(teamName));
+                    teamsByName.put(teamName, new Team(teamName));
                 }
             }
 
@@ -73,20 +74,19 @@ public class DirectoryFragment extends Fragment {
                 //Todo
             }
         });
-        for(final Team team : teams){
-            DatabaseReference memberRef = FirebaseDatabase.getInstance().getReference().child(team.getName()).child("Members");
+
+        for(Map.Entry<String,Team> entry : teamsByName.entrySet()) {
+            final String teamName = entry.getKey();
+            Team team = entry.getValue();
+            DatabaseReference memberRef = FirebaseDatabase.getInstance().getReference().child(teamName).child("Members");
             memberRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    List<Member> members = new
-                    // Todo: Prevent duplicates
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                         String memberName = snapshot.getValue(String.class);
-                        members.add(new Member(memberName, team.getName()));
+                        teamsByName.get(teamName).setMember(memberName, new Member(memberName, teamName));
                     }
-                    membersByTeam.put(team.getName(), members);
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     //Todo

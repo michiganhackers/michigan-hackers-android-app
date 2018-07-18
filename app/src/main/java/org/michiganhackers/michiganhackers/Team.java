@@ -1,25 +1,30 @@
 package org.michiganhackers.michiganhackers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.TreeMap;
 
 public class Team {
     private String name;
     private String info;
-    private List<Member> members;
+    private TreeMap<String, Member> members;
 
     public Team(String name) {
+
         this.name = name;
+        members = new TreeMap<>();
     }
 
-    public List<Member> getMembers() {
-        return members;
+    public void setMember(String memberName, Member member) {
+        members.put(memberName, member);
     }
-
-    public void setMembers(List<Member> members) {
-        this.members = members;
+    public Member getMember(String memberName){
+        return members.get(memberName);
     }
-
+    public ArrayList<String> getMemberNames(){
+        return members.keySet().toArray();
+    }
     public String getName() {
         return name;
     }

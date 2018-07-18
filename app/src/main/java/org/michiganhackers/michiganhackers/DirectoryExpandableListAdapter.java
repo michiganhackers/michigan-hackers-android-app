@@ -12,21 +12,23 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.TreeMap;
 
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
-    private List<Team> teams;
-    private HashMap<String, List<Member>> membersByTeam;
+    private TreeMap<String, Member> teamsByName;
     private LayoutInflater inflater;
 
-    public DirectoryExpandableListAdapter(Context context, List<Team> teams, HashMap<String, List<Member>> membersByTeam) {
+    public DirectoryExpandableListAdapter(Context context, TreeMap<String, Member> teamsByName) {
         this.inflater = LayoutInflater.from(context);
-        this.teams = teams;
-        this.membersByTeam = membersByTeam;
+        this.teamsByName = teamsByName;
     }
 
     @Override
     public Member getChild(int groupPosition, int childPosition){
-        return membersByTeam.get(teams.get(groupPosition).getName()).get(childPosition);
+
+        Team team = (Team) teamsByName.values().toArray()[groupPosition];
+        return team.getMember
+                membersByTeam.get(teamsByName.get(groupPosition).getName()).get(childPosition);
     }
 
     @Override
@@ -52,17 +54,17 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return membersByTeam.get(teams.get(groupPosition).getName()).size();
+        return membersByTeam.get(teamsByName.get(groupPosition).getName()).size();
     }
 
     @Override
     public Team getGroup(int groupPosition) {
-        return teams.get(groupPosition);
+        return teamsByName.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return teams.size();
+        return teamsByName.size();
     }
 
     @Override
