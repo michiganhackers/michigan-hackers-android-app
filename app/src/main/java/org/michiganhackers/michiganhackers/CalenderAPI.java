@@ -1,9 +1,12 @@
 package org.michiganhackers.michiganhackers;
 
 import android.Manifest;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -89,6 +92,7 @@ public class CalenderAPI extends AppCompatActivity{
                     "This app needs to access your Google account (via Contacts).",
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     Manifest.permission.GET_ACCOUNTS);
+            getResultsFromApi();
         }
     }
 
@@ -127,6 +131,7 @@ public class CalenderAPI extends AppCompatActivity{
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
     }
+
     public static class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<CalendarEvent>> {
         private com.google.api.services.calendar.Calendar mService = null;
         private Exception mLastError = null;
