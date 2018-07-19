@@ -105,6 +105,6 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 getContext().getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         calAPI.getResultsFromApi();
-        mSwipeRefreshLayout.setRefreshing(false);
+
     }
 }
