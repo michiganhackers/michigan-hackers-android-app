@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
+
 
 public class CalenderAPI extends AppCompatActivity{
 
@@ -187,7 +189,7 @@ public class CalenderAPI extends AppCompatActivity{
             // Send bundle of calendar events
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(STATE_EVENTS, output);
-            MainActivity.listFragment.updateListFragmentData(bundle);
+            listFragment.updateListFragmentData(bundle);
         }
         @Override
         protected void onCancelled() {
