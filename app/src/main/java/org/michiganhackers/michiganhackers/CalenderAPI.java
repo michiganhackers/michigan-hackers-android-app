@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static org.michiganhackers.michiganhackers.ListFragment.mSwipeRefreshLayout;
 import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
 
 
@@ -161,7 +162,7 @@ public class CalenderAPI extends AppCompatActivity{
         private ArrayList<CalendarEvent> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
-            Events events = mService.events().list("8n8u58ssric1hmm84jvkvl9d68@group.calendar.google.com")
+            Events events = mService.events().list("owaink2255@gmail.com")
                     //Events events = mService.events().list("vnagel@umich.edu")
                     .setTimeMin(now)
                     .setOrderBy("startTime")
@@ -190,6 +191,7 @@ public class CalenderAPI extends AppCompatActivity{
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(STATE_EVENTS, output);
             listFragment.updateListFragmentData(bundle);
+            mSwipeRefreshLayout.setRefreshing(false);
         }
         @Override
         protected void onCancelled() {
