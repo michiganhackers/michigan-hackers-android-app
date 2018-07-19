@@ -1,6 +1,7 @@
 package org.michiganhackers.michiganhackers;
 
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,13 +37,13 @@ public class MainActivity extends AppCompatActivity{
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
 
-    CalenderAPI calAPI = new CalenderAPI(this, this);
-
+    public static CalenderAPI calAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        calAPI = new CalenderAPI(this, this);
 
         if(savedInstanceState == null) {
             calAPI.mCredential = GoogleAccountCredential.usingOAuth2(
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(
             int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        calAPI  = new CalenderAPI(this, this);
         switch (requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
