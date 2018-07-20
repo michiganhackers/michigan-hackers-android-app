@@ -4,4 +4,6 @@
     <string name="nav_calendar">Calendar</string>
     <string name="hacknight_image_description">Hack Night Fractal</string>
     <string name="app_name">Michigan Hackers</string>
+    <string name="channel_description">Default Michigan Hackers Notification Channel</string>
+    <string name="channel_name">Channel</string>
 </resources>
