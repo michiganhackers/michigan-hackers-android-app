@@ -2,6 +2,7 @@ package org.michiganhackers.michiganhackers;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,16 +12,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.util.ExponentialBackOff;
-
 import java.util.Arrays;
-import java.util.List;
-
-import pub.devrel.easypermissions.EasyPermissions;
 
 import static org.michiganhackers.michiganhackers.CalenderAPI.PREF_ACCOUNT_NAME;
 import static org.michiganhackers.michiganhackers.CalenderAPI.REQUEST_ACCOUNT_PICKER;
@@ -38,12 +33,15 @@ public class MainActivity extends AppCompatActivity{
     private SettingsFragment settingsFragment;
 
     public static CalenderAPI calAPI;
+    public NotificationHandler notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         calAPI = new CalenderAPI(this, this);
+        notification = new NotificationHandler(this, this);
+
 
         if(savedInstanceState == null) {
             calAPI.mCredential = GoogleAccountCredential.usingOAuth2(
