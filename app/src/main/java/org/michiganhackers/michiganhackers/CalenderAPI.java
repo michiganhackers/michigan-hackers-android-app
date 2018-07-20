@@ -1,12 +1,9 @@
 package org.michiganhackers.michiganhackers;
 
 import android.Manifest;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -29,7 +26,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
-
 import static org.michiganhackers.michiganhackers.ListFragment.mSwipeRefreshLayout;
 import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
 
@@ -125,7 +121,7 @@ public class CalenderAPI extends AppCompatActivity{
         }
     }
 
-    static void showGooglePlayServicesAvailabilityErrorDialog(
+   static void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
