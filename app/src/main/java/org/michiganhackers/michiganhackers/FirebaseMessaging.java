@@ -5,7 +5,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class mFirebaseMessagingService extends FirebaseMessagingService {
+public class FirebaseMessaging extends FirebaseMessagingService {
     private static final String TAG = "FirebaseMessaging";
 
     @Override
