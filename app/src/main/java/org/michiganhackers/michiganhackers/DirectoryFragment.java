@@ -77,20 +77,17 @@ public class DirectoryFragment extends Fragment {
                                 String teamName = dataSnapshot.getRef().getParent().getKey();
                                 teamsByName.get(teamName).setMember(memberName, new Member(memberName, teamName));
                             }
-                            directoryExpandableListAdapter.updateData(teamsByName);
+                            directoryExpandableListAdapter.notifyDataSetChanged();
                         }
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             //Todo
                         }
                     });
-
                 }
-
                 // Update adapter
-                directoryExpandableListAdapter.updateData(teamsByName);
+                directoryExpandableListAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //Todo

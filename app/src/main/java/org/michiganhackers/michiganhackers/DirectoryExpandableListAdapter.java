@@ -95,12 +95,5 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    // Todo: Is this necessary? Same teamsByName reference? Just notify dataset changed?
-    public void updateData (TreeMap<String, Team> teamsByName_in) {
-        if (teamsByName_in != null && teamsByName_in.size() > 0) {
-            this.teamsByName = teamsByName_in;
-            notifyDataSetChanged();
-        }
-    }
 }
 
