@@ -135,5 +135,9 @@ public class MainActivity extends AppCompatActivity{
         return settingsFragment;
     }
 
+    public DirectoryFragment getDirectoryFragment() {
+        return directoryFragment;
+    }
+
 
 }
