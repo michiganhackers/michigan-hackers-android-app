@@ -6,7 +6,7 @@ android {
         applicationId "michiganhackers.michiganhackers"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 1
+        versionCode 4
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -42,6 +42,7 @@ dependencies {
     implementation('com.google.api-client:google-api-client-android:1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+
     implementation('com.google.apis:google-api-services-calendar:v3-rev300-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
