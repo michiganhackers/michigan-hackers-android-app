@@ -23,7 +23,7 @@
         <activity android:name=".EventActivity" />
 
         <service
-            android:name=".mFirebaseMessagingService">
+            android:name=".FirebaseMessaging">
         </service>
     </application>
 
