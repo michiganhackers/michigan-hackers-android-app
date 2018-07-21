@@ -64,7 +64,7 @@ public class DirectoryFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     // Add team
-                    String teamName = snapshot.getValue(String.class);
+                    String teamName = snapshot.getValue().toString();
                     teamsByName.put(teamName, new Team(teamName));
 
                     // Add members
@@ -73,7 +73,7 @@ public class DirectoryFragment extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                String memberName = snapshot.getValue(String.class);
+                                String memberName = snapshot.getValue().toString();
                                 String teamName = dataSnapshot.getRef().getParent().getKey();
                                 teamsByName.get(teamName).setMember(memberName, new Member(memberName, teamName));
                             }
