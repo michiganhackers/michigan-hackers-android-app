@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         calAPI = new CalenderAPI(this, this);
         notification = new NotificationHandler(this, this);
+        notification.createNotificationChannel();
 
 
         if(savedInstanceState == null) {
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity{
                         mainPager.setCurrentItem(1);
                         return true;
                     case R.id.nav_settings:
+                        notification.sendNotification();
                         mainPager.setCurrentItem(2);
                         return true;
                     default:
