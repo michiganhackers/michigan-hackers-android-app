@@ -20,7 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EventActivity"></activity>
+        <activity android:name=".EventActivity" />
+
+        <service
+            android:name=".mFirebaseMessagingService">
+        </service>
     </application>
 
 </manifest>
