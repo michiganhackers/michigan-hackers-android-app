@@ -51,22 +51,43 @@ public class DirectoryFragment extends Fragment {
         if(teamsByName == null){
             teamsByName = new TreeMap<>();
         }
-        getDirectoryData();
+        setDirectoryListeners();
         directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teamsByName);
         expandableListView.setAdapter(directoryExpandableListAdapter);
         return layout;
-        
     }
 
-    private void getDirectoryData(){
+    private void setDirectoryListeners(){
         DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
         teamsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    // Add team
                     String teamName = snapshot.getValue(String.class);
                     teamsByName.put(teamName, new Team(teamName));
+
+                    // Add members
+                    DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child(teamName).child("Members");
+                    membersRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                String memberName = snapshot.getValue(String.class);
+                                String teamName = dataSnapshot.getRef().getParent().getKey();
+                                teamsByName.get(teamName).setMember(memberName, new Member(memberName, teamName));
+                            }
+                            directoryExpandableListAdapter.updateData(teamsByName);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            //Todo
+                        }
+                    });
+
                 }
+
+                // Update adapter
                 directoryExpandableListAdapter.updateData(teamsByName);
             }
 
@@ -76,23 +97,5 @@ public class DirectoryFragment extends Fragment {
             }
         });
 
-        ArrayList<String> teamNames = new ArrayList<>(teamsByName.keySet());
-        for(final String teamName : teamNames) {
-            DatabaseReference memberRef = FirebaseDatabase.getInstance().getReference().child(teamName).child("Members");
-            memberRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        String memberName = snapshot.getValue(String.class);
-                        teamsByName.get(teamName).setMember(memberName, new Member(memberName, teamName));
-                    }
-                    directoryExpandableListAdapter.updateData(teamsByName);
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    //Todo
-                }
-            });
-        }
     }
 }
