@@ -11,19 +11,15 @@ public class Team {
     private TreeMap<String, Member> members;
 
     public Team(String name) {
-
         this.name = name;
         members = new TreeMap<>();
     }
-
     public void setMember(String memberName, Member member) {
         members.put(memberName, member);
     }
-    public Member getMember(String memberName){
-        return members.get(memberName);
-    }
-    public ArrayList<String> getMemberNames(){
-        return members.keySet().toArray();
+    public Member getMemberByIndex(int index){
+        ArrayList<String> memberNames = new ArrayList<>(members.keySet());
+        return members.get(memberNames.get(index));
     }
     public String getName() {
         return name;
@@ -35,5 +31,9 @@ public class Team {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public int getSize(){
+        return members.size();
     }
 }

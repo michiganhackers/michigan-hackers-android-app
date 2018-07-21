@@ -9,26 +9,24 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeMap;
 
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
-    private TreeMap<String, Member> teamsByName;
+    private TreeMap<String, Team> teamsByName;
     private LayoutInflater inflater;
 
-    public DirectoryExpandableListAdapter(Context context, TreeMap<String, Member> teamsByName) {
+    public DirectoryExpandableListAdapter(Context context, TreeMap<String, Team> teamsByName) {
         this.inflater = LayoutInflater.from(context);
         this.teamsByName = teamsByName;
     }
 
     @Override
     public Member getChild(int groupPosition, int childPosition){
-
-        Team team = (Team) teamsByName.values().toArray()[groupPosition];
-        return team.getMember
-                membersByTeam.get(teamsByName.get(groupPosition).getName()).get(childPosition);
+        return getGroup(groupPosition).getMemberByIndex(childPosition);
     }
 
     @Override
@@ -54,12 +52,13 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return membersByTeam.get(teamsByName.get(groupPosition).getName()).size();
+        return getGroup(groupPosition).getSize();
     }
 
     @Override
     public Team getGroup(int groupPosition) {
-        return teamsByName.get(groupPosition);
+        ArrayList<String> teamNames = new ArrayList<>(teamsByName.keySet());
+        return teamsByName.get(teamNames.get(groupPosition));
     }
 
     @Override
@@ -94,6 +93,14 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public void updateData (TreeMap<String, Team> teamsByName_in) {
+        if (teamsByName_in != null && teamsByName_in.size() > 0) {
+            this.teamsByName.clear();
+            this.teamsByName = teamsByName_in;
+            notifyDataSetChanged();
+        }
     }
 }
 

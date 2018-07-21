@@ -35,8 +35,8 @@ import java.util.TreeMap;
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 public class DirectoryFragment extends Fragment {
 
-    private DirectoryExpandableListAdapter directoryExpandableListAdapter;
     private TreeMap<String, Team> teamsByName;
+    private DirectoryExpandableListAdapter directoryExpandableListAdapter;
 
     public DirectoryFragment() {
         // Required empty public constructor
@@ -60,13 +60,14 @@ public class DirectoryFragment extends Fragment {
 
     private void getDirectoryData(){
         DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-        teamsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        teamsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String teamName = snapshot.getValue(String.class);
                     teamsByName.put(teamName, new Team(teamName));
                 }
+                directoryExpandableListAdapter.updateData(teamsByName);
             }
 
             @Override
@@ -75,17 +76,17 @@ public class DirectoryFragment extends Fragment {
             }
         });
 
-        for(Map.Entry<String,Team> entry : teamsByName.entrySet()) {
-            final String teamName = entry.getKey();
-            Team team = entry.getValue();
+        ArrayList<String> teamNames = new ArrayList<>(teamsByName.keySet());
+        for(final String teamName : teamNames) {
             DatabaseReference memberRef = FirebaseDatabase.getInstance().getReference().child(teamName).child("Members");
-            memberRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            memberRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                         String memberName = snapshot.getValue(String.class);
                         teamsByName.get(teamName).setMember(memberName, new Member(memberName, teamName));
                     }
+                    directoryExpandableListAdapter.updateData(teamsByName);
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
