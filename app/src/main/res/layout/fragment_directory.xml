@@ -10,6 +10,6 @@
         android:layout_height="match_parent"
         android:divider="@color/colorWhite"
         android:dividerHeight="0.5dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorBlack"
         android:groupIndicator="@drawable/directory_group_indicator" />
 </FrameLayout>
