@@ -6,6 +6,7 @@ public class Member {
     private String team;
     private int year;
     private String major;
+    private String title;
 
     public Member(String name, String team) {
         this.name = name;
@@ -44,4 +45,11 @@ public class Member {
         this.major = major;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

@@ -57,6 +57,7 @@ public class DirectoryFragment extends Fragment {
         return layout;
     }
 
+    // Note: App data is not updated in real time when database data is deleted to not interfere with user
     private void setDirectoryListeners(){
         valueEventListeners = new HashMap<>();
         DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.concurrent.TimeoutException;
 
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     private TreeMap<String, Team> teamsByName;
@@ -38,15 +39,15 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = getChild(groupPosition, childPosition).getName();
-
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.directory_item, null);
         }
+        TextView memberName = convertView.findViewById(R.id.item_memberName);
+        TextView memberTitle = convertView.findViewById(R.id.item_memberTitle);
 
-        TextView txtListChild = convertView.findViewById(R.id.item_name);
+        memberName.setText(getChild(groupPosition, childPosition).getName());
+        memberTitle.setText(getChild(groupPosition, childPosition).getTitle());
 
-        txtListChild.setText(childText);
         return convertView;
     }
 
