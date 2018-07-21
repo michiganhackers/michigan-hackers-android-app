@@ -20,7 +20,7 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
 
     public DirectoryExpandableListAdapter(Context context, TreeMap<String, Team> teamsByName) {
-        this.inflater = LayoutInflater.from(context);
+        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.teamsByName = teamsByName;
     }
 
