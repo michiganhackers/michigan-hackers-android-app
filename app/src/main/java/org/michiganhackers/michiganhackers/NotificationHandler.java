@@ -8,7 +8,8 @@ import android.support.v4.app.NotificationCompat;
 public class NotificationHandler{
     private Activity activity;
     private Context context;
-    public NotificationManager mNotificationManager;
+
+
 
     NotificationHandler(Activity activity, Context context) {
         this.activity = activity;
@@ -16,6 +17,7 @@ public class NotificationHandler{
     }
 
     public void sendNotification() {
+        NotificationManager mNotificationManager;
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "channelID")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Title")
@@ -23,4 +25,5 @@ public class NotificationHandler{
         mNotificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(001,mBuilder.build());
     }
+
 }
