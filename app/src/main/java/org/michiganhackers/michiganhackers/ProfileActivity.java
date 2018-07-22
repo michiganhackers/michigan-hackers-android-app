@@ -22,29 +22,29 @@ public class ProfileActivity extends AppCompatActivity {
         final EditText majorEditText = findViewById(R.id.profile_major);
         final EditText yearEditText = findViewById(R.id.profile_year);
         final EditText teamEditText = findViewById(R.id.profile_team);
-        EditText titleEditText = findViewById(R.id.profile_title);
-        EditText bioEditText = findViewById(R.id.profile_bio);
+        final EditText titleEditText = findViewById(R.id.profile_title);
+        final EditText bioEditText = findViewById(R.id.profile_bio);
         Button button = findViewById(R.id.profile_submitChangesButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String teamName = teamEditText.getText().toString();
-                DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-                Team team;
-                if(DataRepo.teamsByName.containsKey(teamName)) {
-                    team = DataRepo.teamsByName.get(teamName);
-                }
-                else{
-                    team = new Team(teamName, teamsRef.push().getKey());
-                }
                 String memberName = nameEditText.getText().toString();
                 String major = majorEditText.getText().toString();
                 String year = yearEditText.getText().toString();
-                String title = nameEditText.getText().toString();
-                String bio = nameEditText.getText().toString();
+                String title = titleEditText.getText().toString();
+                String bio = bioEditText.getText().toString();
                 Member member = new Member(memberName, bio, teamName, year, major, title);
-                team.setMember(memberName, member);
-                teamsRef.child(team.getKey()).setValue(team);
+                DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
+                if(DataRepo.teamsByName.containsKey(teamName)) {
+                    DatabaseReference memberRef = teamsRef.child(teamName).child("members").child(memberName);
+                    memberRef.setValue(member);
+                }
+                else{
+                    Team team = new Team(teamName);
+                    team.setMember(member);
+                    teamsRef.child(teamName).setValue(team);
+                }
             }
         });
 
