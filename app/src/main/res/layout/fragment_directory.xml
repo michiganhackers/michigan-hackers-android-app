@@ -1,4 +1,5 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,8 +9,25 @@
         android:id="@+id/directory_expandableListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorBlack"
         android:divider="@color/colorWhite"
         android:dividerHeight="0.5dp"
-        android:background="@color/colorBlack"
-        android:groupIndicator="@drawable/directory_group_indicator" />
-</FrameLayout>
+        android:groupIndicator="@drawable/directory_group_indicator"
+        tools:layout_editor_absoluteX="304dp"
+        tools:layout_editor_absoluteY="516dp">
+
+    </ExpandableListView>
+
+    <Button
+        android:id="@+id/directroy_editProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:text="@string/directory_editProfileButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</android.support.constraint.ConstraintLayout>

@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -45,8 +46,8 @@ public class DirectoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_directory, container, false);
+
         ExpandableListView expandableListView = layout.findViewById(R.id.directory_expandableListView);
         if(teamsByName == null){
             teamsByName = new TreeMap<>();
@@ -54,6 +55,16 @@ public class DirectoryFragment extends Fragment {
         setDirectoryListeners();
         directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teamsByName);
         expandableListView.setAdapter(directoryExpandableListAdapter);
+
+        Button editProfileButton = layout.findViewById(R.id.directroy_editProfileButton);
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
         return layout;
     }
 
