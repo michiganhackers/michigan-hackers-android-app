@@ -36,9 +36,6 @@ import java.util.TreeMap;
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 public class DirectoryFragment extends Fragment {
 
-    private TreeMap<String, Team> teamsByName;
-    private DirectoryExpandableListAdapter directoryExpandableListAdapter;
-    private HashMap<DatabaseReference, ValueEventListener> valueEventListeners;
     public DirectoryFragment() {
         // Required empty public constructor
     }
@@ -49,9 +46,8 @@ public class DirectoryFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_directory, container, false);
 
         ExpandableListView expandableListView = layout.findViewById(R.id.directory_expandableListView);
-        if(teamsByName == null){
-            teamsByName = new TreeMap<>();
-        }
+        TreeMap<String, Team> teamsByName = new TreeMap<>();
+        final DirectoryExpandableListAdapter directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teamsByName);
         ExecuteOnDataChange executeOnDataChange = new ExecuteOnDataChange() {
             @Override
             public void executeOnDataChange() {
@@ -59,7 +55,6 @@ public class DirectoryFragment extends Fragment {
             }
         };
         UserDataRepo userDataRepo = new UserDataRepo(teamsByName, executeOnDataChange);
-        directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teamsByName);
         expandableListView.setAdapter(directoryExpandableListAdapter);
 
         Button editProfileButton = layout.findViewById(R.id.directroy_editProfileButton);

@@ -8,6 +8,9 @@ public class Member {
     private String major;
     private String title;
 
+    public Member() {
+    }
+
     public Member(String name, String team) {
         this.name = name;
         this.team = team;
@@ -51,5 +54,13 @@ public class Member {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
     }
 }

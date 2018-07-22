@@ -10,15 +10,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class ProfileActivity extends AppCompatActivity {
+    private TreeMap<String, Team> teamsByName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        UserDataRepo userDataRepo = new UserDataRepo(teamsByName);
 
         Button button = findViewById(R.id.profile_submitChangesButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
                 EditText titleEditText = findViewById(R.id.profile_title);
                 EditText bioEditText = findViewById(R.id.profile_bio);
 
+                
 
             }
         });

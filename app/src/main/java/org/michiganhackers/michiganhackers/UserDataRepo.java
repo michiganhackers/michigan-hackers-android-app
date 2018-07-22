@@ -33,20 +33,19 @@ public class UserDataRepo {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     // Add team
-                    String teamName = snapshot.getValue().toString();
-                    teamsByName.put(teamName, new Team(teamName));
+                    Team team = snapshot.getValue(Team.class);
+                    teamsByName.put(team.getName(), team);
 
                     // Add members
                     // Todo: Currently somehow adds listener if reference to members does not yet exist. When members is created later, it does not have to re-add listener and gets updated member info. How?
-                    DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child(teamName).child("Members");
+                    DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child(team.getName()).child("Members");
                     if(!valueEventListeners.containsKey(membersRef)){
                         ValueEventListener valueEventListener = new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                    String memberName = snapshot.getValue().toString();
-                                    String teamName = dataSnapshot.getRef().getParent().getKey();
-                                    teamsByName.get(teamName).setMember(memberName, new Member(memberName, teamName));
+                                    Member member = snapshot.getValue(Member.class);
+                                    teamsByName.get(member.getTeam()).setMember(member.getName(), member);
                                 }
                                 if(executeOnDataChange != null){
                                     executeOnDataChange.executeOnDataChange();
