@@ -7,7 +7,6 @@ public class Member {
     private String year;
     private String major;
     private String title;
-    private String key;
 
     public Member() {
     }
@@ -72,13 +71,5 @@ public class Member {
 
     public void setTeam(String team) {
         this.team = team;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 }

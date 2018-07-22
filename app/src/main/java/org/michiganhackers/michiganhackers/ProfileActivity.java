@@ -28,23 +28,23 @@ public class ProfileActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String teamName = nameEditText.getText().toString();
-                if(!DataRepo.teamsByName.containsKey(teamName)) {
-                    DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-                    Team team = new Team(teamName, teamsRef.push().getKey());
-                    teamsRef.child(team.getKey()).setValue(team);
+                String teamName = teamEditText.getText().toString();
+                DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
+                Team team;
+                if(DataRepo.teamsByName.containsKey(teamName)) {
+                    team = DataRepo.teamsByName.get(teamName);
                 }
-                DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child(teamName).child("Members");
+                else{
+                    team = new Team(teamName, teamsRef.push().getKey());
+                }
                 String memberName = nameEditText.getText().toString();
                 String major = majorEditText.getText().toString();
                 String year = yearEditText.getText().toString();
                 String title = nameEditText.getText().toString();
                 String bio = nameEditText.getText().toString();
                 Member member = new Member(memberName, bio, teamName, year, major, title);
-                if(!DataRepo.teamsByName.get(teamName).getMembers().containsKey(memberName)){
-                    member.setKey(membersRef.push().getKey());
-                }
-                membersRef.child(member.getKey()).setValue(member);
+                team.setMember(memberName, member);
+                teamsRef.child(team.getKey()).setValue(team);
             }
         });
 

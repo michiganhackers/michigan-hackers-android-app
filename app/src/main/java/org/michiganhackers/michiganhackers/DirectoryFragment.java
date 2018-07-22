@@ -25,13 +25,12 @@ public class DirectoryFragment extends Fragment {
 
         ExpandableListView expandableListView = layout.findViewById(R.id.directory_expandableListView);
         final DirectoryExpandableListAdapter directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext());
-        ExecuteOnDataChange executeOnDataChange = new ExecuteOnDataChange() {
+        DataRepo.setTeamsListener(new ExecuteOnDataChange() {
             @Override
             public void executeOnDataChange() {
                 directoryExpandableListAdapter.notifyDataSetChanged();
             }
-        };
-        DataRepo.setDirectoryListeners(executeOnDataChange);
+        });
         expandableListView.setAdapter(directoryExpandableListAdapter);
 
         Button editProfileButton = layout.findViewById(R.id.directroy_editProfileButton);
