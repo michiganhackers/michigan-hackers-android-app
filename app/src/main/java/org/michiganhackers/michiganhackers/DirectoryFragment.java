@@ -52,7 +52,13 @@ public class DirectoryFragment extends Fragment {
         if(teamsByName == null){
             teamsByName = new TreeMap<>();
         }
-        setDirectoryListeners();
+        ExecuteOnDataChange executeOnDataChange = new ExecuteOnDataChange() {
+            @Override
+            public void executeOnDataChange() {
+                directoryExpandableListAdapter.notifyDataSetChanged();
+            }
+        };
+        UserDataRepo userDataRepo = new UserDataRepo(teamsByName, executeOnDataChange);
         directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext(),teamsByName);
         expandableListView.setAdapter(directoryExpandableListAdapter);
 
@@ -66,52 +72,5 @@ public class DirectoryFragment extends Fragment {
         });
 
         return layout;
-    }
-
-    // Note: App data is not updated in real time when database data is deleted to not interfere with user
-    private void setDirectoryListeners(){
-        valueEventListeners = new HashMap<>();
-        DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    // Add team
-                    String teamName = snapshot.getValue().toString();
-                    teamsByName.put(teamName, new Team(teamName));
-
-                    // Add members
-                    // Todo: Currently somehow adds listener if reference to members does not yet exist. When members is created later, it does not have to re-add listener and gets updated member info. How?
-                    DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child(teamName).child("Members");
-                    if(!valueEventListeners.containsKey(membersRef)){
-                        ValueEventListener valueEventListener = new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                    String memberName = snapshot.getValue().toString();
-                                    String teamName = dataSnapshot.getRef().getParent().getKey();
-                                    teamsByName.get(teamName).setMember(memberName, new Member(memberName, teamName));
-                                }
-                                directoryExpandableListAdapter.notifyDataSetChanged();
-                            }
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                //Todo
-                            }
-                        };
-                        valueEventListeners.put(membersRef, valueEventListener);
-                        membersRef.addValueEventListener(valueEventListener);
-                    }
-                }
-                // Update adapter
-                directoryExpandableListAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //Todo
-            }
-        };
-        valueEventListeners.put(teamsRef, valueEventListener);
-        teamsRef.addValueEventListener(valueEventListener);
     }
 }
