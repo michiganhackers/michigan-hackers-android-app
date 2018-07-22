@@ -5,7 +5,6 @@
     <string name="nav_calendar">Calendar</string>
     <string name="nav_directory">Directory</string>
     <string name="hacknight_image_description">Hack Night Fractal</string>
-    <string name="app_name">Michigan Hackers</string>
     <string name="directory_editProfileButton">Edit Profile</string>
     <string name="profile_submitChangesButton">Submit Changes</string>
 </resources>
