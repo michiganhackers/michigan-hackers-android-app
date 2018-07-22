@@ -57,6 +57,7 @@
                     android:hint="Name">
 
                     <EditText
+                        android:id="@+id/profile_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"/>
@@ -70,6 +71,7 @@
                     android:hint="Team">
 
                     <EditText
+                        android:id="@+id/profile_team"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"/>
@@ -83,6 +85,7 @@
                     android:hint="Title">
 
                     <EditText
+                        android:id="@+id/profile_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"/>
@@ -97,6 +100,7 @@
                     android:hint="Bio">
 
                     <EditText
+                        android:id="@+id/profile_bio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
