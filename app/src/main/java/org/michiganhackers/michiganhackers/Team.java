@@ -12,19 +12,17 @@ import java.util.TreeMap;
 public class Team {
     private String name;
     private String info;
-    private String key;
     private Map<String, Member> members = new TreeMap<>();
 
     public Team(){
     }
 
-    public Team(String name, String key) {
+    public Team(String name) {
         this.name = name;
-        this.key = key;
     }
 
-    public void setMember(String memberName, Member member) {
-        members.put(memberName, member);
+    public void setMember(Member member) {
+        members.put(member.getName(), member);
     }
     public Member getMemberByIndex(int index){
         ArrayList<String> memberNames = new ArrayList<>(members.keySet());
@@ -53,13 +51,4 @@ public class Team {
     public Map<String, Member> getMembers() {
         return members;
     }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
 }
