@@ -60,7 +60,8 @@
                         android:id="@+id/profile_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:text="temp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -74,7 +75,8 @@
                         android:id="@+id/profile_major"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:text="temp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -88,7 +90,8 @@
                         android:id="@+id/profile_year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:text="temp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -102,7 +105,8 @@
                         android:id="@+id/profile_team"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:text="temp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -116,7 +120,8 @@
                         android:id="@+id/profile_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:text="temp" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -132,7 +137,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
-                        android:inputType="textMultiLine" />
+                        android:inputType="textMultiLine"
+                        android:text="temp" />
 
                 </android.support.design.widget.TextInputLayout>
 
