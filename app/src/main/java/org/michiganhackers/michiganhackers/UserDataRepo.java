@@ -29,6 +29,7 @@ public class UserDataRepo {
         valueEventListeners = new HashMap<>();
         DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
         ValueEventListener valueEventListener = new ValueEventListener() {
+            // Todo: Change from onDataChange to onChild...
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){

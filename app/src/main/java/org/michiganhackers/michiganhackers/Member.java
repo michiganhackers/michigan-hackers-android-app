@@ -1,7 +1,5 @@
 package org.michiganhackers.michiganhackers;
 
-import com.google.firebase.database.DatabaseReference;
-
 public class Member {
     private String name;
     private String bio;
@@ -9,7 +7,7 @@ public class Member {
     private String year;
     private String major;
     private String title;
-    private DatabaseReference key;
+    private String key;
 
     public Member() {
     }
@@ -76,11 +74,11 @@ public class Member {
         this.team = team;
     }
 
-    public DatabaseReference getKey() {
+    public String getKey() {
         return key;
     }
 
-    public void setKey(DatabaseReference key) {
+    public void setKey(String key) {
         this.key = key;
     }
 }

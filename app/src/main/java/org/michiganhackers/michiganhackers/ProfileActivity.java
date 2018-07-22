@@ -34,8 +34,8 @@ public class ProfileActivity extends AppCompatActivity {
                 String teamName = nameEditText.getText().toString();
                 if(!teamsByName.containsKey(teamName)) {
                     DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-                    Team team = new Team(teamName, teamsRef.push());
-                    team.getKey().setValue(team);
+                    Team team = new Team(teamName, teamsRef.push().toString());
+                    teamsRef.child(team.getKey()).setValue(team);
                 }
                 DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child(teamName).child("Members");
                 String memberName = nameEditText.getText().toString();
@@ -45,9 +45,9 @@ public class ProfileActivity extends AppCompatActivity {
                 String bio = nameEditText.getText().toString();
                 Member member = new Member(memberName, bio, teamName, year, major, title);
                 if(!teamsByName.get(teamName).getMembers().containsKey(memberName)){
-                    member.setKey(membersRef.push());
+                    member.setKey(membersRef.push().toString());
                 }
-                member.getKey().setValue(member);
+                membersRef.child(member.getKey()).setValue(member);
             }
         });
 

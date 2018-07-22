@@ -11,7 +11,7 @@ import java.util.TreeMap;
 public class Team {
     private String name;
     private String info;
-    private DatabaseReference key;
+    private String key;
     @Exclude
     private TreeMap<String, Member> members;
 
@@ -24,7 +24,7 @@ public class Team {
         members = new TreeMap<>();
     }
 
-    public Team(String name, DatabaseReference key) {
+    public Team(String name, String key) {
         this.name = name;
         this.key = key;
         members = new TreeMap<>();
@@ -34,6 +34,7 @@ public class Team {
     public void setMember(String memberName, Member member) {
         members.put(memberName, member);
     }
+    @Exclude
     public Member getMemberByIndex(int index){
         ArrayList<String> memberNames = new ArrayList<>(members.keySet());
         return members.get(memberNames.get(index));
@@ -64,11 +65,11 @@ public class Team {
         return members;
     }
 
-    public DatabaseReference getKey() {
+    public String getKey() {
         return key;
     }
 
-    public void setKey(DatabaseReference key) {
+    public void setKey(String key) {
         this.key = key;
     }
 }
