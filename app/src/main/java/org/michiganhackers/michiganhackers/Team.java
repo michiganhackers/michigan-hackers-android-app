@@ -10,6 +10,7 @@ import java.util.TreeMap;
 public class Team {
     private String name;
     private String info;
+    private String key;
     @Exclude
     private TreeMap<String, Member> members;
 
@@ -20,6 +21,12 @@ public class Team {
         this.name = name;
         members = new TreeMap<>();
     }
+
+    public Team(String name, String key) {
+        this.name = name;
+        this.key = key;
+    }
+
     public void setMember(String memberName, Member member) {
         members.put(memberName, member);
     }
@@ -47,4 +54,15 @@ public class Team {
         this.name = name;
     }
 
+    public TreeMap<String, Member> getMembers() {
+        return members;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 }
