@@ -9,7 +9,6 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -29,10 +28,8 @@ public class ProfileActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TreeMap<String, Team> teamsByName = new TreeMap<>();
-                UserDataRepo userDataRepo = new UserDataRepo(teamsByName);
                 String teamName = nameEditText.getText().toString();
-                if(!teamsByName.containsKey(teamName)) {
+                if(!DataRepo.teamsByName.containsKey(teamName)) {
                     DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
                     Team team = new Team(teamName, teamsRef.push().getKey());
                     teamsRef.child(team.getKey()).setValue(team);
@@ -44,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String title = nameEditText.getText().toString();
                 String bio = nameEditText.getText().toString();
                 Member member = new Member(memberName, bio, teamName, year, major, title);
-                if(!teamsByName.get(teamName).getMembers().containsKey(memberName)){
+                if(!DataRepo.teamsByName.get(teamName).getMembers().containsKey(memberName)){
                     member.setKey(membersRef.push().getKey());
                 }
                 membersRef.child(member.getKey()).setValue(member);

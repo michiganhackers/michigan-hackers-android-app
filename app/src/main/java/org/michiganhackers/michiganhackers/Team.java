@@ -12,7 +12,6 @@ public class Team {
     private String name;
     private String info;
     private String key;
-    @Exclude
     private TreeMap<String, Member> members;
 
     public Team(){
@@ -30,11 +29,9 @@ public class Team {
         members = new TreeMap<>();
     }
 
-    @Exclude
     public void setMember(String memberName, Member member) {
         members.put(memberName, member);
     }
-    @Exclude
     public Member getMemberByIndex(int index){
         ArrayList<String> memberNames = new ArrayList<>(members.keySet());
         return members.get(memberNames.get(index));
@@ -51,7 +48,6 @@ public class Team {
         this.info = info;
     }
 
-    @Exclude
     public int getSize(){
         return members.size();
     }
@@ -60,7 +56,6 @@ public class Team {
         this.name = name;
     }
 
-    @Exclude
     public TreeMap<String, Member> getMembers() {
         return members;
     }

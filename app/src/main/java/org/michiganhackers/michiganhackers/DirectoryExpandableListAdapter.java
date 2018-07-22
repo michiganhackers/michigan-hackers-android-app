@@ -17,12 +17,10 @@ import java.util.TreeMap;
 import java.util.concurrent.TimeoutException;
 
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
-    private TreeMap<String, Team> teamsByName;
     private LayoutInflater inflater;
 
-    public DirectoryExpandableListAdapter(Context context, TreeMap<String, Team> teamsByName) {
+    public DirectoryExpandableListAdapter(Context context) {
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.teamsByName = teamsByName;
     }
 
     @Override
@@ -58,13 +56,13 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Team getGroup(int groupPosition) {
-        ArrayList<String> teamNames = new ArrayList<>(teamsByName.keySet());
-        return teamsByName.get(teamNames.get(groupPosition));
+        ArrayList<String> teamNames = new ArrayList<>(DataRepo.teamsByName.keySet());
+        return DataRepo.teamsByName.get(teamNames.get(groupPosition));
     }
 
     @Override
     public int getGroupCount() {
-        return teamsByName.size();
+        return DataRepo.teamsByName.size();
     }
 
     @Override
