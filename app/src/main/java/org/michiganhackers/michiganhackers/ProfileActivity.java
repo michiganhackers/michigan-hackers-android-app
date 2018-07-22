@@ -19,9 +19,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        final TreeMap<String, Team> teamsByName = new TreeMap<>();
-        UserDataRepo userDataRepo = new UserDataRepo(teamsByName);
-
         final EditText nameEditText = findViewById(R.id.profile_name);
         final EditText majorEditText = findViewById(R.id.profile_major);
         final EditText yearEditText = findViewById(R.id.profile_year);
@@ -32,11 +29,13 @@ public class ProfileActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TreeMap<String, Team> teamsByName = new TreeMap<>();
+                UserDataRepo userDataRepo = new UserDataRepo(teamsByName);
                 String teamName = nameEditText.getText().toString();
                 if(!teamsByName.containsKey(teamName)) {
                     DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-                    Team team = new Team(teamName, teamsRef.push().getKey());
-                    teamsRef.child(team.getKey()).setValue(team);
+                    Team team = new Team(teamName, teamsRef.push());
+                    team.getKey().setValue(team);
                 }
                 DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child(teamName).child("Members");
                 String memberName = nameEditText.getText().toString();
@@ -46,9 +45,9 @@ public class ProfileActivity extends AppCompatActivity {
                 String bio = nameEditText.getText().toString();
                 Member member = new Member(memberName, bio, teamName, year, major, title);
                 if(!teamsByName.get(teamName).getMembers().containsKey(memberName)){
-                    member.setKey(membersRef.push().getKey());
+                    member.setKey(membersRef.push());
                 }
-                membersRef.child(member.getKey()).setValue(member);
+                member.getKey().setValue(member);
             }
         });
 
