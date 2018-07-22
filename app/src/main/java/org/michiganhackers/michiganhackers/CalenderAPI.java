@@ -1,15 +1,21 @@
 package org.michiganhackers.michiganhackers;
 
 import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -20,15 +26,24 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
+import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Events;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
+import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
 
-public class CalenderAPI extends AppCompatActivity{
+
+public class CalenderAPI extends AppCompatActivity  implements EasyPermissions.PermissionCallbacks{
 
     public static final int REQUEST_ACCOUNT_PICKER = 1000;
     public static final int REQUEST_AUTHORIZATION = 1001;
@@ -42,12 +57,13 @@ public class CalenderAPI extends AppCompatActivity{
     public static final String TAG = EventActivity.class.getName();
 
     private Context context;
-    private static Activity activity;
-    public GoogleAccountCredential mCredential;
+    private Activity activity;
+    GoogleAccountCredential mCredential;
 
     CalenderAPI(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
+
     }
 
     public void getResultsFromApi() {
@@ -78,7 +94,7 @@ public class CalenderAPI extends AppCompatActivity{
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
-                activity.startActivityForResult(
+                startActivityForResult(
                         mCredential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
             }
@@ -91,7 +107,6 @@ public class CalenderAPI extends AppCompatActivity{
                     Manifest.permission.GET_ACCOUNTS);
         }
     }
-
 
     private boolean isDeviceOnline() {
         ConnectivityManager connMgr =
@@ -118,7 +133,7 @@ public class CalenderAPI extends AppCompatActivity{
         }
     }
 
-    static void showGooglePlayServicesAvailabilityErrorDialog(
+    void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
@@ -184,6 +199,47 @@ public class CalenderAPI extends AppCompatActivity{
             bundle.putParcelableArrayList(STATE_EVENTS, output);
             MainActivity.listFragment.updateListFragmentData(bundle);
         }
+    }
+    @Override
+    public void onActivityResult(
+            int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_GOOGLE_PLAY_SERVICES:
+                if (resultCode != RESULT_OK) {
+                    /*Todo:
+                    mOutputText.setText(
+                                    "This app requires Google Play Services. Please install " +
+                                    "Google Play Services on your device and relaunch this app.);
+                    */
+                    //Log.e(TAG,"This app requires Google Play Services");
+                } else {
+                    getResultsFromApi();
+                }
+                break;
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == RESULT_OK && data != null &&
+                        data.getExtras() != null) {
+                    String accountName =
+                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        SharedPreferences settings =
+                                getPreferences(MODE_PRIVATE);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(PREF_ACCOUNT_NAME, accountName);
+                        editor.apply();
+                        mCredential.setSelectedAccountName(accountName);
+                        getResultsFromApi();
+                    }
+                }
+                break;
+            case REQUEST_AUTHORIZATION:
+                if (resultCode == RESULT_OK) {
+                    getResultsFromApi();
+                }
+                break;
+        }
+    /*
         @Override
         protected void onCancelled() {
             if (mLastError != null) {
@@ -193,12 +249,13 @@ public class CalenderAPI extends AppCompatActivity{
                                     .getConnectionStatusCode());
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
 
-                    activity.startActivityForResult(
+                    startActivityForResult(
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             REQUEST_AUTHORIZATION);
                 } else {
-                    Todo:
-                    //mOutputText.setText("The following error occurred:\n" + mLastError.getMessage());
+                         Todo:
+                            mOutputText.setText("The following error occurred:\n"
+                            + mLastError.getMessage());
 
                     Log.e(TAG,"The following error occurred:\n"
                             + mLastError.getMessage());
@@ -210,6 +267,7 @@ public class CalenderAPI extends AppCompatActivity{
 
             }
         }
+        */
     }
 
     @Override
