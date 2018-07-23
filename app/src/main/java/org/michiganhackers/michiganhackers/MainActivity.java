@@ -12,6 +12,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.util.ExponentialBackOff;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity{
 
     public static CalenderAPI calAPI;
     public NotificationHandler notification;
+    ViewPager mainPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity{
             calAPI.getResultsFromApi();
         }
 
-        final ViewPager mainPager = (ViewPager) findViewById(R.id.main_pager);
+        mainPager = (ViewPager) findViewById(R.id.main_pager);
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         mainPager.setAdapter(mainPagerAdapter);
 
@@ -166,5 +169,19 @@ public class MainActivity extends AppCompatActivity{
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mainPager.getCurrentItem() != 0) {
+                mainPager.setCurrentItem(0);
+                return false;
+            }
+            else {
+                return super.onKeyDown(keyCode,event);
+            }
+        }
+        return super.onKeyDown(keyCode,event);
     }
 }
