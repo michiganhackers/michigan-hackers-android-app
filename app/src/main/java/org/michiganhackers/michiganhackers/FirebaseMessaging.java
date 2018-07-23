@@ -21,5 +21,4 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         Log.d(TAG, "Refreshed token: " + token);
 
     }
-
 }
