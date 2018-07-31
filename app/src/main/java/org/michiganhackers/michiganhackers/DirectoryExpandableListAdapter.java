@@ -6,15 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.concurrent.TimeoutException;
 
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
@@ -56,13 +50,13 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Team getGroup(int groupPosition) {
-        ArrayList<String> teamNames = new ArrayList<>(DataRepo.teamsByName.keySet());
-        return DataRepo.teamsByName.get(teamNames.get(groupPosition));
+        ArrayList<String> teamNames = new ArrayList<>(DirectoryRepository.teamsByName.keySet());
+        return DirectoryRepository.teamsByName.get(teamNames.get(groupPosition));
     }
 
     @Override
     public int getGroupCount() {
-        return DataRepo.teamsByName.size();
+        return DirectoryRepository.teamsByName.size();
     }
 
     @Override

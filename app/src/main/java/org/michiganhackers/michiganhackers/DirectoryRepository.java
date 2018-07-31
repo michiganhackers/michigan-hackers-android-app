@@ -11,11 +11,16 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class DataRepo {
-    static Map<String, Team> teamsByName = new TreeMap<>();
+public class DirectoryRepository {
+    private Map<String, Team> teamsByName;
+    DatabaseReference teamsRef;
+
+    DirectoryRepository(){
+        teamsByName = new TreeMap<>();
+        teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
+    }
 
     public static void setTeamsListener(final ExecuteOnDataChange executeOnDataChange){
-        DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
         teamsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

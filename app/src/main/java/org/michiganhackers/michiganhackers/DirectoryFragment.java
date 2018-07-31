@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
-import java.util.TreeMap;
-
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 public class DirectoryFragment extends Fragment {
 
@@ -25,7 +23,7 @@ public class DirectoryFragment extends Fragment {
 
         ExpandableListView expandableListView = layout.findViewById(R.id.directory_expandableListView);
         final DirectoryExpandableListAdapter directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext());
-        DataRepo.setTeamsListener(new ExecuteOnDataChange() {
+        DirectoryRepository.setTeamsListener(new ExecuteOnDataChange() {
             @Override
             public void executeOnDataChange() {
                 directoryExpandableListAdapter.notifyDataSetChanged();

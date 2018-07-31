@@ -9,8 +9,6 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.TreeMap;
-
 public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +34,8 @@ public class ProfileActivity extends AppCompatActivity {
                 String bio = bioEditText.getText().toString();
                 Member member = new Member(memberName, bio, teamName, year, major, title);
                 DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-                // Todo: This does not ccurrently work.
-                if(DataRepo.teamsByName.containsKey(teamName)) {
+                // Todo: This does not currently work.
+                if(DirectoryRepository.teamsByName.containsKey(teamName)) {
                     DatabaseReference memberRef = teamsRef.child(teamName).child("members").child(memberName);
                     memberRef.setValue(member);
                 }
