@@ -35,3 +35,6 @@ output.json
 obj/
 .externalNativeBuild
 
+# Firebase
+app/google-services.json
+
