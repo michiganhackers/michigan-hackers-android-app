@@ -36,5 +36,8 @@ obj/
 .externalNativeBuild
 
 # Firebase
-app/google-services.json
+/app/google-services.json
+
+# keystore
+keystore.properties
 
