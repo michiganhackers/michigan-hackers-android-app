@@ -25,6 +25,7 @@ Thumbs.db
 *.iml
 .idea
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+/.idea/caches/build_file_checksums.ser
 .gradle
 build/
 .navigation
@@ -40,4 +41,3 @@ obj/
 
 # keystore
 keystore.properties
-
