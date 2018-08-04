@@ -43,6 +43,10 @@ android {
 }
 
 dependencies {
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    // Support library depends on this lightweight import
+    implementation "android.arch.lifecycle:runtime:1.1.1"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'

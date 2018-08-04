@@ -1,5 +1,6 @@
 package org.michiganhackers.michiganhackers;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -9,12 +10,16 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
+    private Map<String, Team> teamsByName;
 
     public DirectoryExpandableListAdapter(Context context) {
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.teamsByName = new TreeMap<>();
     }
 
     @Override
@@ -50,13 +55,13 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Team getGroup(int groupPosition) {
-        ArrayList<String> teamNames = new ArrayList<>(DirectoryRepository.teamsByName.keySet());
-        return DirectoryRepository.teamsByName.get(teamNames.get(groupPosition));
+        ArrayList<String> teamNames = new ArrayList<>(teamsByName.keySet());
+        return teamsByName.get(teamNames.get(groupPosition));
     }
 
     @Override
     public int getGroupCount() {
-        return DirectoryRepository.teamsByName.size();
+        return teamsByName.size();
     }
 
     @Override
@@ -88,5 +93,8 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    public void setTeamsByName(Map<String, Team> teamsByName) {
+        this.teamsByName = teamsByName;
+    }
 }
 

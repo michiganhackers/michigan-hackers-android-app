@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".EventActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileFragment"></activity>
     </application>
 
 </manifest>

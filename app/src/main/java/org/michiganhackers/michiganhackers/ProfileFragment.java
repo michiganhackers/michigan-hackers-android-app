@@ -1,28 +1,41 @@
 package org.michiganhackers.michiganhackers;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class ProfileActivity extends AppCompatActivity {
+import java.util.Map;
+
+public class ProfileFragment extends Fragment {
+    public ProfileFragment() {
+        // Required empty public constructor
+    }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        View layout = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        final EditText nameEditText = findViewById(R.id.profile_name);
-        final EditText majorEditText = findViewById(R.id.profile_major);
-        final EditText yearEditText = findViewById(R.id.profile_year);
-        final EditText teamEditText = findViewById(R.id.profile_team);
-        final EditText titleEditText = findViewById(R.id.profile_title);
-        final EditText bioEditText = findViewById(R.id.profile_bio);
-        Button button = findViewById(R.id.profile_submitChangesButton);
+        final DirectoryViewModel directoryViewModel = ViewModelProviders.of(getActivity()).get(DirectoryViewModel.class);
+
+        final EditText nameEditText = layout.findViewById(R.id.profile_name);
+        final EditText majorEditText = layout.findViewById(R.id.profile_major);
+        final EditText yearEditText = layout.findViewById(R.id.profile_year);
+        final EditText teamEditText = layout.findViewById(R.id.profile_team);
+        final EditText titleEditText = layout.findViewById(R.id.profile_title);
+        final EditText bioEditText = layout.findViewById(R.id.profile_bio);
+        Button button = layout.findViewById(R.id.profile_submitChangesButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,8 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
                 String bio = bioEditText.getText().toString();
                 Member member = new Member(memberName, bio, teamName, year, major, title);
                 DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-                // Todo: This does not currently work.
-                if(DirectoryRepository.teamsByName.containsKey(teamName)) {
+                Map<String, Team> teamsByName = directoryViewModel.getTeamsByName();
+                if(teamsByName.containsKey(teamName)) {
                     DatabaseReference memberRef = teamsRef.child(teamName).child("members").child(memberName);
                     memberRef.setValue(member);
                 }
@@ -47,5 +60,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        return layout;
     }
 }
