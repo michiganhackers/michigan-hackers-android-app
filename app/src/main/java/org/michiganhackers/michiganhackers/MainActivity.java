@@ -125,11 +125,9 @@ public class MainActivity extends AppCompatActivity{
     public ListFragment getListFragment() {
         return listFragment;
     }
-
     public CalendarFragment getCalendarFragment() {
         return calendarFragment;
     }
-
     public SettingsFragment getSettingsFragment() {
         return settingsFragment;
     }
