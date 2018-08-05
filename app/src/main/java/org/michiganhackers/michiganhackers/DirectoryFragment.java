@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class DirectoryFragment extends Fragment {
         };
         directoryViewModel.getTeamsByName().observe(this, teamsByNameObserver);
 
-        Button editProfileButton = layout.findViewById(R.id.directroy_editProfileButton);
+        Button editProfileButton = layout.findViewById(R.id.directory_editProfileButton);
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

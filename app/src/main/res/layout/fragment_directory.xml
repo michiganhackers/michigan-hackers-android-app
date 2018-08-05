@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@color/colorBlack"
         android:divider="@color/colorWhite"
@@ -21,7 +22,7 @@
     </ExpandableListView>
 
     <Button
-        android:id="@+id/directroy_editProfileButton"
+        android:id="@+id/directory_editProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
