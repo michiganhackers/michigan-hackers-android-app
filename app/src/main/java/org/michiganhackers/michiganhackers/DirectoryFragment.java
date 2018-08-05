@@ -46,18 +46,11 @@ public class DirectoryFragment extends Fragment {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileFragment profileFragment = new ProfileFragment();
-                replaceFragment(R.id.main_frameLayout, profileFragment);
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
         return layout;
-    }
-
-    // Replace fragment in specified container
-    private void replaceFragment(int containerViewId, Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(containerViewId, fragment);
-        fragmentTransaction.commit();
     }
 }
