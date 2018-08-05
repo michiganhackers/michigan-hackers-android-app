@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class DirectoryFragment extends Fragment {
         final DirectoryExpandableListAdapter directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext());
         expandableListView.setAdapter(directoryExpandableListAdapter);
 
+        // Todo: Should be in oncreate
         DirectoryViewModel directoryViewModel = ViewModelProviders.of(getActivity()).get(DirectoryViewModel.class);
         final Observer<Map<String,Team>> teamsByNameObserver = new Observer<Map<String,Team>>() {
             @Override
@@ -38,17 +40,24 @@ public class DirectoryFragment extends Fragment {
                 directoryExpandableListAdapter.notifyDataSetChanged();
             }
         };
-        directoryViewModel.getTeamsByNameMLD().observe(this, teamsByNameObserver);
+        directoryViewModel.getTeamsByName().observe(this, teamsByNameObserver);
 
         Button editProfileButton = layout.findViewById(R.id.directroy_editProfileButton);
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProfileFragment.class);
-                getActivity().startActivity(intent);
+                ProfileFragment profileFragment = new ProfileFragment();
+                replaceFragment(R.id.main_frameLayout, profileFragment);
             }
         });
 
         return layout;
+    }
+
+    // Replace fragment in specified container
+    private void replaceFragment(int containerViewId, Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(containerViewId, fragment);
+        fragmentTransaction.commit();
     }
 }

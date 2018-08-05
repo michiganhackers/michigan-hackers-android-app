@@ -1,5 +1,6 @@
 package org.michiganhackers.michiganhackers;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
@@ -15,6 +16,7 @@ import java.util.TreeMap;
 public class DirectoryViewModel extends ViewModel{
     private MutableLiveData<Map<String, Team>> teamsByName;
     private Map<String, Team> teamsByNameLocal; //TOdo add child event listener
+    private DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
     public DirectoryViewModel(){
         teamsByNameLocal = new TreeMap<>();
         if(this.teamsByName != null){
@@ -22,16 +24,14 @@ public class DirectoryViewModel extends ViewModel{
         }
         else{
             teamsByName = new MutableLiveData<>();
-            DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
             teamsRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Map<String,Team> teamsByName2 = new TreeMap<>();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Team team = snapshot.getValue(Team.class);
-                        teamsByName2.put(team.getName(), team);
+                        teamsByNameLocal.put(team.getName(), team);
                     }
-                    teamsByName.setValue(teamsByName2);
+                    teamsByName.setValue(teamsByNameLocal);
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -41,11 +41,19 @@ public class DirectoryViewModel extends ViewModel{
 
         }
     }
-    MutableLiveData<Map<String, Team>> getTeamsByNameMLD(){
+    LiveData<Map<String, Team>> getTeamsByName(){
         return teamsByName;
     }
 
-    public Map<String, Team> getTeamsByName() {
-        return teamsByNameLocal;
+    public void addMember(Member member){
+        if(teamsByNameLocal.containsKey(member.getTeam())) {
+            DatabaseReference memberRef = teamsRef.child(member.getTeam()).child("members").child(member.getName());
+            memberRef.setValue(member);
+        }
+        else{
+            Team team = new Team(member.getTeam());
+            team.setMember(member);
+            teamsRef.child(member.getTeam()).setValue(team);
+        }
     }
 }

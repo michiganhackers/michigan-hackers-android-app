@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,6 +18,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -70,9 +75,19 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ViewPager mainPager = (ViewPager) findViewById(R.id.main_pager);
+        final ViewPager mainPager = new ViewPager(this);
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         mainPager.setAdapter(mainPagerAdapter);
+
+        // this is the container for the ViewPager
+        FrameLayout mRootView = (FrameLayout) findViewById(R.id.main_frameLayout);
+
+        if (Build.VERSION.SDK_INT >= 17) {
+            mainPager.setId(View.generateViewId()); // --> this is important!
+        }
+
+
+        mRootView.addView(mainPager);
 
         mainNav = findViewById(R.id.main_nav);
 

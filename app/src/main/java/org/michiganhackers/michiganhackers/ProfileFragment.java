@@ -46,17 +46,7 @@ public class ProfileFragment extends Fragment {
                 String title = titleEditText.getText().toString();
                 String bio = bioEditText.getText().toString();
                 Member member = new Member(memberName, bio, teamName, year, major, title);
-                DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-                Map<String, Team> teamsByName = directoryViewModel.getTeamsByName();
-                if(teamsByName.containsKey(teamName)) {
-                    DatabaseReference memberRef = teamsRef.child(teamName).child("members").child(memberName);
-                    memberRef.setValue(member);
-                }
-                else{
-                    Team team = new Team(teamName);
-                    team.setMember(member);
-                    teamsRef.child(teamName).setValue(team);
-                }
+                directoryViewModel.addMember(member);
             }
         });
 
