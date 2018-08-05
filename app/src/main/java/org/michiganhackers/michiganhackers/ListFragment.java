@@ -9,23 +9,32 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.util.ExponentialBackOff;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.michiganhackers.michiganhackers.CalenderAPI.SCOPES;
+import static org.michiganhackers.michiganhackers.MainActivity.calAPI;
 
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 // Todo: Implement google API in here?
 // Todo: Should UI elements not be set until onActivityCreated to make sure MainActivity onCreate is done?
-public class ListFragment extends Fragment{
+public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     private static final String STATE_EVENTS = "state_events";
     private static final String STATE_EVENT = "state_event";
     private ListRecyclerViewAdapter listRecyclerViewAdapter;
     private ArrayList<CalendarEvent> calendarEvents;
+    public static SwipeRefreshLayout mSwipeRefreshLayout;
 
     public ListFragment() {
         // Required empty public constructor
@@ -71,6 +80,8 @@ public class ListFragment extends Fragment{
                 }
             }
         });
+        mSwipeRefreshLayout = layout.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         return layout;
     }
@@ -84,5 +95,15 @@ public class ListFragment extends Fragment{
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(STATE_EVENTS, calendarEvents);
+    }
+
+    @Override
+    public void onRefresh() {
+        calAPI = new CalenderAPI(getContext(),getActivity());
+        calAPI.mCredential = GoogleAccountCredential.usingOAuth2(
+                getContext().getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff());
+        calAPI.getResultsFromApi();
+
     }
 }

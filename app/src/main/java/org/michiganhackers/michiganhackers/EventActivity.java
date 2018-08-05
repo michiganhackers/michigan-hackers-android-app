@@ -2,6 +2,7 @@ package org.michiganhackers.michiganhackers;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
@@ -55,4 +56,11 @@ public class EventActivity extends AppCompatActivity {
         eventLocation.setText("Location: " + calendarEvent.getLocation());
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+        }
+        return super.onKeyDown(keyCode,event);
+    }
 }

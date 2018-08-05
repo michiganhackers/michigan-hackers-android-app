@@ -7,4 +7,6 @@
     <string name="hacknight_image_description">Hack Night Fractal</string>
     <string name="directory_editProfileButton">Edit Profile</string>
     <string name="profile_submitChangesButton">Submit Changes</string>
+    <string name="channel_description">Default Michigan Hackers Notification Channel</string>
+    <string name="channel_name">Notification Channel</string>
 </resources>

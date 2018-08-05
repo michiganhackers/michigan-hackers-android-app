@@ -22,6 +22,10 @@
         </activity>
         <activity android:name=".EventActivity" />
         <activity android:name=".ProfileActivity"></activity>
+
+        <service
+            android:name=".FirebaseMessaging">
+        </service>
     </application>
 
 </manifest>
