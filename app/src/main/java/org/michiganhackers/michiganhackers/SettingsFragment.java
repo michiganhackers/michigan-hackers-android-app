@@ -44,7 +44,7 @@ public class SettingsFragment extends Fragment {
     private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
             changeEmail, changePassword, sendEmail, remove, signOut;
 
-    private EditText passwordResetEmail, newEmail, password, newPassword;
+    private EditText passwordResetEmail, newEmail, password, confirmPassword;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -85,12 +85,12 @@ public class SettingsFragment extends Fragment {
         passwordResetEmail = (EditText) layout.findViewById(R.id.password_reset_email);
         newEmail = (EditText) layout.findViewById(R.id.new_email);
         password = (EditText) layout.findViewById(R.id.password);
-        newPassword = (EditText) layout.findViewById(R.id.newPassword);
+        confirmPassword = (EditText) layout.findViewById(R.id.confirm_password);
 
         passwordResetEmail.setVisibility(View.GONE);
         newEmail.setVisibility(View.GONE);
         password.setVisibility(View.GONE);
-        newPassword.setVisibility(View.GONE);
+        confirmPassword.setVisibility(View.GONE);
         changeEmail.setVisibility(View.GONE);
         changePassword.setVisibility(View.GONE);
         sendEmail.setVisibility(View.GONE);
@@ -108,7 +108,7 @@ public class SettingsFragment extends Fragment {
                 passwordResetEmail.setVisibility(View.GONE);
                 newEmail.setVisibility(View.VISIBLE);
                 password.setVisibility(View.GONE);
-                newPassword.setVisibility(View.GONE);
+                confirmPassword.setVisibility(View.GONE);
                 changeEmail.setVisibility(View.VISIBLE);
                 changePassword.setVisibility(View.GONE);
                 sendEmail.setVisibility(View.GONE);
@@ -147,8 +147,8 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 passwordResetEmail.setVisibility(View.GONE);
                 newEmail.setVisibility(View.GONE);
-                password.setVisibility(View.GONE);
-                newPassword.setVisibility(View.VISIBLE);
+                password.setVisibility(View.VISIBLE);
+                confirmPassword.setVisibility(View.VISIBLE);
                 changeEmail.setVisibility(View.GONE);
                 changePassword.setVisibility(View.VISIBLE);
                 sendEmail.setVisibility(View.GONE);
@@ -160,12 +160,19 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                if (user != null && !newPassword.getText().toString().trim().equals("")) {
-                    if (newPassword.getText().toString().trim().length() < 6) {
-                        newPassword.setError("Password too short, enter minimum 6 characters");
+                if (user != null && !password.getText().toString().trim().equals("") && !confirmPassword.getText().toString().trim().equals("")) {
+                    if(!password.getText().equals(confirmPassword.getText())){
+                        password.setError("Passwords do not match");
+                        confirmPassword.setError("Passwords do not match");
                         progressBar.setVisibility(View.GONE);
-                    } else {
-                        user.updatePassword(newPassword.getText().toString().trim())
+                    }
+                    else if (password.getText().toString().trim().length() < 6) {
+                        password.setError("Password too short, enter minimum 6 characters");
+                        confirmPassword.setError("Password too short, enter minimum 6 characters");
+                        progressBar.setVisibility(View.GONE);
+                    }
+                    else {
+                        user.updatePassword(password.getText().toString().trim())
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -180,8 +187,13 @@ public class SettingsFragment extends Fragment {
                                     }
                                 });
                     }
-                } else if (newPassword.getText().toString().trim().equals("")) {
-                    newPassword.setError("Enter password");
+                }
+                if (password.getText().toString().trim().equals("")) {
+                    password.setError("Enter password");
+                    progressBar.setVisibility(View.GONE);
+                }
+                if (confirmPassword.getText().toString().trim().equals("")) {
+                    confirmPassword.setError("Enter password");
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -193,7 +205,7 @@ public class SettingsFragment extends Fragment {
                 passwordResetEmail.setVisibility(View.VISIBLE);
                 newEmail.setVisibility(View.GONE);
                 password.setVisibility(View.GONE);
-                newPassword.setVisibility(View.GONE);
+                confirmPassword.setVisibility(View.GONE);
                 changeEmail.setVisibility(View.GONE);
                 changePassword.setVisibility(View.GONE);
                 sendEmail.setVisibility(View.VISIBLE);
