@@ -48,7 +48,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="25dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
