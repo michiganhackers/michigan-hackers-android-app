@@ -56,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@android:color/black"
-                    android:hint="Name">
+                    android:hint="@string/name">
 
                     <EditText
                         android:id="@+id/profile_name"
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@android:color/black"
-                    android:hint="Major">
+                    android:hint="@string/major">
 
                     <EditText
                         android:id="@+id/profile_major"
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@android:color/black"
-                    android:hint="Year">
+                    android:hint="@string/year">
 
                     <EditText
                         android:id="@+id/profile_year"
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@android:color/black"
-                    android:hint="Team">
+                    android:hint="@string/team">
 
                     <EditText
                         android:id="@+id/profile_team"
@@ -112,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@android:color/black"
-                    android:hint="Title">
+                    android:hint="@string/title">
 
                     <EditText
                         android:id="@+id/profile_title"
@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@android:color/black"
-                    android:hint="Bio">
+                    android:hint="@string/bio">
 
                     <EditText
                         android:id="@+id/profile_bio"
