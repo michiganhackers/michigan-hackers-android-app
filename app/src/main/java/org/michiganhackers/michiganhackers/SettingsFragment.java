@@ -1,8 +1,6 @@
 package org.michiganhackers.michiganhackers;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -115,9 +113,6 @@ public class SettingsFragment extends Fragment {
                 changePassword.setVisibility(View.GONE);
                 sendEmail.setVisibility(View.GONE);
                 remove.setVisibility(View.GONE);
-
-                btnRemoveUser.getBackground().clearColorFilter();
-                btnRemoveUser.setText(R.string.remove_user);
             }
         });
 
@@ -158,9 +153,6 @@ public class SettingsFragment extends Fragment {
                 changePassword.setVisibility(View.VISIBLE);
                 sendEmail.setVisibility(View.GONE);
                 remove.setVisibility(View.GONE);
-
-                btnRemoveUser.getBackground().clearColorFilter();
-                btnRemoveUser.setText(R.string.remove_user);
             }
         });
 
@@ -218,9 +210,6 @@ public class SettingsFragment extends Fragment {
                 changePassword.setVisibility(View.GONE);
                 sendEmail.setVisibility(View.VISIBLE);
                 remove.setVisibility(View.GONE);
-
-                btnRemoveUser.getBackground().clearColorFilter();
-                btnRemoveUser.setText(R.string.remove_user);
             }
         });
 
@@ -252,8 +241,22 @@ public class SettingsFragment extends Fragment {
         btnRemoveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                passwordResetEmail.setVisibility(View.GONE);
+                newEmail.setVisibility(View.GONE);
+                password.setVisibility(View.GONE);
+                confirmPassword.setVisibility(View.GONE);
+                changeEmail.setVisibility(View.GONE);
+                changePassword.setVisibility(View.GONE);
+                sendEmail.setVisibility(View.GONE);
+                remove.setVisibility(View.VISIBLE);
+            }
+        });
+
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                if (user != null && btnRemoveUser.getText().toString().equals(getString(R.string.confirm_remove_user))) {
+                if (user != null) {
                     user.delete()
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -270,9 +273,6 @@ public class SettingsFragment extends Fragment {
                                 }
                             });
                 }
-                btnRemoveUser.setText(R.string.confirm_remove_user);
-                btnRemoveUser.getBackground().setColorFilter(getResources().getColor(R.color.btn_remove_user_confirm), PorterDuff.Mode.MULTIPLY);
-                progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -282,6 +282,7 @@ public class SettingsFragment extends Fragment {
                 signOut();
             }
         });
+
 
         return layout;
     }
