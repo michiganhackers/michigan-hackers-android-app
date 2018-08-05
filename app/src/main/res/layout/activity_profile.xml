@@ -62,7 +62,9 @@
                         android:id="@+id/profile_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:inputType="text"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -76,7 +78,9 @@
                         android:id="@+id/profile_major"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:inputType="text"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -90,7 +94,9 @@
                         android:id="@+id/profile_year"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:inputType="text"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -104,7 +110,9 @@
                         android:id="@+id/profile_team"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:inputType="text"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -118,7 +126,9 @@
                         android:id="@+id/profile_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"/>
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:inputType="text"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -133,7 +143,6 @@
                         android:id="@+id/profile_bio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
                         android:inputType="textMultiLine"/>
 
                 </android.support.design.widget.TextInputLayout>

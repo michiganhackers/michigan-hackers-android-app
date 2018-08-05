@@ -74,9 +74,6 @@ public class ProfileActivity extends AppCompatActivity {
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
 
                 startActivityForResult(chooserIntent, PICK_IMAGE);*/
-
-                
-
             }
         });
 
