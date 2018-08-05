@@ -161,14 +161,14 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 if (user != null && !password.getText().toString().trim().equals("") && !confirmPassword.getText().toString().trim().equals("")) {
-                    if(!password.getText().equals(confirmPassword.getText())){
-                        password.setError("Passwords do not match");
-                        confirmPassword.setError("Passwords do not match");
-                        progressBar.setVisibility(View.GONE);
-                    }
-                    else if (password.getText().toString().trim().length() < 6) {
+                    if (password.getText().toString().trim().length() < 6) {
                         password.setError("Password too short, enter minimum 6 characters");
                         confirmPassword.setError("Password too short, enter minimum 6 characters");
+                        progressBar.setVisibility(View.GONE);
+                    }
+                    else if(!password.getText().equals(confirmPassword.getText())) {
+                        password.setError("Passwords do not match");
+                        confirmPassword.setError("Passwords do not match");
                         progressBar.setVisibility(View.GONE);
                     }
                     else {
