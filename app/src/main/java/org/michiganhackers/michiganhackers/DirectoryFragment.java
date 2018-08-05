@@ -30,6 +30,7 @@ public class DirectoryFragment extends Fragment {
         final DirectoryExpandableListAdapter directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext());
         expandableListView.setAdapter(directoryExpandableListAdapter);
 
+        DirectoryViewModel directoryViewModel = ViewModelProviders.of(getActivity()).get(DirectoryViewModel.class);
         final Observer<Map<String,Team>> teamsByNameObserver = new Observer<Map<String,Team>>() {
             @Override
             public void onChanged(@Nullable final Map<String,Team> teamsByName) {
@@ -37,7 +38,7 @@ public class DirectoryFragment extends Fragment {
                 directoryExpandableListAdapter.notifyDataSetChanged();
             }
         };
-        DirectoryLiveData.get().observe(getActivity(), teamsByNameObserver);
+        directoryViewModel.getTeamsByNameMLD().observe(this, teamsByNameObserver);
 
         Button editProfileButton = layout.findViewById(R.id.directroy_editProfileButton);
         editProfileButton.setOnClickListener(new View.OnClickListener() {
