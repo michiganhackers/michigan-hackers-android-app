@@ -44,7 +44,7 @@ public class SettingsFragment extends Fragment {
     private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
             changeEmail, changePassword, sendEmail, remove, signOut;
 
-    private EditText oldEmail, newEmail, password, newPassword;
+    private EditText passwordResetEmail, newEmail, password, newPassword;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -82,12 +82,12 @@ public class SettingsFragment extends Fragment {
         remove = (Button) layout.findViewById(R.id.remove);
         signOut = (Button) layout.findViewById(R.id.sign_out);
 
-        oldEmail = (EditText) layout.findViewById(R.id.old_email);
+        passwordResetEmail = (EditText) layout.findViewById(R.id.password_reset_email);
         newEmail = (EditText) layout.findViewById(R.id.new_email);
         password = (EditText) layout.findViewById(R.id.password);
         newPassword = (EditText) layout.findViewById(R.id.newPassword);
 
-        oldEmail.setVisibility(View.GONE);
+        passwordResetEmail.setVisibility(View.GONE);
         newEmail.setVisibility(View.GONE);
         password.setVisibility(View.GONE);
         newPassword.setVisibility(View.GONE);
@@ -105,7 +105,7 @@ public class SettingsFragment extends Fragment {
         btnChangeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                oldEmail.setVisibility(View.GONE);
+                passwordResetEmail.setVisibility(View.GONE);
                 newEmail.setVisibility(View.VISIBLE);
                 password.setVisibility(View.GONE);
                 newPassword.setVisibility(View.GONE);
@@ -145,7 +145,7 @@ public class SettingsFragment extends Fragment {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                oldEmail.setVisibility(View.GONE);
+                passwordResetEmail.setVisibility(View.GONE);
                 newEmail.setVisibility(View.GONE);
                 password.setVisibility(View.GONE);
                 newPassword.setVisibility(View.VISIBLE);
@@ -190,7 +190,7 @@ public class SettingsFragment extends Fragment {
         btnSendResetEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                oldEmail.setVisibility(View.VISIBLE);
+                passwordResetEmail.setVisibility(View.VISIBLE);
                 newEmail.setVisibility(View.GONE);
                 password.setVisibility(View.GONE);
                 newPassword.setVisibility(View.GONE);
@@ -205,8 +205,8 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                if (!oldEmail.getText().toString().trim().equals("")) {
-                    auth.sendPasswordResetEmail(oldEmail.getText().toString().trim())
+                if (!passwordResetEmail.getText().toString().trim().equals("")) {
+                    auth.sendPasswordResetEmail(passwordResetEmail.getText().toString().trim())
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -220,7 +220,7 @@ public class SettingsFragment extends Fragment {
                                 }
                             });
                 } else {
-                    oldEmail.setError("Enter email");
+                    passwordResetEmail.setError("Enter email");
                     progressBar.setVisibility(View.GONE);
                 }
             }
