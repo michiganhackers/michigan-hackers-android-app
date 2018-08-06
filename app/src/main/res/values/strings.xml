@@ -41,4 +41,5 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">"Enter your registered email and we'll send you instructions to reset your password".</string>
+    <string name="account">Account</string>
 </resources>

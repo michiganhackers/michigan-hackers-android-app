@@ -41,15 +41,6 @@ public class DirectoryFragment extends Fragment {
         };
         directoryViewModel.getTeamsByName().observe(this, teamsByNameObserver);
 
-        Button editProfileButton = layout.findViewById(R.id.directory_editProfileButton);
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                getActivity().startActivity(intent);
-            }
-        });
-
         return layout;
     }
 }
