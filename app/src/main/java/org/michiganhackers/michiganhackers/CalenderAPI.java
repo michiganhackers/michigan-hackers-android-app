@@ -41,7 +41,7 @@ public class CalenderAPI extends AppCompatActivity{
     public static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
 
     private static final String STATE_EVENTS = "state_events";
-    public static final String TAG = EventActivity.class.getName();
+    public static final String TAG = "CalendarAPI";
 
     private Context context;
     private static Activity activity;

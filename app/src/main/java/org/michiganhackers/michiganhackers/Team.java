@@ -22,11 +22,11 @@ public class Team {
     }
 
     public void setMember(Member member) {
-        members.put(member.getName(), member);
+        members.put(member.getUid(), member);
     }
     public Member getMemberByIndex(int index){
-        ArrayList<String> memberNames = new ArrayList<>(members.keySet());
-        return members.get(memberNames.get(index));
+        ArrayList<String> memberIds = new ArrayList<>(members.keySet());
+        return members.get(memberIds.get(index));
     }
     public String getName() {
         return name;
@@ -50,5 +50,15 @@ public class Team {
 
     public Map<String, Member> getMembers() {
         return members;
+    }
+
+    public Member getMember(String Uid){
+        if(members.containsKey(Uid)){
+            return members.get(Uid);
+        }
+        else
+        {
+            return null;
+        }
     }
 }

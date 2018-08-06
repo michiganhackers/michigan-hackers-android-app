@@ -54,6 +54,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
+/*        String name = user.getDisplayName();
+        String email = user.getEmail();
+        Uri photoUrl = user.getPhotoUrl();*/
+        final String uid = user.getUid();
+
         final EditText nameEditText = findViewById(R.id.profile_name);
         final EditText majorEditText = findViewById(R.id.profile_major);
         final EditText yearEditText = findViewById(R.id.profile_year);
@@ -61,6 +66,17 @@ public class ProfileActivity extends AppCompatActivity {
         final EditText titleEditText = findViewById(R.id.profile_title);
         final EditText bioEditText = findViewById(R.id.profile_bio);
         Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
+
+        if(directoryViewModel.getMember(uid)!=null){
+            Member member = directoryViewModel.getMember(uid);
+            nameEditText.setText(member.getName());
+            majorEditText.setText(member.getMajor());
+            yearEditText.setText(member.getYear());
+            teamEditText.setText(member.getTeam());
+            titleEditText.setText(member.getTitle());
+            bioEditText.setText(member.getBio());
+        }
+
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String year = yearEditText.getText().toString();
                 String title = titleEditText.getText().toString();
                 String bio = bioEditText.getText().toString();
-                Member member = new Member(memberName, bio, teamName, year, major, title);
+                Member member = new Member(memberName, uid, bio, teamName, year, major, title);
                 directoryViewModel.addMember(member);
                 finish();
             }

@@ -7,17 +7,20 @@ public class Member {
     private String year;
     private String major;
     private String title;
+    private String uid;
 
     public Member() {
     }
 
-    public Member(String name, String team) {
+    public Member(String name, String uid, String team) {
         this.name = name;
         this.team = team;
+        this.uid = uid;
     }
 
-    public Member(String name, String bio, String team, String year, String major, String title) {
+    public Member(String name, String uid, String bio, String team, String year, String major, String title) {
         this.name = name;
+        this.uid = uid;
         this.bio = bio;
         this.team = team;
         this.year = year;
@@ -71,5 +74,13 @@ public class Member {
 
     public void setTeam(String team) {
         this.team = team;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
