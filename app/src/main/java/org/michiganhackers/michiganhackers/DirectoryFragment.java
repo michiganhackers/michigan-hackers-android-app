@@ -16,9 +16,16 @@ import java.util.Map;
 
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 public class DirectoryFragment extends Fragment {
+    private DirectoryViewModel directoryViewModel;
 
     public DirectoryFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        directoryViewModel = ViewModelProviders.of(getActivity()).get(DirectoryViewModel.class);
     }
 
     @Override
@@ -30,8 +37,6 @@ public class DirectoryFragment extends Fragment {
         final DirectoryExpandableListAdapter directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext());
         expandableListView.setAdapter(directoryExpandableListAdapter);
 
-        // Todo: Should be in oncreate
-        DirectoryViewModel directoryViewModel = ViewModelProviders.of(getActivity()).get(DirectoryViewModel.class);
         final Observer<Map<String,Team>> teamsByNameObserver = new Observer<Map<String,Team>>() {
             @Override
             public void onChanged(@Nullable final Map<String,Team> teamsByName) {
