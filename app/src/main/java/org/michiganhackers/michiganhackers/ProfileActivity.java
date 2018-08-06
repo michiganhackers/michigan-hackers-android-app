@@ -12,12 +12,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,9 +29,16 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     private final static int PICK_IMAGE = 1;
-
+    private static final String TAG = ProfileActivity.class.getName();
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+
+    final EditText nameEditText = findViewById(R.id.profile_name);
+    final EditText majorEditText = findViewById(R.id.profile_major);
+    final EditText yearEditText = findViewById(R.id.profile_year);
+    final EditText teamEditText = findViewById(R.id.profile_team);
+    final EditText titleEditText = findViewById(R.id.profile_title);
+    final EditText bioEditText = findViewById(R.id.profile_bio);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,28 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-/*        String name = user.getDisplayName();
-        String email = user.getEmail();
-        Uri photoUrl = user.getPhotoUrl();*/
-        final String uid = user.getUid();
-
-        final EditText nameEditText = findViewById(R.id.profile_name);
-        final EditText majorEditText = findViewById(R.id.profile_major);
-        final EditText yearEditText = findViewById(R.id.profile_year);
-        final EditText teamEditText = findViewById(R.id.profile_team);
-        final EditText titleEditText = findViewById(R.id.profile_title);
-        final EditText bioEditText = findViewById(R.id.profile_bio);
         Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
-
-        if(directoryViewModel.getMember(uid)!=null){
-            Member member = directoryViewModel.getMember(uid);
-            nameEditText.setText(member.getName());
-            majorEditText.setText(member.getMajor());
-            yearEditText.setText(member.getYear());
-            teamEditText.setText(member.getTeam());
-            titleEditText.setText(member.getTitle());
-            bioEditText.setText(member.getBio());
-        }
 
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,9 +74,17 @@ public class ProfileActivity extends AppCompatActivity {
                 String year = yearEditText.getText().toString();
                 String title = titleEditText.getText().toString();
                 String bio = bioEditText.getText().toString();
-                Member member = new Member(memberName, uid, bio, teamName, year, major, title);
-                directoryViewModel.addMember(member);
-                finish();
+                if(user != null){
+                    String uid = user.getUid();
+                    Member member = new Member(memberName, uid, bio, teamName, year, major, title);
+                    directoryViewModel.addMember(member);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(ProfileActivity.this, "Failed to update profile", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Null user submitChangesButton");
+                }
             }
         });
 
@@ -138,6 +134,24 @@ public class ProfileActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         auth.addAuthStateListener(authListener);
+        DirectoryViewModel directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            String uid = user.getUid();
+            if(directoryViewModel.getMember(uid)!=null){
+                Member member = directoryViewModel.getMember(uid);
+                nameEditText.setText(member.getName());
+                majorEditText.setText(member.getMajor());
+                yearEditText.setText(member.getYear());
+                teamEditText.setText(member.getTeam());
+                titleEditText.setText(member.getTitle());
+                bioEditText.setText(member.getBio());
+            }
+        }
+        else
+        {
+            Log.e(TAG, "Null user onStart");
+        }
     }
 
     @Override

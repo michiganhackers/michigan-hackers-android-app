@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SettingsFragment extends Fragment {
 
     public SettingsFragment() {
@@ -25,8 +27,15 @@ public class SettingsFragment extends Fragment {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                getActivity().startActivity(intent);
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                if (auth.getCurrentUser() == null) {
+                    getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+                else
+                {
+                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    getActivity().startActivity(intent);
+                }
             }
         });
 
@@ -34,8 +43,16 @@ public class SettingsFragment extends Fragment {
         editAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AccountActivity.class);
-                getActivity().startActivity(intent);
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                if (auth.getCurrentUser() == null) {
+                    getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+                else
+                {
+                    Intent intent = new Intent(getActivity(), AccountActivity.class);
+                    getActivity().startActivity(intent);
+                }
+
             }
         });
 
