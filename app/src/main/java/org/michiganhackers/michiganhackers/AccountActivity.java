@@ -26,7 +26,6 @@ public class AccountActivity extends AppCompatActivity {
 
     private EditText passwordResetEmail, newEmail, password, confirmPassword;
     private ProgressBar progressBar;
-    private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
 
     @Override
@@ -39,17 +38,6 @@ public class AccountActivity extends AppCompatActivity {
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        authListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    startActivity(new Intent(AccountActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-        };
 
         btnChangeEmail = (Button) findViewById(R.id.change_email_button);
         btnChangePassword = (Button) findViewById(R.id.change_password_button);
@@ -268,6 +256,7 @@ public class AccountActivity extends AppCompatActivity {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 signOut();
+                                finish();
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -293,17 +282,4 @@ public class AccountActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        auth.addAuthStateListener(authListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (authListener != null) {
-            auth.removeAuthStateListener(authListener);
-        }
-    }
 }

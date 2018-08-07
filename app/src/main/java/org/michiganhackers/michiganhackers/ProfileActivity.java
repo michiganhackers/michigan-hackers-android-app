@@ -30,8 +30,6 @@ import java.util.Map;
 public class ProfileActivity extends AppCompatActivity {
     private final static int PICK_IMAGE = 1;
     private static final String TAG = ProfileActivity.class.getName();
-    private FirebaseAuth.AuthStateListener authListener;
-    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +38,10 @@ public class ProfileActivity extends AppCompatActivity {
         final DirectoryViewModel directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
 
         //get firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        authListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-        };
 
         final EditText nameEditText = findViewById(R.id.profile_name);
         final EditText majorEditText = findViewById(R.id.profile_major);
@@ -144,21 +131,6 @@ public class ProfileActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        auth.addAuthStateListener(authListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (authListener != null) {
-            auth.removeAuthStateListener(authListener);
         }
     }
 }
