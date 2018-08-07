@@ -33,13 +33,6 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
 
-    final EditText nameEditText = findViewById(R.id.profile_name);
-    final EditText majorEditText = findViewById(R.id.profile_major);
-    final EditText yearEditText = findViewById(R.id.profile_year);
-    final EditText teamEditText = findViewById(R.id.profile_team);
-    final EditText titleEditText = findViewById(R.id.profile_title);
-    final EditText bioEditText = findViewById(R.id.profile_bio);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +56,32 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-        Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
+        final EditText nameEditText = findViewById(R.id.profile_name);
+        final EditText majorEditText = findViewById(R.id.profile_major);
+        final EditText yearEditText = findViewById(R.id.profile_year);
+        final EditText teamEditText = findViewById(R.id.profile_team);
+        final EditText titleEditText = findViewById(R.id.profile_title);
+        final EditText bioEditText = findViewById(R.id.profile_bio);
 
+        if(user != null){
+            String uid = user.getUid();
+            if(directoryViewModel.getMember(uid)!=null){
+                Member member = directoryViewModel.getMember(uid);
+                nameEditText.setText(member.getName());
+                majorEditText.setText(member.getMajor());
+                yearEditText.setText(member.getYear());
+                teamEditText.setText(member.getTeam());
+                titleEditText.setText(member.getTitle());
+                bioEditText.setText(member.getBio());
+            }
+        }
+        else
+        {
+            Log.e(TAG, "Null user onStart");
+        }
+
+
+        Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,28 +147,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
         auth.addAuthStateListener(authListener);
-        DirectoryViewModel directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
-            String uid = user.getUid();
-            if(directoryViewModel.getMember(uid)!=null){
-                Member member = directoryViewModel.getMember(uid);
-                nameEditText.setText(member.getName());
-                majorEditText.setText(member.getMajor());
-                yearEditText.setText(member.getYear());
-                teamEditText.setText(member.getTeam());
-                titleEditText.setText(member.getTitle());
-                bioEditText.setText(member.getBio());
-            }
-        }
-        else
-        {
-            Log.e(TAG, "Null user onStart");
-        }
     }
 
     @Override

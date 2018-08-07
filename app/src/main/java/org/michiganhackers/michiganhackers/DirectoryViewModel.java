@@ -81,19 +81,19 @@ public class DirectoryViewModel extends ViewModel{
             if(teamsByNameLocal.get(member.getTeam()).getMember(member.getUid())!=null &&
                     !teamsByNameLocal.get(member.getTeam()).getMember(member.getUid()).getName().equals(member.getName())){
 
-            }
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if(user != null){
-                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(member.getName()).build();
-                user.updateProfile(profileUpdates)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (!task.isSuccessful()) {
-                                    Log.e(TAG,"Failed to update auth display name");
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user != null){
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(member.getName()).build();
+                    user.updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (!task.isSuccessful()) {
+                                        Log.e(TAG,"Failed to update auth display name");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }
             }
 
             memberRef.setValue(member);
