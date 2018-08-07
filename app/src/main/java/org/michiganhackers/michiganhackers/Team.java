@@ -52,9 +52,9 @@ public class Team {
         return members;
     }
 
-    public Member getMember(String Uid){
-        if(members.containsKey(Uid)){
-            return members.get(Uid);
+    public Member getMember(String uid){
+        if(members.containsKey(uid)){
+            return members.get(uid);
         }
         else
         {

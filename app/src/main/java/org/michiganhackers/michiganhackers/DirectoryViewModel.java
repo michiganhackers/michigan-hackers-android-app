@@ -105,12 +105,23 @@ public class DirectoryViewModel extends ViewModel{
         }
     }
 
-    public Member getMember(String Uid){
+    public Member getMember(String uid){
         for(Map.Entry<String,Team> team : teamsByNameLocal.entrySet()) {
-            if(team.getValue().getMember(Uid)!=null){
-                return team.getValue().getMember(Uid);
+            Member member = team.getValue().getMember(uid);
+            if(member != null){
+                return member;
             }
         }
         return null;
+    }
+
+    public void removeMember(String uid){
+        for(Map.Entry<String,Team> team : teamsByNameLocal.entrySet()) {
+            Member member = team.getValue().getMember(uid);
+            if(member!=null){
+                DatabaseReference memberRef = teamsRef.child(member.getTeam()).child("members").child(uid);
+                memberRef.removeValue();
+            }
+        }
     }
 }

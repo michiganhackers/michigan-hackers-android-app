@@ -1,6 +1,7 @@
 package org.michiganhackers.michiganhackers;
 
 import android.accounts.Account;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -32,6 +34,8 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+
+        final DirectoryViewModel directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -223,6 +227,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 if (user != null) {
+                    final String uid = user.getUid();
                     user.delete()
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -230,6 +235,7 @@ public class AccountActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(AccountActivity.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(AccountActivity.this, SignupActivity.class));
+                                        directoryViewModel.removeMember(uid);
                                         finish();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
