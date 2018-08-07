@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".SignupActivity">
 
     <LinearLayout
@@ -49,7 +47,6 @@
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="true"
                 android:hint="@string/hint_password"
-                android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -67,8 +64,6 @@
             android:text="@string/action_sign_in_short"
             android:textColor="@android:color/black"
             android:textStyle="bold" />
-
-        <!-- Link to Login Screen -->
 
         <Button
             android:id="@+id/sign_in_button"
