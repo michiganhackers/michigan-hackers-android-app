@@ -39,19 +39,6 @@ public class DirectoryViewModel extends ViewModel{
             teamsByName = new MutableLiveData<>();
             teamsByNameUpdated = new MutableLiveData<>();
             teamsByNameUpdated.setValue(false);
-            // ValueEventListener is guaranteed to be call after childEventLister.
-            // Used to make sure teamsByName has been updated
-            teamsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    teamsByNameUpdated.setValue(true);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "onCancelled for addListenerForSingleValueEvent");
-                }
-            });
             teamsRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -82,6 +69,20 @@ public class DirectoryViewModel extends ViewModel{
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "onCancelled for addChildEventListener");
+                }
+            });
+
+            // ValueEventListener is guaranteed to be call after childEventLister.
+            // Used to make sure teamsByName has been updated
+            teamsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    teamsByNameUpdated.setValue(true);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "onCancelled for addListenerForSingleValueEvent");
                 }
             });
         }
