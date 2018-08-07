@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -26,6 +27,7 @@ import java.util.TreeMap;
 public class DirectoryViewModel extends ViewModel{
     public static final String TAG = "DirectoryViewModel";
     private MutableLiveData<Map<String, Team>> teamsByName;
+    private MutableLiveData<Boolean> teamsByNameUpdated;
     private Map<String, Team> teamsByNameLocal;
     private DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
     public DirectoryViewModel(){
@@ -35,6 +37,21 @@ public class DirectoryViewModel extends ViewModel{
         }
         else{
             teamsByName = new MutableLiveData<>();
+            teamsByNameUpdated = new MutableLiveData<>();
+            teamsByNameUpdated.setValue(false);
+            // ValueEventListener is guaranteed to be call after childEventLister.
+            // Used to make sure teamsByName has been updated
+            teamsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    teamsByNameUpdated.setValue(true);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "onCancelled for addListenerForSingleValueEvent");
+                }
+            });
             teamsRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -64,7 +81,7 @@ public class DirectoryViewModel extends ViewModel{
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Todo
+                    Log.e(TAG, "onCancelled for addChildEventListener");
                 }
             });
         }
@@ -72,15 +89,17 @@ public class DirectoryViewModel extends ViewModel{
     LiveData<Map<String, Team>> getTeamsByName(){
         return teamsByName;
     }
+    LiveData<Boolean> getTeamsByNameUpdated(){
+        return teamsByNameUpdated;
+    }
+
 
     public void addMember(Member member){
         if(teamsByNameLocal.containsKey(member.getTeam())) {
             DatabaseReference memberRef = teamsRef.child(member.getTeam()).child("members").child(member.getUid());
-
+            Member memberLocal = teamsByNameLocal.get(member.getTeam()).getMember(member.getUid());
             // If the member already exists and the name is different, change firebase auth display name
-            if(teamsByNameLocal.get(member.getTeam()).getMember(member.getUid())!=null &&
-                    !teamsByNameLocal.get(member.getTeam()).getMember(member.getUid()).getName().equals(member.getName())){
-
+            if(memberLocal !=null && !memberLocal.getName().equals(member.getName())){
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(member.getName()).build();

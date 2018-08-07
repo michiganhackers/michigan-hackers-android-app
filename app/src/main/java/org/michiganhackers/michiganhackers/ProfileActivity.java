@@ -50,16 +50,36 @@ public class ProfileActivity extends AppCompatActivity {
         final EditText titleEditText = findViewById(R.id.profile_title);
         final EditText bioEditText = findViewById(R.id.profile_bio);
 
+        // Fill in editTexts with user's current info
         if(user != null){
-            String uid = user.getUid();
-            if(directoryViewModel.getMember(uid)!=null){
-                Member member = directoryViewModel.getMember(uid);
+            final String uid = user.getUid();
+            Member member = directoryViewModel.getMember(uid);
+            if(member != null){
                 nameEditText.setText(member.getName());
                 majorEditText.setText(member.getMajor());
                 yearEditText.setText(member.getYear());
                 teamEditText.setText(member.getTeam());
                 titleEditText.setText(member.getTitle());
                 bioEditText.setText(member.getBio());
+            }
+            // If member does not exist, observe for when teamsByName is updated (completely) and check again
+            // Todo: How could this be null if it was made in the constructor for directoryViewModel?
+            else if(!directoryViewModel.getTeamsByNameUpdated().getValue()) {
+                final Observer<Boolean> teamsByNameUpdatedObserver = new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable final Boolean teamsByNameUpdated) {
+                        Member member = directoryViewModel.getMember(uid);
+                        if(member != null){
+                            nameEditText.setText(member.getName());
+                            majorEditText.setText(member.getMajor());
+                            yearEditText.setText(member.getYear());
+                            teamEditText.setText(member.getTeam());
+                            titleEditText.setText(member.getTitle());
+                            bioEditText.setText(member.getBio());
+                        }
+                    }
+                };
+                directoryViewModel.getTeamsByNameUpdated().observe(this, teamsByNameUpdatedObserver);
             }
         }
         else
