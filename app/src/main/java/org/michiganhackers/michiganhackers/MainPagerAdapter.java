@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
-    private int NUM_ITEMS = 4;
+    private int NUM_ITEMS = 3;
     private MainActivity mainActivity;
 
     public MainPagerAdapter(FragmentManager fragmentManager, MainActivity mainActivity) {
@@ -24,10 +24,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return mainActivity.getListFragment();
             case 1:
-                return mainActivity.getCalendarFragment();
-            case 2:
                 return mainActivity.getDirectoryFragment();
-            case 3:
+            case 2:
                 return mainActivity.getSettingsFragment();
             default:
                 return null;

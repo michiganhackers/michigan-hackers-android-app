@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity{
     private android.view.MenuItem prevMenuItem;
 
     public static ListFragment listFragment;
-    private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
     private DirectoryFragment directoryFragment;
 
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity{
         mainNav = findViewById(R.id.main_nav);
 
         listFragment = new ListFragment();
-        calendarFragment = new CalendarFragment();
         settingsFragment = new SettingsFragment();
         directoryFragment = new DirectoryFragment();
 
@@ -75,15 +73,11 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.nav_list:
                         mainPager.setCurrentItem(0);
                         return true;
-                    case R.id.nav_calendar:
+                    case R.id.nav_directory:
                         mainPager.setCurrentItem(1);
                         return true;
-                    case R.id.nav_directory:
-                        mainPager.setCurrentItem(2);
-                        return true;
                     case R.id.nav_settings:
-                        notification.sendNotification();
-                        mainPager.setCurrentItem(3);
+                        mainPager.setCurrentItem(2);
                         return true;
                     default:
                         return false;
@@ -124,9 +118,6 @@ public class MainActivity extends AppCompatActivity{
 
     public ListFragment getListFragment() {
         return listFragment;
-    }
-    public CalendarFragment getCalendarFragment() {
-        return calendarFragment;
     }
     public SettingsFragment getSettingsFragment() {
         return settingsFragment;
