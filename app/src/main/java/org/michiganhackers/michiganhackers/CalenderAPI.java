@@ -1,6 +1,7 @@
 package org.michiganhackers.michiganhackers;
 
 import android.Manifest;
+import android.accounts.Account;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -76,7 +77,7 @@ public class CalenderAPI extends AppCompatActivity{
             String accountName = activity.getPreferences(MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
-                mCredential.setSelectedAccountName(accountName);
+                mCredential.setSelectedAccount(new Account(accountName, "org.michiganhackers.michiganhackers"));
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
