@@ -41,7 +41,7 @@ public class CalenderAPI extends AppCompatActivity{
     public static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
 
     private static final String STATE_EVENTS = "state_events";
-    public static final String TAG = EventActivity.class.getName();
+    public static final String TAG = "CalendarAPI";
 
     private Context context;
     private static Activity activity;
@@ -158,8 +158,7 @@ public class CalenderAPI extends AppCompatActivity{
         private ArrayList<CalendarEvent> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
-            Events events = mService.events().list("owaink2255@gmail.com")
-                    //Events events = mService.events().list("vnagel@umich.edu")
+            Events events = mService.events().list("8n8u58ssric1hmm84jvkvl9d68@group.calendar.google.com")
                     .setTimeMin(now)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)

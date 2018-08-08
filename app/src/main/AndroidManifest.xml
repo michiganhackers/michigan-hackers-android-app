@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -21,10 +22,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".EventActivity" />
+        <activity android:name=".ProfileActivity" />
 
-        <service
-            android:name=".FirebaseMessaging">
-        </service>
+        <service android:name=".FirebaseMessaging" />
+
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".AccountActivity"></activity>
     </application>
 
 </manifest>

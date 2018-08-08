@@ -1,9 +1,45 @@
 <resources>
+    <string name="app_name">Michigan Hackers</string>
     <string name="nav_list">List</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_calendar">Calendar</string>
+    <string name="nav_directory">Directory</string>
     <string name="hacknight_image_description">Hack Night Fractal</string>
-    <string name="app_name">Michigan Hackers</string>
+    <string name="directory_editProfileButton">Edit Profile</string>
+    <string name="profile_submitChangesButton">Submit Changes</string>
     <string name="channel_description">Default Michigan Hackers Notification Channel</string>
     <string name="channel_name">Notification Channel</string>
+    <string name="name">Name</string>
+    <string name="major">Major</string>
+    <string name="year">Year</string>
+    <string name="team">Team</string>
+    <string name="title">Title</string>
+    <string name="bio">Bio</string>
+
+    <string name="action_sign_in_short">Register</string>
+    <string name="email">Email</string>
+    <string name="minimum_password">Password too short. Enter minimum 6 characters!</string>
+    <string name="auth_failed">Authentication failed. Check your email and password or sign up</string>
+    <string name="change_email">Change Email</string>
+    <string name="change_password">Change Password</string>
+    <string name="send_password_reset_email">Send Password reset email</string>
+    <string name="remove_user">Remove user</string>
+    <string name="confirm_pass">Confirm Password</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_link_to_register">Not a member? Get registered now!</string>
+    <string name="btn_link_to_login">Already registered? Login me in!</string>
+    <string name="btn_forgot_password">Forgot your password?</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="btn_back"><![CDATA[<< Back]]></string>
+    <string name="hint_new_email">New Email</string>
+    <string name="btn_change">Change</string>
+    <string name="btn_send">Send</string>
+    <string name="btn_remove">Remove</string>
+    <string name="btn_sign_out">Sign Out</string>
+    <string name="lbl_forgot_password">Forgot password?</string>
+    <string name="forgot_password_msg">"Enter your registered email and we'll send you instructions to reset your password".</string>
+    <string name="account">Account</string>
 </resources>

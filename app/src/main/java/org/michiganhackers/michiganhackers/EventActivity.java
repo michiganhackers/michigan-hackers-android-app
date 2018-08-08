@@ -20,6 +20,7 @@ public class EventActivity extends AppCompatActivity {
         TextView eventName = findViewById(R.id.event_name);
         TextView eventDate = findViewById(R.id.event_date);
         TextView eventTime = findViewById(R.id.event_time);
+        TextView eventLocation = findViewById(R.id.event_location);
         TextView eventDescription = findViewById(R.id.event_description);
 
         eventName.setText(calendarEvent.getSummary());
@@ -52,6 +53,7 @@ public class EventActivity extends AppCompatActivity {
         }
 
         eventDescription.setText(calendarEvent.getDescription());
+        eventLocation.setText("Location: " + calendarEvent.getLocation());
     }
 
     @Override

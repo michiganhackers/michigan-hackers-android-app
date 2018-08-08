@@ -27,7 +27,6 @@ import static org.michiganhackers.michiganhackers.MainActivity.calAPI;
 
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 // Todo: Implement google API in here?
-// Todo: Save calendar info if fragment is stopped so it can restore later
 // Todo: Should UI elements not be set until onActivityCreated to make sure MainActivity onCreate is done?
 public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 

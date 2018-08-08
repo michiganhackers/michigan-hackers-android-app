@@ -65,7 +65,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            eventName = itemView.findViewById(R.id.event_name);
+            eventName = itemView.findViewById(R.id.card_name);
             //eventTime = itemView.findViewById(R.id.event_time);
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override

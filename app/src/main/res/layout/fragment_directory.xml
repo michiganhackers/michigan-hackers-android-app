@@ -1,0 +1,21 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.michiganhackers.michiganhackers.DirectoryFragment">
+
+    <ExpandableListView
+        android:id="@+id/directory_expandableListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBlack"
+        android:divider="@color/colorWhite"
+        android:dividerHeight="0.5dp"
+        android:groupIndicator="@drawable/directory_group_indicator"
+        tools:layout_editor_absoluteX="304dp"
+        tools:layout_editor_absoluteY="516dp">
+
+    </ExpandableListView>
+
+</FrameLayout>

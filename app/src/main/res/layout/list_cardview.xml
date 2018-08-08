@@ -28,7 +28,7 @@
                 android:transitionName="card_to_event"/>
 
             <TextView
-                android:id="@+id/event_name"
+                android:id="@+id/card_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

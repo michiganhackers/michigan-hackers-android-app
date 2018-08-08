@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity{
     public static ListFragment listFragment;
     private CalendarFragment calendarFragment;
     private SettingsFragment settingsFragment;
+    private DirectoryFragment directoryFragment;
 
     public static CalenderAPI calAPI;
     public NotificationHandler notification;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity{
         listFragment = new ListFragment();
         calendarFragment = new CalendarFragment();
         settingsFragment = new SettingsFragment();
+        directoryFragment = new DirectoryFragment();
 
         // Replace current fragment with one corresponding to which navigation item is selected
         mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -76,9 +78,12 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.nav_calendar:
                         mainPager.setCurrentItem(1);
                         return true;
+                    case R.id.nav_directory:
+                        mainPager.setCurrentItem(2);
+                        return true;
                     case R.id.nav_settings:
                         notification.sendNotification();
-                        mainPager.setCurrentItem(2);
+                        mainPager.setCurrentItem(3);
                         return true;
                     default:
                         return false;
@@ -120,13 +125,14 @@ public class MainActivity extends AppCompatActivity{
     public ListFragment getListFragment() {
         return listFragment;
     }
-
     public CalendarFragment getCalendarFragment() {
         return calendarFragment;
     }
-
     public SettingsFragment getSettingsFragment() {
         return settingsFragment;
+    }
+    public DirectoryFragment getDirectoryFragment() {
+        return directoryFragment;
     }
 
     @Override
