@@ -14,7 +14,8 @@ Java is the programming language our team uses to develop this app.
 
 ### Integrated Development Environment (IDE)
 Install an IDE to use to work on the project. Android Studio is recommended.  
-An IDE makes programming the application faster and easier.
+An IDE makes programming the application faster and easier.  
+[Download](https://developer.android.com/studio/)
 
 ### Git
 Install git, the software our team uses for version control.  
