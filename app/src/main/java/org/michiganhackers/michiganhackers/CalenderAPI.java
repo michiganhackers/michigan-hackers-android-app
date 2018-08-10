@@ -46,6 +46,7 @@ public class CalenderAPI extends AppCompatActivity{
 
     private Context context;
     private static Activity activity;
+
     public GoogleAccountCredential mCredential;
 
     CalenderAPI(Context context, Activity activity){

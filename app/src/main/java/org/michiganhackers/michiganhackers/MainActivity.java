@@ -1,5 +1,6 @@
 package org.michiganhackers.michiganhackers;
 
+import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity{
     public static CalenderAPI calAPI;
     public NotificationHandler notification;
     ViewPager mainPager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +130,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(
             int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        calAPI  = new CalenderAPI(this, this);
         switch (requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
@@ -155,7 +154,7 @@ public class MainActivity extends AppCompatActivity{
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
-                        calAPI.mCredential.setSelectedAccountName(accountName);
+                        calAPI.mCredential.setSelectedAccount(new Account (accountName, "org.michiganhackers.michiganhackers"));
                         calAPI.getResultsFromApi();
                     }
                 }
