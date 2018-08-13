@@ -8,6 +8,7 @@ public class Member {
     private String major;
     private String title;
     private String uid;
+    private String photoUrl;
 
     public Member() {
     }
@@ -82,5 +83,13 @@ public class Member {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }

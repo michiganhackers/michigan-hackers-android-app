@@ -30,6 +30,7 @@ import java.util.Map;
 public class ProfileActivity extends AppCompatActivity {
     private final static int PICK_IMAGE = 1;
     private static final String TAG = ProfileActivity.class.getName();
+    private Uri imageFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if(user != null){
                     String uid = user.getUid();
                     Member member = new Member(memberName, uid, bio, teamName, year, major, title);
-                    directoryViewModel.addMember(member);
+                    directoryViewModel.addMember(member, imageFilePath);
                     finish();
                 }
                 else
@@ -142,9 +143,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
+            imageFilePath = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageFilePath);
 
                 ImageView profilePic = findViewById(R.id.profile_pic);
                 profilePic.setImageBitmap(bitmap);
