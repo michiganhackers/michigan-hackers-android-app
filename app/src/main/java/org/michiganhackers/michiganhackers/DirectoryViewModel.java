@@ -208,7 +208,8 @@ public class DirectoryViewModel extends ViewModel {
                                 photoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        member.setPhotoUrl(uri.toString());
+                                        DatabaseReference memberPhotoUrlRef = teamsRef.child(member.getTeam()).child("members").child(member.getUid()).child("photoUrl");
+                                        memberPhotoUrlRef.setValue(uri.toString());
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
                                         user.updateProfile(profileUpdates)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
