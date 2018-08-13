@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,10 +17,12 @@ import java.util.TreeMap;
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
     private Map<String, Team> teamsByName;
+    private Context context;
 
     public DirectoryExpandableListAdapter(Context context) {
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.teamsByName = new TreeMap<>();
+        this.context = context;
     }
 
     @Override
@@ -41,9 +44,14 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView memberName = convertView.findViewById(R.id.item_memberName);
         TextView memberTitle = convertView.findViewById(R.id.item_memberTitle);
+        ImageView memberPhoto = convertView.findViewById(R.id.item_memberPhoto);
 
         memberName.setText(getChild(groupPosition, childPosition).getName());
         memberTitle.setText(getChild(groupPosition, childPosition).getTitle());
+        GlideApp.with(context)
+                .load(getChild(groupPosition, childPosition).getPhotoUrl())
+                .placeholder(R.drawable.ic_directory)
+                .into(memberPhoto);
 
         return convertView;
     }

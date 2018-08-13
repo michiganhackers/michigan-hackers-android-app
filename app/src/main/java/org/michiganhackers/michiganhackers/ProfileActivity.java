@@ -57,6 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
         if(user != null){
             final String uid = user.getUid();
             Member member = directoryViewModel.getMember(uid);
+            // member is initially null, but not after configuration changes
             if(member != null){
                 nameEditText.setText(member.getName());
                 majorEditText.setText(member.getMajor());
