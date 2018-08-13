@@ -29,7 +29,7 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".AccountActivity"></activity>
+        <activity android:name=".AccountActivity"/>
     </application>
 
 </manifest>

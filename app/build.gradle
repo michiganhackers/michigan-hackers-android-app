@@ -70,6 +70,8 @@ dependencies {
     implementation('com.google.apis:google-api-services-calendar:v3-rev300-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

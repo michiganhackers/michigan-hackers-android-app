@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -50,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
         final EditText teamEditText = findViewById(R.id.profile_team);
         final EditText titleEditText = findViewById(R.id.profile_title);
         final EditText bioEditText = findViewById(R.id.profile_bio);
+        final ImageView profilePic = findViewById(R.id.profile_pic);
 
         // Fill in editTexts with user's current info
         if(user != null){
@@ -62,6 +64,10 @@ public class ProfileActivity extends AppCompatActivity {
                 teamEditText.setText(member.getTeam());
                 titleEditText.setText(member.getTitle());
                 bioEditText.setText(member.getBio());
+                GlideApp.with(this)
+                        .load(member.getPhotoUrl())
+                        .placeholder(R.drawable.ic_directory)
+                        .into(profilePic);
             }
             // If member does not exist, observe for when teamsByName is updated (completely) and check again
             // Todo: How could this be null if it was made in the constructor for directoryViewModel?
@@ -77,6 +83,10 @@ public class ProfileActivity extends AppCompatActivity {
                             teamEditText.setText(member.getTeam());
                             titleEditText.setText(member.getTitle());
                             bioEditText.setText(member.getBio());
+                            GlideApp.with(ProfileActivity.this)
+                                    .load(member.getPhotoUrl())
+                                    .placeholder(R.drawable.ic_directory)
+                                    .into(profilePic);
                         }
                     }
                 };
