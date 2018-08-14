@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.IOException;
 import java.util.Map;
@@ -68,6 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
                 GlideApp.with(this)
                         .load(member.getPhotoUrl())
                         .placeholder(R.drawable.ic_directory)
+                        .centerCrop()
                         .into(profilePic);
             }
             // If member does not exist, observe for when teamsByName is updated (completely) and check again
@@ -87,6 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
                             GlideApp.with(ProfileActivity.this)
                                     .load(member.getPhotoUrl())
                                     .placeholder(R.drawable.ic_directory)
+                                    .centerCrop()
                                     .into(profilePic);
                         }
                     }
@@ -134,6 +137,8 @@ public class ProfileActivity extends AppCompatActivity {
                 // Always show the chooser (if there are multiple options available)
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
 
+                UCrop.of(sourceUri, destinationUri).start(context);
+
 /*                Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 getIntent.setType("image/*");
 
@@ -163,6 +168,11 @@ public class ProfileActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        else if(resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            final Uri resultUri = UCrop.getOutput(data);
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
         }
     }
 }

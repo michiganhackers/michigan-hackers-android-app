@@ -51,6 +51,7 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
         GlideApp.with(context)
                 .load(getChild(groupPosition, childPosition).getPhotoUrl())
                 .placeholder(R.drawable.ic_directory)
+                .centerCrop()
                 .into(memberPhoto);
 
         return convertView;
