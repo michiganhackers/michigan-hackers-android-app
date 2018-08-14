@@ -154,7 +154,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String imageFileName = "profilePicCropped.jpeg";
                 File croppedImageFile = File.createTempFile(imageFileName, null, getCacheDir());
                 Uri destinationImageFileUri = Uri.fromFile(croppedImageFile);
-                UCrop.of(sourceImageFileUri, destinationImageFileUri).start(ProfileActivity.this);
+                UCrop.of(sourceImageFileUri, destinationImageFileUri).withAspectRatio(1,1).start(ProfileActivity.this);
             } catch (IOException e) {
                 Log.e(TAG, "Error while creating profilePic temp file", e);
             }
