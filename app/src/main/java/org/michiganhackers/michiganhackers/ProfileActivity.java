@@ -26,13 +26,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.yalantis.ucrop.UCrop;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     private final static int PICK_IMAGE = 1;
     private static final String TAG = ProfileActivity.class.getName();
-    private Uri imageFilePath;
+    private Uri croppedImageFileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if(user != null){
                     String uid = user.getUid();
                     Member member = new Member(memberName, uid, bio, teamName, year, major, title);
-                    directoryViewModel.addMember(member, imageFilePath);
+                    directoryViewModel.addMember(member, croppedImageFileUri);
                     finish();
                 }
                 else
@@ -137,18 +138,6 @@ public class ProfileActivity extends AppCompatActivity {
                 // Always show the chooser (if there are multiple options available)
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
 
-                UCrop.of(sourceUri, destinationUri).start(context);
-
-/*                Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                getIntent.setType("image/*");
-
-                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                pickIntent.setType("image/*");
-
-                Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-                startActivityForResult(chooserIntent, PICK_IMAGE);*/
             }
         });
 
@@ -159,20 +148,31 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            imageFilePath = data.getData();
+            Uri sourceImageFileUri = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageFilePath);
-
-                ImageView profilePic = findViewById(R.id.profile_pic);
-                profilePic.setImageBitmap(bitmap);
+                // Create temporary file to store results of crop
+                String imageFileName = "profilePicCropped.jpeg";
+                File croppedImageFile = File.createTempFile(imageFileName, null, getCacheDir());
+                Uri destinationImageFileUri = Uri.fromFile(croppedImageFile);
+                UCrop.of(sourceImageFileUri, destinationImageFileUri).start(ProfileActivity.this);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "Error while creating profilePic temp file", e);
             }
         }
         else if(resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             final Uri resultUri = UCrop.getOutput(data);
+            croppedImageFileUri = resultUri;
+            try{
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), croppedImageFileUri);
+                ImageView profilePic = findViewById(R.id.profile_pic);
+                profilePic.setImageBitmap(bitmap);
+            }
+            catch(IOException e){
+                Log.e(TAG, "Error while converting profilePicCropped to bitmap", e);
+            }
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
+            Log.e(TAG, "Error cropping image", cropError);
         }
     }
 }
