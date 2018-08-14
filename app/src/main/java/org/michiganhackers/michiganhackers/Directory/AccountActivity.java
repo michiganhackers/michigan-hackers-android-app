@@ -1,6 +1,5 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.Directory;
 
-import android.accounts.Account;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,7 +18,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
+
+import org.michiganhackers.michiganhackers.R;
 
 public class AccountActivity extends AppCompatActivity {
 

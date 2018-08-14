@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.EventList;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
+
+import org.michiganhackers.michiganhackers.R;
 
 public class EventActivity extends AppCompatActivity {
 

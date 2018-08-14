@@ -11,6 +11,11 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.michiganhackers.michiganhackers.Directory.AccountActivity;
+import org.michiganhackers.michiganhackers.Directory.LoginActivity;
+import org.michiganhackers.michiganhackers.Directory.ProfileActivity;
+import org.michiganhackers.michiganhackers.R;
+
 public class SettingsFragment extends Fragment {
 
     public SettingsFragment() {

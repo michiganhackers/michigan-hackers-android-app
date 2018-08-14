@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.EventList;
 
 
 import android.content.Intent;
@@ -19,10 +19,12 @@ import android.view.ViewGroup;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.util.ExponentialBackOff;
 
+import org.michiganhackers.michiganhackers.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.michiganhackers.michiganhackers.CalenderAPI.SCOPES;
+import static org.michiganhackers.michiganhackers.EventList.CalenderAPI.SCOPES;
 import static org.michiganhackers.michiganhackers.MainActivity.calAPI;
 
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null

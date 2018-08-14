@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.EventList;
 
 import com.google.api.client.util.DateTime;
 

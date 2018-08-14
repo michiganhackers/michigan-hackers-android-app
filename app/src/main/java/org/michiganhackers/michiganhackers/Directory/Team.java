@@ -1,4 +1,6 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.Directory;
+
+import org.michiganhackers.michiganhackers.Directory.Member;
 
 import java.util.ArrayList;
 import java.util.Map;

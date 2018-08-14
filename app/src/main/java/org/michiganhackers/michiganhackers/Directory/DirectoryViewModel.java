@@ -1,16 +1,14 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.Directory;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -20,6 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.michiganhackers.michiganhackers.Directory.Member;
+import org.michiganhackers.michiganhackers.Directory.Team;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -87,7 +88,7 @@ public class DirectoryViewModel extends ViewModel{
             });
         }
     }
-    LiveData<Map<String, Team>> getTeamsByName(){
+    public LiveData<Map<String, Team>> getTeamsByName(){
         return teamsByName;
     }
     LiveData<Boolean> getTeamsByNameUpdated(){

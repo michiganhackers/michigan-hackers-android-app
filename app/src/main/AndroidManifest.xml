@@ -21,15 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EventActivity" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".EventList.EventActivity" />
+        <activity android:name=".Directory.ProfileActivity" />
 
         <service android:name=".FirebaseMessaging" />
 
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".AccountActivity"></activity>
+        <activity android:name=".Directory.SignupActivity" />
+        <activity android:name=".Directory.LoginActivity" />
+        <activity android:name=".Directory.ResetPasswordActivity" />
+        <activity android:name=".Directory.AccountActivity"></activity>
     </application>
 
 </manifest>

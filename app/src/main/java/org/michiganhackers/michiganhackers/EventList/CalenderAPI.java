@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.EventList;
 
 import android.Manifest;
 import android.app.Activity;
@@ -22,11 +22,14 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Events;
+
+import org.michiganhackers.michiganhackers.EventList.CalendarEvent;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
-import static org.michiganhackers.michiganhackers.ListFragment.mSwipeRefreshLayout;
+import static org.michiganhackers.michiganhackers.EventList.ListFragment.mSwipeRefreshLayout;
 import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
 
 
@@ -47,7 +50,7 @@ public class CalenderAPI extends AppCompatActivity{
     private static Activity activity;
     public GoogleAccountCredential mCredential;
 
-    CalenderAPI(Context context, Activity activity){
+    public CalenderAPI(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
     }

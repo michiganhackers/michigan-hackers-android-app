@@ -1,6 +1,5 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.Directory;
 
-import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -8,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
+import org.michiganhackers.michiganhackers.Directory.Member;
+import org.michiganhackers.michiganhackers.Directory.Team;
+import org.michiganhackers.michiganhackers.R;
 
 import java.util.ArrayList;
 import java.util.Map;
