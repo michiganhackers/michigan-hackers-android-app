@@ -88,9 +88,9 @@ public class ProfileActivity extends AppCompatActivity{
         // Fill in editTexts with user's current info
         if(user != null){
             final String uid = user.getUid();
-            final Observer<Map<String, Team>> teamsByNameSingleEventObserver = new Observer<Map<String, Team>>() {
+            final Observer<Map<String, Team>> teamsByNameObserver = new Observer<Map<String, Team>>() {
                 @Override
-                public void onChanged(@Nullable final Map<String, Team> teamsByNameSingleEvent) {
+                public void onChanged(@Nullable final Map<String, Team> teamsByName) {
                     Member member = directoryViewModel.getMember(uid);
                     if(member != null){
                         nameEditText.setText(member.getName());
@@ -106,16 +106,19 @@ public class ProfileActivity extends AppCompatActivity{
                                 .placeholder(R.drawable.ic_directory)
                                 .centerCrop()
                                 .into(profilePic);
+                        directoryViewModel.getTeamsByName().removeObserver(this);
                     }
                 }
             };
-            directoryViewModel.getTeamsByNameSingleEvent().observe(this, teamsByNameSingleEventObserver);
+            if(savedInstanceState == null)
+            {
+                directoryViewModel.getTeamsByName().observe(this, teamsByNameObserver);
+            }
         }
         else
         {
             Log.e(TAG, "Null user onStart");
         }
-
 
         Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
