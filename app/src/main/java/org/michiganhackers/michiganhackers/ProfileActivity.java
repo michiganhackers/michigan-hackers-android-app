@@ -1,5 +1,7 @@
 package org.michiganhackers.michiganhackers;
 
+import android.app.ActionBar;
+import android.app.Dialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -16,7 +18,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -117,7 +121,7 @@ public class ProfileActivity extends AppCompatActivity{
         }
         else
         {
-            Log.e(TAG, "Null user onStart");
+            Log.e(TAG, "Null user onCreate");
         }
 
         Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
@@ -223,12 +227,19 @@ public class ProfileActivity extends AppCompatActivity{
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    parent.setSelection(prevSpinnerPosition.getValue());
                                     dialog.cancel();
                                 }
                             })
                             .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                            .setOnCancelListener(new DialogInterface.OnCancelListener(){
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    parent.setSelection(prevSpinnerPosition.getValue());
+                                }
+                            })
+                            .create()
+                            .getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    builder.show();
                 }
                 else if(parent.getSelectedItem() != null)
                 {
