@@ -238,7 +238,7 @@ public class DirectoryViewModel extends ViewModel {
         return new ArrayList<String>(teamsByNameLocal.keySet());
     }
     public ArrayList<String> getMajors(){
-        return majors;
+        return new ArrayList<>(majors);
     }
 
     private void addMajor(String major){

@@ -59,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity{
         final EditText nameEditText = findViewById(R.id.profile_name);
 
         final Spinner majorSpinner = findViewById(R.id.profile_major);
-        ArrayList<String> majorSpinnerItems = directoryViewModel.getMajors();
+        ArrayList<String> majorSpinnerItems = directoryViewModel.getMajors(); // todo: need to use observable
         majorSpinnerItems.add(getString(R.string.add_major_spinner_item));
         final ArrayAdapter<String> majorSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, majorSpinnerItems);
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -73,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity{
         yearSpinner.setAdapter(new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint),this));
 
         final Spinner teamSpinner = findViewById(R.id.profile_team);
-        ArrayList<String> teamSpinnerItems = directoryViewModel.getTeams();
+        ArrayList<String> teamSpinnerItems = directoryViewModel.getTeams(); // todo: need to use observable
         teamSpinnerItems.add(getString(R.string.add_team_spinner_item));
         final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
