@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,28 +57,26 @@ public class ProfileActivity extends AppCompatActivity{
         majorSpinnerItems.add(getString(R.string.add_major_spinner_item));
         final ArrayAdapter<String> majorSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, majorSpinnerItems);
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        majorSpinner.setPrompt(getString(R.string.select_major_prompt));
-        majorSpinner.setAdapter(majorSpinnerAdapter);
+        majorSpinner.setAdapter(new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint),this));
         majorSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_major_spinner_item), majorSpinnerItems, majorSpinnerAdapter));
         
         final Spinner yearSpinner = findViewById(R.id.profile_year);
         final ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
         yearSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        yearSpinner.setAdapter(yearSpinnerAdapter);
+        yearSpinner.setAdapter(new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint),this));
 
         final Spinner teamSpinner = findViewById(R.id.profile_team);
         ArrayList<String> teamSpinnerItems = directoryViewModel.getTeams();
         teamSpinnerItems.add(getString(R.string.add_team_spinner_item));
         final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        teamSpinner.setPrompt(getString(R.string.select_team_prompt));
-        teamSpinner.setAdapter(teamSpinnerAdapter);
+        teamSpinner.setAdapter(new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint),this));
         teamSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_team_spinner_item), teamSpinnerItems, teamSpinnerAdapter));
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
         final ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
         titleSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        titleSpinner.setAdapter(titleSpinnerAdapter);
+        titleSpinner.setAdapter(new NothingSelectedSpinnerAdapter(titleSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_title_hint),this));
 
         final EditText bioEditText = findViewById(R.id.profile_bio);
         final ImageView profilePic = findViewById(R.id.profile_pic);
@@ -207,7 +206,7 @@ public class ProfileActivity extends AppCompatActivity{
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
-                if(parent.getSelectedItem().toString().equals(selectedText)){
+                if(parent.getSelectedItem() != null && parent.getSelectedItem().toString().equals(selectedText)){
                     AlertDialog.Builder builder;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         builder = new AlertDialog.Builder(ProfileActivity.this, android.R.style.Theme_Material_Dialog_Alert);

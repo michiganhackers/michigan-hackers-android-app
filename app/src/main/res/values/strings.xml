@@ -44,8 +44,10 @@
     <string name="account">Account</string>
     <string name="add_major_spinner_item">Add new major</string>
     <string name="add_team_spinner_item">Add new team</string>
-    <string name="select_major_prompt">Select major</string>
-    <string name="select_team_prompt">Select team</string>
+    <string name="select_major_hint">Select major</string>
+    <string name="select_team_hint">Select team</string>
+    <string name="select_year_hint">Select year</string>
+    <string name="select_title_hint">Select title</string>
 
     <string-array name="year_array">
         <item>Freshman</item>
