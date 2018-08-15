@@ -51,14 +51,15 @@ public class ProfileActivity extends AppCompatActivity{
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         final EditText nameEditText = findViewById(R.id.profile_name);
-        
+
         final Spinner majorSpinner = findViewById(R.id.profile_major);
         ArrayList<String> majorSpinnerItems = directoryViewModel.getMajors();
         majorSpinnerItems.add(getString(R.string.add_major_spinner_item));
         final ArrayAdapter<String> majorSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, majorSpinnerItems);
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         majorSpinner.setAdapter(new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint),this));
-        majorSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_major_spinner_item), majorSpinnerItems, majorSpinnerAdapter));
+        final MutableInteger prevMajorSpinnerPosition = new MutableInteger(majorSpinner.getSelectedItemPosition());
+        majorSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_major_spinner_item), majorSpinnerItems, majorSpinnerAdapter, prevMajorSpinnerPosition));
         
         final Spinner yearSpinner = findViewById(R.id.profile_year);
         final ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
@@ -71,7 +72,8 @@ public class ProfileActivity extends AppCompatActivity{
         final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         teamSpinner.setAdapter(new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint),this));
-        teamSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_team_spinner_item), teamSpinnerItems, teamSpinnerAdapter));
+        final MutableInteger prevTeamSpinnerPosition = new MutableInteger(teamSpinner.getSelectedItemPosition());
+        teamSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_team_spinner_item), teamSpinnerItems, teamSpinnerAdapter, prevTeamSpinnerPosition));
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
         final ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
@@ -89,8 +91,10 @@ public class ProfileActivity extends AppCompatActivity{
             if(member != null){
                 nameEditText.setText(member.getName());
                 majorSpinner.setSelection(majorSpinnerAdapter.getPosition(member.getMajor()));
+                prevMajorSpinnerPosition.setValue(majorSpinner.getSelectedItemPosition());
                 yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
                 teamSpinner.setSelection(teamSpinnerAdapter.getPosition(member.getTeam()));
+                prevTeamSpinnerPosition.setValue(teamSpinner.getSelectedItemPosition());
                 titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
                 bioEditText.setText(member.getBio());
                 GlideApp.with(this)
@@ -109,8 +113,10 @@ public class ProfileActivity extends AppCompatActivity{
                         if(member != null){
                             nameEditText.setText(member.getName());
                             majorSpinner.setSelection(majorSpinnerAdapter.getPosition(member.getMajor()));
+                            prevMajorSpinnerPosition.setValue(majorSpinner.getSelectedItemPosition());
                             yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
                             teamSpinner.setSelection(teamSpinnerAdapter.getPosition(member.getTeam()));
+                            prevTeamSpinnerPosition.setValue(teamSpinner.getSelectedItemPosition());
                             titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
                             bioEditText.setText(member.getBio());
                             GlideApp.with(ProfileActivity.this)
@@ -202,7 +208,7 @@ public class ProfileActivity extends AppCompatActivity{
         }
     }
 
-    private AdapterView.OnItemSelectedListener getSpinnerListenerForCustomText(final String selectedText, final ArrayList<String> spinnerItems, final ArrayAdapter<String> adapter){
+    private AdapterView.OnItemSelectedListener getSpinnerListenerForCustomText(final String selectedText, final ArrayList<String> spinnerItems, final ArrayAdapter<String> adapter, final MutableInteger prevSpinnerPosition){
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
@@ -228,11 +234,16 @@ public class ProfileActivity extends AppCompatActivity{
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
+                                    parent.setSelection(prevSpinnerPosition.getValue());
                                     dialog.cancel();
                                 }
                             })
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
+                }
+                else
+                {
+                    prevSpinnerPosition.setValue(parent.getSelectedItemPosition());
                 }
             }
             @Override
@@ -241,5 +252,16 @@ public class ProfileActivity extends AppCompatActivity{
             }
         };
     }
-
+    private class MutableInteger {
+        private int value;
+        public MutableInteger(int value) {
+            this.value = value;
+        }
+        public void setValue(int value) {
+            this.value = value;
+        }
+        public int getValue() {
+            return value;
+        }
+    }
 }
