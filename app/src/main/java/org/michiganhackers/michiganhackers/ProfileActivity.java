@@ -56,13 +56,9 @@ public class ProfileActivity extends AppCompatActivity{
         majorSpinnerItems.add(getString(R.string.add_major_spinner_item));
         final ArrayAdapter<String> majorSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, majorSpinnerItems);
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        majorSpinner.setPrompt(getString(R.string.select_major_prompt));
         majorSpinner.setAdapter(majorSpinnerAdapter);
-        majorSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_major_spinner_item), new OnSpinnerItemSelected() {
-            @Override
-            public void addTextToDirectory(String text) {
-                directoryViewModel.addMajor(text);
-            }
-        }));
+        majorSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_major_spinner_item), majorSpinnerItems, majorSpinnerAdapter));
         
         final Spinner yearSpinner = findViewById(R.id.profile_year);
         final ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
@@ -74,13 +70,9 @@ public class ProfileActivity extends AppCompatActivity{
         teamSpinnerItems.add(getString(R.string.add_team_spinner_item));
         final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        teamSpinner.setPrompt(getString(R.string.select_team_prompt));
         teamSpinner.setAdapter(teamSpinnerAdapter);
-        teamSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_team_spinner_item), new OnSpinnerItemSelected() {
-            @Override
-            public void addTextToDirectory(String text) {
-                // todo add team here
-            }
-        }));
+        teamSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_team_spinner_item), teamSpinnerItems, teamSpinnerAdapter));
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
         final ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
@@ -211,10 +203,10 @@ public class ProfileActivity extends AppCompatActivity{
         }
     }
 
-    private AdapterView.OnItemSelectedListener getSpinnerListenerForCustomText(final String selectedText, final OnSpinnerItemSelected onSpinnerItemSelected){
+    private AdapterView.OnItemSelectedListener getSpinnerListenerForCustomText(final String selectedText, final ArrayList<String> spinnerItems, final ArrayAdapter<String> adapter){
         return new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
                 if(parent.getSelectedItem().toString().equals(selectedText)){
                     AlertDialog.Builder builder;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -230,7 +222,8 @@ public class ProfileActivity extends AppCompatActivity{
                                 public void onClick(DialogInterface dialog, int which) {
                                     String inputText = inputEditText.getText().toString();
                                     if(!inputText.equals("")){
-                                        onSpinnerItemSelected.addTextToDirectory(inputText);
+                                        spinnerItems.add(spinnerItems.size() - 1, inputText);
+                                        adapter.notifyDataSetChanged();
                                     }
                                 }
                             })

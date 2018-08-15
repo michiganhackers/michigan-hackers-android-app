@@ -131,9 +131,8 @@ public class DirectoryViewModel extends ViewModel {
 
 
     public void addMember(Member member, Uri filePath) {
-        if (filePath != null) {
-            uploadProfilePhoto(member, filePath);
-        }
+        uploadProfilePhoto(member, filePath);
+        addMajor(member.getMajor());
         if (teamsByNameLocal.containsKey(member.getTeam())) {
             DatabaseReference memberRef = teamsRef.child(member.getTeam()).child("members").child(member.getUid());
             Member memberLocal = teamsByNameLocal.get(member.getTeam()).getMember(member.getUid());
@@ -265,8 +264,10 @@ public class DirectoryViewModel extends ViewModel {
         return majors;
     }
 
-    public void addMajor(String major){
-        majorsRef.push().setValue(major);
+    private void addMajor(String major){
+        if(!majors.contains(major)){
+            majorsRef.push().setValue(major);
+        }
     }
 
 }
