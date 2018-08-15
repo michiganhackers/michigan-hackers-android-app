@@ -68,43 +68,21 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <Spinner
+                    android:id="@+id/profile_major"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/major">
-
-                    <EditText
-                        android:id="@+id/profile_major"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content" />
 
                 <Spinner
                     android:id="@+id/profile_year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <android.support.design.widget.TextInputLayout
+
+                <Spinner
+                    android:id="@+id/profile_team"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/team">
-
-                    <EditText
-                        android:id="@+id/profile_team"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </android.support.design.widget.TextInputLayout>
-
+                    android:layout_height="wrap_content" />
 
                 <Spinner
                     android:id="@+id/profile_title"

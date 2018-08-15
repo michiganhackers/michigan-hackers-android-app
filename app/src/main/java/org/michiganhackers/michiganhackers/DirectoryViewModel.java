@@ -29,19 +29,28 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
 public class DirectoryViewModel extends ViewModel {
-    public static final String TAG = "DirectoryViewModel";
+    private static final String TAG = "DirectoryViewModel";
+
     private MutableLiveData<Map<String, Team>> teamsByName;
     private MutableLiveData<Boolean> teamsByNameUpdated;
+
     private Map<String, Team> teamsByNameLocal;
+    private ArrayList<String> majors;
+
     private DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
+    private DatabaseReference majorsRef = FirebaseDatabase.getInstance().getReference().child("Majors");
 
     public DirectoryViewModel() {
         teamsByNameLocal = new TreeMap<>();
+        majors = new ArrayList<>();
         if (this.teamsByName != null) {
             return;
         } else {
@@ -77,7 +86,7 @@ public class DirectoryViewModel extends ViewModel {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "onCancelled for addChildEventListener");
+                    Log.e(TAG, "onCancelled for teamsRef addChildEventListener");
                 }
             });
 
@@ -92,6 +101,21 @@ public class DirectoryViewModel extends ViewModel {
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "onCancelled for addListenerForSingleValueEvent");
+                }
+            });
+
+            majorsRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Map<String, String> majorsMap = (HashMap<String,String>) dataSnapshot.getValue();
+                    if(majorsMap != null){
+                        majors = new ArrayList<>(majorsMap.values());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "onCancelled for majorsRef addValueEventListener");
                 }
             });
         }
@@ -234,4 +258,15 @@ public class DirectoryViewModel extends ViewModel {
                     });
         }
     }
+    public ArrayList<String> getTeams(){
+        return new ArrayList<String>(teamsByNameLocal.keySet());
+    }
+    public ArrayList<String> getMajors(){
+        return majors;
+    }
+
+    public void addMajor(String major){
+        majorsRef.push().setValue(major);
+    }
+
 }
