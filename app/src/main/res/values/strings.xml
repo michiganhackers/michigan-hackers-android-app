@@ -42,4 +42,19 @@
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">"Enter your registered email and we'll send you instructions to reset your password".</string>
     <string name="account">Account</string>
+
+    <string-array name="year_array">
+        <item>Freshman</item>
+        <item>Sophomore</item>
+        <item>Junior</item>
+        <item>Senior</item>
+        <item>Alumni</item>
+    </string-array>
+
+    <string-array name="title_array">
+        <item>Member</item>
+        <item>Core Member</item>
+        <item>Core Leader</item>
+    </string-array>
+
 </resources>

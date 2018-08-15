@@ -84,21 +84,10 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <Spinner
+                    android:id="@+id/profile_year"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/year">
-
-                    <EditText
-                        android:id="@+id/profile_year"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -116,22 +105,12 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+
+                <Spinner
+                    android:id="@+id/profile_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/title">
-
-                    <EditText
-                        android:id="@+id/profile_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </android.support.design.widget.TextInputLayout>
-
+                    android:layout_weight="1" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"

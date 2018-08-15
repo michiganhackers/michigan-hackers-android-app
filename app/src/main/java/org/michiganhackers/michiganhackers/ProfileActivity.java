@@ -16,9 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -49,9 +51,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         final EditText nameEditText = findViewById(R.id.profile_name);
         final EditText majorEditText = findViewById(R.id.profile_major);
-        final EditText yearEditText = findViewById(R.id.profile_year);
+        final Spinner yearSpinner = findViewById(R.id.profile_year);
+        final ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
+        yearSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearSpinner.setAdapter(yearSpinnerAdapter);
         final EditText teamEditText = findViewById(R.id.profile_team);
-        final EditText titleEditText = findViewById(R.id.profile_title);
+        final Spinner titleSpinner = findViewById(R.id.profile_title);
+        final ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
+        titleSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        titleSpinner.setAdapter(titleSpinnerAdapter);
         final EditText bioEditText = findViewById(R.id.profile_bio);
         final ImageView profilePic = findViewById(R.id.profile_pic);
 
@@ -63,9 +71,9 @@ public class ProfileActivity extends AppCompatActivity {
             if(member != null){
                 nameEditText.setText(member.getName());
                 majorEditText.setText(member.getMajor());
-                yearEditText.setText(member.getYear());
+                yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
                 teamEditText.setText(member.getTeam());
-                titleEditText.setText(member.getTitle());
+                titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
                 bioEditText.setText(member.getBio());
                 GlideApp.with(this)
                         .load(member.getPhotoUrl())
@@ -83,9 +91,9 @@ public class ProfileActivity extends AppCompatActivity {
                         if(member != null){
                             nameEditText.setText(member.getName());
                             majorEditText.setText(member.getMajor());
-                            yearEditText.setText(member.getYear());
+                            yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
                             teamEditText.setText(member.getTeam());
-                            titleEditText.setText(member.getTitle());
+                            titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
                             bioEditText.setText(member.getBio());
                             GlideApp.with(ProfileActivity.this)
                                     .load(member.getPhotoUrl())
@@ -111,8 +119,8 @@ public class ProfileActivity extends AppCompatActivity {
                 String teamName = teamEditText.getText().toString();
                 String memberName = nameEditText.getText().toString();
                 String major = majorEditText.getText().toString();
-                String year = yearEditText.getText().toString();
-                String title = titleEditText.getText().toString();
+                String year = yearSpinner.getSelectedItem().toString();
+                String title = titleSpinner.getSelectedItem().toString();
                 String bio = bioEditText.getText().toString();
                 if(user != null){
                     String uid = user.getUid();
