@@ -54,7 +54,7 @@
         <item>Sophomore</item>
         <item>Junior</item>
         <item>Senior</item>
-        <item>Alumni</item>
+        <item>Alumnus</item>
     </string-array>
 
     <string-array name="title_array">

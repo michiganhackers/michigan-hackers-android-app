@@ -229,6 +229,11 @@ public class ProfileActivity extends AppCompatActivity{
                                     if(!inputText.equals("")){
                                         spinnerItems.add(spinnerItems.size() - 1, inputText);
                                         adapter.notifyDataSetChanged();
+                                        prevSpinnerPosition.setValue(parent.getSelectedItemPosition());
+                                    }
+                                    else
+                                    {
+                                        parent.setSelection(prevSpinnerPosition.getValue());
                                     }
                                 }
                             })
@@ -241,7 +246,7 @@ public class ProfileActivity extends AppCompatActivity{
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
                 }
-                else
+                else if(parent.getSelectedItem() != null)
                 {
                     prevSpinnerPosition.setValue(parent.getSelectedItemPosition());
                 }
