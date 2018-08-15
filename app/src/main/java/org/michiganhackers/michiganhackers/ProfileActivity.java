@@ -1,5 +1,6 @@
 package org.michiganhackers.michiganhackers;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
@@ -32,6 +33,7 @@ import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity{
     private final static int PICK_IMAGE = 1;
@@ -86,49 +88,28 @@ public class ProfileActivity extends AppCompatActivity{
         // Fill in editTexts with user's current info
         if(user != null){
             final String uid = user.getUid();
-            Member member = directoryViewModel.getMember(uid);
-            // member is initially null, but not after configuration changes
-            if(member != null){
-                nameEditText.setText(member.getName());
-                majorSpinner.setSelection(majorSpinnerAdapter.getPosition(member.getMajor()));
-                prevMajorSpinnerPosition.setValue(majorSpinner.getSelectedItemPosition());
-                yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
-                teamSpinner.setSelection(teamSpinnerAdapter.getPosition(member.getTeam()));
-                prevTeamSpinnerPosition.setValue(teamSpinner.getSelectedItemPosition());
-                titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
-                bioEditText.setText(member.getBio());
-                GlideApp.with(this)
-                        .load(member.getPhotoUrl())
-                        .placeholder(R.drawable.ic_directory)
-                        .centerCrop()
-                        .into(profilePic);
-            }
-            // If member does not exist, observe for when teamsByName is updated (completely) and check again
-            // Todo: How could this be null if it was made in the constructor for directoryViewModel?
-            else if(!directoryViewModel.getTeamsByNameUpdated().getValue()) {
-                final Observer<Boolean> teamsByNameUpdatedObserver = new Observer<Boolean>() {
-                    @Override
-                    public void onChanged(@Nullable final Boolean teamsByNameUpdated) {
-                        Member member = directoryViewModel.getMember(uid);
-                        if(member != null){
-                            nameEditText.setText(member.getName());
-                            majorSpinner.setSelection(majorSpinnerAdapter.getPosition(member.getMajor()));
-                            prevMajorSpinnerPosition.setValue(majorSpinner.getSelectedItemPosition());
-                            yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
-                            teamSpinner.setSelection(teamSpinnerAdapter.getPosition(member.getTeam()));
-                            prevTeamSpinnerPosition.setValue(teamSpinner.getSelectedItemPosition());
-                            titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
-                            bioEditText.setText(member.getBio());
-                            GlideApp.with(ProfileActivity.this)
-                                    .load(member.getPhotoUrl())
-                                    .placeholder(R.drawable.ic_directory)
-                                    .centerCrop()
-                                    .into(profilePic);
-                        }
+            final Observer<Map<String, Team>> teamsByNameSingleEventObserver = new Observer<Map<String, Team>>() {
+                @Override
+                public void onChanged(@Nullable final Map<String, Team> teamsByNameSingleEvent) {
+                    Member member = directoryViewModel.getMember(uid);
+                    if(member != null){
+                        nameEditText.setText(member.getName());
+                        majorSpinner.setSelection(majorSpinnerAdapter.getPosition(member.getMajor()));
+                        prevMajorSpinnerPosition.setValue(majorSpinner.getSelectedItemPosition());
+                        yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
+                        teamSpinner.setSelection(teamSpinnerAdapter.getPosition(member.getTeam()));
+                        prevTeamSpinnerPosition.setValue(teamSpinner.getSelectedItemPosition());
+                        titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
+                        bioEditText.setText(member.getBio());
+                        GlideApp.with(ProfileActivity.this)
+                                .load(member.getPhotoUrl())
+                                .placeholder(R.drawable.ic_directory)
+                                .centerCrop()
+                                .into(profilePic);
                     }
-                };
-                directoryViewModel.getTeamsByNameUpdated().observe(this, teamsByNameUpdatedObserver);
-            }
+                }
+            };
+            directoryViewModel.getTeamsByNameSingleEvent().observe(this, teamsByNameSingleEventObserver);
         }
         else
         {

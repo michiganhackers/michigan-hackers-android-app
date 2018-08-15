@@ -40,9 +40,10 @@ public class DirectoryViewModel extends ViewModel {
     private static final String TAG = "DirectoryViewModel";
 
     private MutableLiveData<Map<String, Team>> teamsByName;
-    private MutableLiveData<Boolean> teamsByNameUpdated;
+    private MutableLiveData<Map<String, Team>> teamsByNameSingleEvent;
 
     private Map<String, Team> teamsByNameLocal;
+    private Map<String, Team> teamsByNameSingle;
     private ArrayList<String> majors;
 
     private DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
@@ -50,13 +51,13 @@ public class DirectoryViewModel extends ViewModel {
 
     public DirectoryViewModel() {
         teamsByNameLocal = new TreeMap<>();
+        teamsByNameSingle = new TreeMap<>();
         majors = new ArrayList<>();
         if (this.teamsByName != null) {
             return;
         } else {
             teamsByName = new MutableLiveData<>();
-            teamsByNameUpdated = new MutableLiveData<>();
-            teamsByNameUpdated.setValue(false);
+            teamsByNameSingleEvent = new MutableLiveData<>();
             teamsRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -90,12 +91,14 @@ public class DirectoryViewModel extends ViewModel {
                 }
             });
 
-            // ValueEventListener is guaranteed to be call after childEventLister.
-            // Used to make sure teamsByName has been updated
             teamsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    teamsByNameUpdated.setValue(true);
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Team team = snapshot.getValue(Team.class);
+                        teamsByNameSingle.put(team.getName(), team);
+                    }
+                    teamsByNameSingleEvent.setValue(teamsByNameSingle);
                 }
 
                 @Override
@@ -125,10 +128,9 @@ public class DirectoryViewModel extends ViewModel {
         return teamsByName;
     }
 
-    LiveData<Boolean> getTeamsByNameUpdated() {
-        return teamsByNameUpdated;
+    LiveData<Map<String, Team>> getTeamsByNameSingleEvent() {
+        return teamsByNameSingleEvent;
     }
-
 
     public void addMember(Member member, Uri filePath) {
         uploadProfilePhoto(member, filePath);
@@ -179,7 +181,7 @@ public class DirectoryViewModel extends ViewModel {
     }
 
     public Member getMember(String uid) {
-        for (Map.Entry<String, Team> team : teamsByNameLocal.entrySet()) {
+        for (Map.Entry<String, Team> team : teamsByNameSingle.entrySet()) {
             Member member = team.getValue().getMember(uid);
             if (member != null) {
                 return member;
