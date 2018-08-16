@@ -111,6 +111,10 @@ public class DirectoryViewModel extends ViewModel {
         return teamsByName;
     }
 
+    public MutableLiveData<List<String>> getMajors() {
+        return majors;
+    }
+
     public void addMember(Member member, Uri filePath) {
         uploadProfilePhoto(member, filePath);
         addMajor(member.getMajor());

@@ -48,6 +48,7 @@
     <string name="select_team_hint">Select team</string>
     <string name="select_year_hint">Select year</string>
     <string name="select_title_hint">Select title</string>
+    <string name="new_major_empty_string_error">Enter a major</string>
 
     <string-array name="year_array">
         <item>Freshman</item>

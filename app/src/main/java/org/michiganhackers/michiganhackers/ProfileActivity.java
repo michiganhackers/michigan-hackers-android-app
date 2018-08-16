@@ -71,9 +71,17 @@ public class ProfileActivity extends AppCompatActivity{
             public void onChanged(@Nullable List<String> majors) {
                 if (majors != null){
                     majors.add(getString(R.string.add_major_spinner_item));
+                    majorSpinnerAdapter.clear();
+                    majorSpinnerAdapter.addAll(majors);
+                    majorSpinnerAdapter.notifyDataSetChanged();
                 }
+                directoryViewModel.getMajors().removeObserver(this);
             }
         };
+        if(savedInstanceState == null)
+        {
+            directoryViewModel.getMajors().observe(this, majorsObserver);
+        }
 
         
         final Spinner yearSpinner = findViewById(R.id.profile_year);
@@ -82,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity{
         yearSpinner.setAdapter(new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint),this));
 
         final Spinner teamSpinner = findViewById(R.id.profile_team);
-        List<String> teamSpinnerItems = directoryViewModel.getTeams(); // todo: need to use observable
+        List<String> teamSpinnerItems = new ArrayList<>(); // todo: need to use observable
         teamSpinnerItems.add(getString(R.string.add_team_spinner_item));
         final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -220,20 +228,6 @@ public class ProfileActivity extends AppCompatActivity{
                     inputEditText.setInputType(InputType.TYPE_CLASS_TEXT);
                     builder.setView(inputEditText);
                     builder.setTitle(selectedText)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String inputText = inputEditText.getText().toString();
-                                    if(!inputText.equals("")){
-                                        spinnerItems.add(spinnerItems.size() - 1, inputText);
-                                        adapter.notifyDataSetChanged();
-                                        prevSpinnerPosition.setValue(parent.getSelectedItemPosition());
-                                    }
-                                    else
-                                    {
-                                        parent.setSelection(prevSpinnerPosition.getValue());
-                                    }
-                                }
-                            })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
@@ -245,10 +239,27 @@ public class ProfileActivity extends AppCompatActivity{
                                 public void onCancel(DialogInterface dialog) {
                                     parent.setSelection(prevSpinnerPosition.getValue());
                                 }
-                            })
-                            .create()
-                            .getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                    builder.show();
+                            });
+                    final AlertDialog dialog = builder.create();
+                    dialog.show();
+                    //.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                        String inputText = inputEditText.getText().toString();
+                        if(!inputText.equals("")){
+                            spinnerItems.add(0, inputText);
+                            adapter.notifyDataSetChanged();
+                            prevSpinnerPosition.setValue(0);
+                            dialog.dismiss();
+                        }
+                        else
+                        {
+                            inputEditText.setError(getString(R.string.new_major_empty_string_error));
+                        }
+                    }
+                });
                 }
                 else if(parent.getSelectedItem() != null)
                 {
