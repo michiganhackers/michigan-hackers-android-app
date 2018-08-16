@@ -228,6 +228,8 @@ public class ProfileActivity extends AppCompatActivity{
                     inputEditText.setInputType(InputType.TYPE_CLASS_TEXT);
                     builder.setView(inputEditText);
                     builder.setTitle(selectedText)
+                            // Listener set to null because we override OnClick later
+                            .setPositiveButton("OK", null)
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
@@ -240,6 +242,7 @@ public class ProfileActivity extends AppCompatActivity{
                                     parent.setSelection(prevSpinnerPosition.getValue());
                                 }
                             });
+
                     final AlertDialog dialog = builder.create();
                     dialog.show();
                     //.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -247,19 +250,19 @@ public class ProfileActivity extends AppCompatActivity{
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                        String inputText = inputEditText.getText().toString();
-                        if(!inputText.equals("")){
-                            spinnerItems.add(0, inputText);
-                            adapter.notifyDataSetChanged();
-                            prevSpinnerPosition.setValue(0);
-                            dialog.dismiss();
+                            String inputText = inputEditText.getText().toString();
+                            if(!inputText.equals("")){
+                                spinnerItems.add(1, inputText);
+                                adapter.notifyDataSetChanged();
+                                prevSpinnerPosition.setValue(1);
+                                dialog.dismiss();
+                            }
+                            else
+                            {
+                                inputEditText.setError(getString(R.string.new_major_empty_string_error));
+                            }
                         }
-                        else
-                        {
-                            inputEditText.setError(getString(R.string.new_major_empty_string_error));
-                        }
-                    }
-                });
+                    });
                 }
                 else if(parent.getSelectedItem() != null)
                 {
