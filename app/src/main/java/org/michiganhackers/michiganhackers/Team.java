@@ -25,7 +25,7 @@ public class Team {
         members.put(member.getUid(), member);
     }
     public Member getMemberByIndex(int index){
-        ArrayList<String> memberIds = new ArrayList<>(members.keySet());
+        List<String> memberIds = new ArrayList<>(members.keySet());
         return members.get(memberIds.get(index));
     }
     public String getName() {

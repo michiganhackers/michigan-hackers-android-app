@@ -41,18 +41,21 @@ public class DirectoryViewModel extends ViewModel {
 
     private MutableLiveData<Map<String, Team>> teamsByName;
     private Map<String, Team> teamsByNameLocal;
-    private ArrayList<String> majors;
+
+    private MutableLiveData<List<String>> majors;
+    private List<String> majorsLocal;
 
     private DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
     private DatabaseReference majorsRef = FirebaseDatabase.getInstance().getReference().child("Majors");
 
     public DirectoryViewModel() {
         teamsByNameLocal = new TreeMap<>();
-        majors = new ArrayList<>();
+        majorsLocal = new ArrayList<>();
         if (this.teamsByName != null) {
             return;
         } else {
             teamsByName = new MutableLiveData<>();
+            majors = new MutableLiveData<>();
             teamsRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -91,7 +94,8 @@ public class DirectoryViewModel extends ViewModel {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Map<String, String> majorsMap = (HashMap<String,String>) dataSnapshot.getValue();
                     if(majorsMap != null){
-                        majors = new ArrayList<>(majorsMap.values());
+                        majorsLocal = new ArrayList<>(majorsMap.values());
+                        majors.setValue(majorsLocal);
                     }
                 }
 
@@ -234,15 +238,9 @@ public class DirectoryViewModel extends ViewModel {
                     });
         }
     }
-    public ArrayList<String> getTeams(){
-        return new ArrayList<String>(teamsByNameLocal.keySet());
-    }
-    public ArrayList<String> getMajors(){
-        return new ArrayList<>(majors);
-    }
 
     private void addMajor(String major){
-        if(!majors.contains(major)){
+        if(!majorsLocal.contains(major)){
             majorsRef.push().setValue(major);
         }
     }

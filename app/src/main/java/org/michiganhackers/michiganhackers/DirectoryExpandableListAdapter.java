@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -64,7 +65,7 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Team getGroup(int groupPosition) {
-        ArrayList<String> teamNames = new ArrayList<>(teamsByName.keySet());
+        List<String> teamNames = new ArrayList<>(teamsByName.keySet());
         return teamsByName.get(teamNames.get(groupPosition));
     }
 

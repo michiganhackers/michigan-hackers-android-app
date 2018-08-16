@@ -37,6 +37,7 @@ import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity{
@@ -59,13 +60,21 @@ public class ProfileActivity extends AppCompatActivity{
         final EditText nameEditText = findViewById(R.id.profile_name);
 
         final Spinner majorSpinner = findViewById(R.id.profile_major);
-        ArrayList<String> majorSpinnerItems = directoryViewModel.getMajors(); // todo: need to use observable
-        majorSpinnerItems.add(getString(R.string.add_major_spinner_item));
+        List<String> majorSpinnerItems = new ArrayList<>();
         final ArrayAdapter<String> majorSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, majorSpinnerItems);
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         majorSpinner.setAdapter(new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint),this));
         final MutableInteger prevMajorSpinnerPosition = new MutableInteger(majorSpinner.getSelectedItemPosition());
         majorSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_major_spinner_item), majorSpinnerItems, majorSpinnerAdapter, prevMajorSpinnerPosition));
+        final Observer<List<String>> majorsObserver = new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> majors) {
+                if (majors != null){
+                    majors.add(getString(R.string.add_major_spinner_item));
+                }
+            }
+        };
+
         
         final Spinner yearSpinner = findViewById(R.id.profile_year);
         final ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
@@ -73,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity{
         yearSpinner.setAdapter(new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint),this));
 
         final Spinner teamSpinner = findViewById(R.id.profile_team);
-        ArrayList<String> teamSpinnerItems = directoryViewModel.getTeams(); // todo: need to use observable
+        List<String> teamSpinnerItems = directoryViewModel.getTeams(); // todo: need to use observable
         teamSpinnerItems.add(getString(R.string.add_team_spinner_item));
         final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -196,7 +205,7 @@ public class ProfileActivity extends AppCompatActivity{
         }
     }
 
-    private AdapterView.OnItemSelectedListener getSpinnerListenerForCustomText(final String selectedText, final ArrayList<String> spinnerItems, final ArrayAdapter<String> adapter, final MutableInteger prevSpinnerPosition){
+    private AdapterView.OnItemSelectedListener getSpinnerListenerForCustomText(final String selectedText, final List<String> spinnerItems, final ArrayAdapter<String> adapter, final MutableInteger prevSpinnerPosition){
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
