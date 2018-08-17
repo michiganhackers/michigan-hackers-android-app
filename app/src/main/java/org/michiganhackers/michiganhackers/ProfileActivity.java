@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -52,6 +53,19 @@ public class ProfileActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        if(savedInstanceState != null){
+            croppedImageFileUri = savedInstanceState.getParcelable("croppedImageFileUri");
+            if(croppedImageFileUri != null){
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), croppedImageFileUri);
+                    ImageView profilePic = findViewById(R.id.profile_pic);
+                    profilePic.setImageBitmap(bitmap);
+                }
+                catch(IOException e){
+                    Log.e(TAG, "Error while converting profilePicCropped to bitmap", e);
+                }
+            }
+        }
         final DirectoryViewModel directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
 
         //get firebase auth instance
@@ -210,8 +224,7 @@ public class ProfileActivity extends AppCompatActivity{
             }
         }
         else if(resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            final Uri resultUri = UCrop.getOutput(data);
-            croppedImageFileUri = resultUri;
+            croppedImageFileUri = UCrop.getOutput(data);
             try{
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), croppedImageFileUri);
                 ImageView profilePic = findViewById(R.id.profile_pic);
@@ -298,5 +311,13 @@ public class ProfileActivity extends AppCompatActivity{
         public int getValue() {
             return value;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(croppedImageFileUri != null){
+            outState.putParcelable("croppedImageFileUri", croppedImageFileUri);
+        }
+        super.onSaveInstanceState(outState);
     }
 }
