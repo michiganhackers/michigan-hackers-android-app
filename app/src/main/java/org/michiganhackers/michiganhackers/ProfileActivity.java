@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,8 +20,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -60,7 +63,8 @@ public class ProfileActivity extends AppCompatActivity{
         final EditText nameEditText = findViewById(R.id.profile_name);
 
         final Spinner majorSpinner = findViewById(R.id.profile_major);
-        List<String> majorSpinnerItems = new ArrayList<>();
+        final List<String> majorSpinnerItems = new ArrayList<>();
+        majorSpinnerItems.add(getString(R.string.add_major_spinner_item));
         final ArrayAdapter<String> majorSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, majorSpinnerItems);
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         majorSpinner.setAdapter(new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint),this));
@@ -70,9 +74,9 @@ public class ProfileActivity extends AppCompatActivity{
             @Override
             public void onChanged(@Nullable List<String> majors) {
                 if (majors != null){
-                    majors.add(getString(R.string.add_major_spinner_item));
-                    majorSpinnerAdapter.clear();
-                    majorSpinnerAdapter.addAll(majors);
+                    majorSpinnerItems.clear();
+                    majorSpinnerItems.addAll(majors);
+                    majorSpinnerItems.add(getString(R.string.add_major_spinner_item));
                     majorSpinnerAdapter.notifyDataSetChanged();
                 }
                 directoryViewModel.getMajors().removeObserver(this);
@@ -115,12 +119,21 @@ public class ProfileActivity extends AppCompatActivity{
                     Member member = directoryViewModel.getMember(uid);
                     if(member != null){
                         nameEditText.setText(member.getName());
-                        majorSpinner.setSelection(majorSpinnerAdapter.getPosition(member.getMajor()));
-                        prevMajorSpinnerPosition.setValue(majorSpinner.getSelectedItemPosition());
-                        yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
-                        teamSpinner.setSelection(teamSpinnerAdapter.getPosition(member.getTeam()));
-                        prevTeamSpinnerPosition.setValue(teamSpinner.getSelectedItemPosition());
-                        titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
+                        if(majorSpinnerAdapter.getPosition(member.getMajor()) != -1)
+                        {
+                            majorSpinner.setSelection(majorSpinnerAdapter.getPosition(member.getMajor()));
+                            prevMajorSpinnerPosition.setValue(majorSpinner.getSelectedItemPosition());
+                        }
+                        if(yearSpinnerAdapter.getPosition(member.getYear()) != -1){
+                            yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
+                        }
+                        if(teamSpinnerAdapter.getPosition(member.getTeam()) != -1){
+                            teamSpinner.setSelection(teamSpinnerAdapter.getPosition(member.getTeam()));
+                            prevTeamSpinnerPosition.setValue(teamSpinner.getSelectedItemPosition());
+                        }
+                        if(titleSpinnerAdapter.getPosition(member.getTitle()) != -1){
+                            titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
+                        }
                         bioEditText.setText(member.getBio());
                         GlideApp.with(ProfileActivity.this)
                                 .load(member.getPhotoUrl())
@@ -217,16 +230,17 @@ public class ProfileActivity extends AppCompatActivity{
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
+                //&& !parent.getItemAtPosition(prevSpinnerPosition.getValue()).toString().equals(selectedText)
                 if(parent.getSelectedItem() != null && parent.getSelectedItem().toString().equals(selectedText)){
+                    final View alertDialogView = LayoutInflater.from(ProfileActivity.this).inflate(R.layout.profile_spinner_alert_dialog,null);
                     AlertDialog.Builder builder;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        builder = new AlertDialog.Builder(ProfileActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                        builder = new AlertDialog.Builder(ProfileActivity.this, android.R.style.Theme_Material_Light_Dialog);
                     } else {
                         builder = new AlertDialog.Builder(ProfileActivity.this);
                     }
-                    final EditText inputEditText = new EditText(ProfileActivity.this);
-                    inputEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-                    builder.setView(inputEditText);
+                    final EditText inputEditText = alertDialogView.findViewById(R.id.alertDialog_editText);
+                    builder.setView(alertDialogView);
                     builder.setTitle(selectedText)
                             // Listener set to null because we override OnClick later
                             .setPositiveButton("OK", null)
@@ -235,7 +249,6 @@ public class ProfileActivity extends AppCompatActivity{
                                     dialog.cancel();
                                 }
                             })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
                             .setOnCancelListener(new DialogInterface.OnCancelListener(){
                                 @Override
                                 public void onCancel(DialogInterface dialog) {
@@ -245,8 +258,7 @@ public class ProfileActivity extends AppCompatActivity{
 
                     final AlertDialog dialog = builder.create();
                     dialog.show();
-                    //.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
+                    //dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
