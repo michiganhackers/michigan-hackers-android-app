@@ -10,7 +10,6 @@
     <string name="channel_description">Default Michigan Hackers Notification Channel</string>
     <string name="channel_name">Notification Channel</string>
     <string name="name">Name</string>
-    <string name="major">Major</string>
     <string name="year">Year</string>
     <string name="team">Team</string>
     <string name="title">Title</string>
@@ -49,6 +48,9 @@
     <string name="select_year_hint">Select year</string>
     <string name="select_title_hint">Select title</string>
     <string name="new_major_empty_string_error">Enter a major</string>
+    <string name="profile_major_dialog_hint">Major</string>
+    <string name="profile_team_dialog_hint">Team</string>
+    <string name="new_team_empty_string_error">Enter a team</string>
 
     <string-array name="year_array">
         <item>Freshman</item>

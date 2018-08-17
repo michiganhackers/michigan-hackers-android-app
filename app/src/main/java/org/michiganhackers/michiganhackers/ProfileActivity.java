@@ -1,37 +1,27 @@
 package org.michiganhackers.michiganhackers;
 
-import android.app.ActionBar;
-import android.app.Dialog;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity{
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         majorSpinner.setAdapter(new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint),this));
         final MutableInteger prevMajorSpinnerPosition = new MutableInteger(majorSpinner.getSelectedItemPosition());
-        majorSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_major_spinner_item), majorSpinnerItems, majorSpinnerAdapter, prevMajorSpinnerPosition));
+        majorSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_major_spinner_item),getString(R.string.profile_major_dialog_hint), getString(R.string.new_major_empty_string_error),majorSpinnerItems, majorSpinnerAdapter, prevMajorSpinnerPosition));
         final Observer<List<String>> majorsObserver = new Observer<List<String>>() {
             @Override
             public void onChanged(@Nullable List<String> majors) {
@@ -114,7 +104,7 @@ public class ProfileActivity extends AppCompatActivity{
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         teamSpinner.setAdapter(new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint),this));
         final MutableInteger prevTeamSpinnerPosition = new MutableInteger(teamSpinner.getSelectedItemPosition());
-        teamSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_team_spinner_item), teamSpinnerItems, teamSpinnerAdapter, prevTeamSpinnerPosition));
+        teamSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_team_spinner_item), getString(R.string.profile_team_dialog_hint), getString(R.string.new_team_empty_string_error),teamSpinnerItems, teamSpinnerAdapter, prevTeamSpinnerPosition));
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
         final ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
@@ -239,7 +229,7 @@ public class ProfileActivity extends AppCompatActivity{
         }
     }
 
-    private AdapterView.OnItemSelectedListener getSpinnerListenerForCustomText(final String selectedText, final List<String> spinnerItems, final ArrayAdapter<String> adapter, final MutableInteger prevSpinnerPosition){
+    private AdapterView.OnItemSelectedListener getSpinnerListenerForCustomText(final String selectedText, final String hint, final String EmptyStringDialogErrorMessage, final List<String> spinnerItems, final ArrayAdapter<String> adapter, final MutableInteger prevSpinnerPosition){
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
@@ -253,6 +243,7 @@ public class ProfileActivity extends AppCompatActivity{
                         builder = new AlertDialog.Builder(ProfileActivity.this);
                     }
                     final EditText inputEditText = alertDialogView.findViewById(R.id.alertDialog_editText);
+                    inputEditText.setHint(hint);
                     builder.setView(alertDialogView);
                     builder.setTitle(selectedText)
                             // Listener set to null because we override OnClick later
@@ -284,7 +275,7 @@ public class ProfileActivity extends AppCompatActivity{
                             }
                             else
                             {
-                                inputEditText.setError(getString(R.string.new_major_empty_string_error));
+                                inputEditText.setError(EmptyStringDialogErrorMessage);
                             }
                         }
                     });
@@ -300,6 +291,15 @@ public class ProfileActivity extends AppCompatActivity{
             }
         };
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(croppedImageFileUri != null){
+            outState.putParcelable("croppedImageFileUri", croppedImageFileUri);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
     private class MutableInteger {
         private int value;
         public MutableInteger(int value) {
@@ -311,13 +311,5 @@ public class ProfileActivity extends AppCompatActivity{
         public int getValue() {
             return value;
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if(croppedImageFileUri != null){
-            outState.putParcelable("croppedImageFileUri", croppedImageFileUri);
-        }
-        super.onSaveInstanceState(outState);
     }
 }
