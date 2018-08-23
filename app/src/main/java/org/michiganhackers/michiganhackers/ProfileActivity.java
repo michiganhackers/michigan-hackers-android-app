@@ -77,10 +77,25 @@ public class ProfileActivity extends AppCompatActivity{
         yearSpinner.setAdapter(new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint),this));
 
         final Spinner teamSpinner = findViewById(R.id.profile_team);
-        // todo: add team array somewhere
-        final ArrayAdapter<CharSequence> teamSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
+        final List<String> teamSpinnerItems = new ArrayList<>();
+        final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         teamSpinner.setAdapter(new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint),this));
+        final Observer<List<String>> teamsListObserver = new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> teams) {
+                if (teams != null){
+                    teamSpinnerItems.clear();
+                    teamSpinnerItems.addAll(teams);
+                    teamSpinnerAdapter.notifyDataSetChanged();
+                }
+                directoryViewModel.getTeamsList().removeObserver(this);
+            }
+        };
+        if(savedInstanceState == null)
+        {
+            directoryViewModel.getTeamsList().observe(this, teamsListObserver);
+        }
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
         final ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);

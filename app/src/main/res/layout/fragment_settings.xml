@@ -28,4 +28,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_editProfileButton" />
 
+    <EditText
+        android:id="@+id/settings_addTeamEditText"
+        android:background="@color/colorWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/team"
+        app:layout_constraintTop_toBottomOf="@+id/settings_accountButton" />
+
+    <Button
+        android:id="@+id/settings_addTeamButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_team"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_addTeamEditText" />
+
 </android.support.constraint.ConstraintLayout>

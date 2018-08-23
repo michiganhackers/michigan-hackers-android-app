@@ -49,6 +49,7 @@
     <string name="profile_major_dialog_hint">Major</string>
     <string name="profile_team_dialog_hint">Team</string>
     <string name="new_team_empty_string_error">Enter a team</string>
+    <string name="add_team">Add Team</string>
 
     <string-array name="year_array">
         <item>Freshman</item>
@@ -196,6 +197,7 @@
         <item>Theatre Arts</item>
         <item>Theatre Design and Production</item>
         <item>Theatre Performance</item>
+        <item>Undecided</item>
         <item>Women’s Studies</item>
     </string-array>
 

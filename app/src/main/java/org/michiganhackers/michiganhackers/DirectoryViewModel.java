@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,18 +43,25 @@ public class DirectoryViewModel extends ViewModel {
     private MutableLiveData<Map<String, Team>> teamsByName;
     private Map<String, Team> teamsByNameLocal;
 
+    private MutableLiveData<List<String>> teamsList;
+    private List<String> teamsListLocal;
+
     private DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
+    private DatabaseReference teamsListRef = FirebaseDatabase.getInstance().getReference().child("TeamsList");
 
     public DirectoryViewModel() {
         teamsByNameLocal = new TreeMap<>();
+        teamsListLocal = new ArrayList<>();
         if (this.teamsByName != null) {
             return;
         } else {
             teamsByName = new MutableLiveData<>();
+            teamsList = new MutableLiveData<>();
             teamsRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     Team team = dataSnapshot.getValue(Team.class);
+                    // No nullptr exception b/c team cannot exist without a name
                     teamsByNameLocal.put(team.getName(), team);
                     teamsByName.setValue(teamsByNameLocal);
                 }
@@ -80,6 +88,22 @@ public class DirectoryViewModel extends ViewModel {
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "onCancelled for teamsRef addChildEventListener");
+                }
+            });
+
+            teamsListRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Map<String, String> teamsListMap = (HashMap<String,String>) dataSnapshot.getValue();
+                    if(teamsListMap != null){
+                        teamsListLocal = new ArrayList<>(teamsListMap.values());
+                        teamsList.setValue(teamsListLocal);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "onCancelled for teamsListsRef.addValueEventListener");
                 }
             });
 
@@ -121,7 +145,7 @@ public class DirectoryViewModel extends ViewModel {
                     }
                 }
             });
-        } else {
+        } else  if(teamsListLocal.contains(member.getTeam())){
             Team team = new Team(member.getTeam());
             team.setMember(member);
             teamsRef.child(member.getTeam()).setValue(team, new DatabaseReference.CompletionListener() {
@@ -134,6 +158,8 @@ public class DirectoryViewModel extends ViewModel {
                     }
                 }
             });
+        } else{
+            Log.e(TAG,"Attempted to add member to non-existent team");
         }
     }
 
@@ -214,6 +240,16 @@ public class DirectoryViewModel extends ViewModel {
                             //todo
                         }
                     });
+        }
+    }
+
+    public MutableLiveData<List<String>> getTeamsList() {
+        return teamsList;
+    }
+
+    public void addTeamToTeamsList(String team){
+        if(!teamsListLocal.contains(team)){
+            teamsListRef.push().setValue(team);
         }
     }
 
