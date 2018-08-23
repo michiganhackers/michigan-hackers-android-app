@@ -268,9 +268,10 @@ public class ProfileActivity extends AppCompatActivity{
                         public void onClick(View view) {
                             String inputText = inputEditText.getText().toString();
                             if(!inputText.equals("")){
-                                spinnerItems.add(1, inputText);
+                                spinnerItems.add(0, inputText);
                                 adapter.notifyDataSetChanged();
-                                prevSpinnerPosition.setValue(1);
+                                parent.setSelection(0);
+                                prevSpinnerPosition.setValue(parent.getSelectedItemPosition());
                                 dialog.dismiss();
                             }
                             else

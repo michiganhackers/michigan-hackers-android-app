@@ -66,4 +66,139 @@
         <item>Core Leader</item>
     </string-array>
 
+    <string-array name="majors_array">
+        <item>Actuarial Mathematics</item>
+        <item>Aerospace Engineering</item>
+        <item>Afroamerican and African Studies</item>
+        <item>American Culture</item>
+        <item>Anthropology</item>
+        <item>Architecture</item>
+        <item>Art and Design</item>
+        <item>Arts and Ideas in the Humanities</item>
+        <item>Asian Studies</item>
+        <item>Astronomy and Astrophysics</item>
+        <item>Athletic Training</item>
+        <item>Biochemistry</item>
+        <item>Biology</item>
+        <item>Biology, Health, and Society</item>
+        <item>Biomedical Engineering</item>
+        <item>Biomolecular Science</item>
+        <item>Biophysics</item>
+        <item>Biopsychology, Cognition, and Neuroscience</item>
+        <item>Business</item>
+        <item>Cell and Molecular Biology</item>
+        <item>Cell and Molecular Biology and Biomedical Engineering</item>
+        <item>Chemical Engineering</item>
+        <item>Chemical Science</item>
+        <item>Chemistry</item>
+        <item>Civil Engineering</item>
+        <item>Classical Archaeology</item>
+        <item>Classical Civilization</item>
+        <item>Classical Languages and Literatures</item>
+        <item>Cognitive Science</item>
+        <item>Communication Studies</item>
+        <item>Community and Global Public Health</item>
+        <item>Comparative Culture and Identity</item>
+        <item>Comparative Literature</item>
+        <item>Computer Engineering</item>
+        <item>Computer Science</item>
+        <item>Creative Writing and Literature</item>
+        <item>Dance</item>
+        <item>Data Science</item>
+        <item>Dental Hygiene</item>
+        <item>Drama</item>
+        <item>Earth and Environmental Sciences</item>
+        <item>Earth System Science and Engineering</item>
+        <item>Ecology, Evolution, and Biodiversity</item>
+        <item>Economics</item>
+        <item>Electrical Engineering</item>
+        <item>Elementary Teacher Education</item>
+        <item>Engineering Physics</item>
+        <item>English</item>
+        <item>Environment</item>
+        <item>Environmental Engineering</item>
+        <item>Evolutionary Anthropology</item>
+        <item>Film, Television, and Media</item>
+        <item>French and Francophone Studies</item>
+        <item>Gender and Health</item>
+        <item>General Studies</item>
+        <item>German</item>
+        <item>Global Environment and Health</item>
+        <item>Greek</item>
+        <item>Health and Fitness</item>
+        <item>History</item>
+        <item>History of Art</item>
+        <item>Honors Mathematics</item>
+        <item>Industrial and Operations Engineering</item>
+        <item>Informatics</item>
+        <item>Information</item>
+        <item>Interarts Performance</item>
+        <item>Interdisciplinary Astronomy</item>
+        <item>Interdisciplinary Chemical Sciences</item>
+        <item>Interdisciplinary Physics</item>
+        <item>International Security, Norms, and Cooperation</item>
+        <item>International Studies</item>
+        <item>Italian</item>
+        <item>Jazz Studies</item>
+        <item>Judaic Studies</item>
+        <item>Latin American and Caribbean Studies</item>
+        <item>Latin Language and Literature</item>
+        <item>Latina/Latino Studies</item>
+        <item>Law, Justice, and Social Change</item>
+        <item>Linguistics</item>
+        <item>Materials Science and Engineering</item>
+        <item>Mathematical Sciences</item>
+        <item>Mathematics</item>
+        <item>Mathematics of Finance and Risk Management</item>
+        <item>Mechanical Engineering</item>
+        <item>Microbiology</item>
+        <item>Middle East Studies</item>
+        <item>Middle Eastern and North African Studies</item>
+        <item>Movement Science</item>
+        <item>Multidisciplinary Music Studies</item>
+        <item>Music</item>
+        <item>Music Composition</item>
+        <item>Music Education</item>
+        <item>Music Performance</item>
+        <item>Music Performance with Teacher Certification</item>
+        <item>Musical Theatre</item>
+        <item>Musicology</item>
+        <item>Naval Architecture and Marine Engineering</item>
+        <item>Neuroscience</item>
+        <item>Nuclear Engineering and Radiological Sciences</item>
+        <item>Nursing</item>
+        <item>Organizational Studies</item>
+        <item>Performing Arts Technology</item>
+        <item>Pharmaceutical Sciences</item>
+        <item>Philosophy</item>
+        <item>Philosophy, Politics, and Economics</item>
+        <item>Physics</item>
+        <item>Plant Biology</item>
+        <item>Polish</item>
+        <item>Political Economy and Development</item>
+        <item>Political Science</item>
+        <item>Psychology</item>
+        <item>Public Health Sciences</item>
+        <item>Public Policy</item>
+        <item>Pure Mathematics</item>
+        <item>RC Individual Major Program</item>
+        <item>Romance Languages and Literatures</item>
+        <item>Russian</item>
+        <item>Russian, East European, and Eurasian Studies</item>
+        <item>Screenwriting</item>
+        <item>Secondary Teacher Education</item>
+        <item>Social Theory and Practice</item>
+        <item>Sociology</item>
+        <item>Sociology of Health and Medicine</item>
+        <item>Sound Engineering</item>
+        <item>Spanish</item>
+        <item>Sport Management</item>
+        <item>Statistics</item>
+        <item>Structural Biology Track</item>
+        <item>Theatre Arts</item>
+        <item>Theatre Design and Production</item>
+        <item>Theatre Performance</item>
+        <item>Women’s Studies</item>
+    </string-array>
+
 </resources>
