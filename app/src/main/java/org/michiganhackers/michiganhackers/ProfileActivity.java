@@ -67,44 +67,20 @@ public class ProfileActivity extends AppCompatActivity{
         final EditText nameEditText = findViewById(R.id.profile_name);
 
         final Spinner majorSpinner = findViewById(R.id.profile_major);
-        final List<String> majorSpinnerItems = new ArrayList<>();
-        majorSpinnerItems.add(getString(R.string.add_major_spinner_item));
-        final ArrayAdapter<String> majorSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, majorSpinnerItems);
+        final ArrayAdapter<CharSequence> majorSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.majors_array, android.R.layout.simple_spinner_item);
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         majorSpinner.setAdapter(new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint),this));
-        final MutableInteger prevMajorSpinnerPosition = new MutableInteger(majorSpinner.getSelectedItemPosition());
-        majorSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_major_spinner_item),getString(R.string.profile_major_dialog_hint), getString(R.string.new_major_empty_string_error),majorSpinnerItems, majorSpinnerAdapter, prevMajorSpinnerPosition));
-        final Observer<List<String>> majorsObserver = new Observer<List<String>>() {
-            @Override
-            public void onChanged(@Nullable List<String> majors) {
-                if (majors != null){
-                    majorSpinnerItems.clear();
-                    majorSpinnerItems.addAll(majors);
-                    majorSpinnerItems.add(getString(R.string.add_major_spinner_item));
-                    majorSpinnerAdapter.notifyDataSetChanged();
-                }
-                directoryViewModel.getMajors().removeObserver(this);
-            }
-        };
-        if(savedInstanceState == null)
-        {
-            directoryViewModel.getMajors().observe(this, majorsObserver);
-        }
 
-        
         final Spinner yearSpinner = findViewById(R.id.profile_year);
         final ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
         yearSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yearSpinner.setAdapter(new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint),this));
 
         final Spinner teamSpinner = findViewById(R.id.profile_team);
-        List<String> teamSpinnerItems = new ArrayList<>(); // todo: need to use observable
-        teamSpinnerItems.add(getString(R.string.add_team_spinner_item));
-        final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
+        // todo: add team array somewhere
+        final ArrayAdapter<CharSequence> teamSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         teamSpinner.setAdapter(new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint),this));
-        final MutableInteger prevTeamSpinnerPosition = new MutableInteger(teamSpinner.getSelectedItemPosition());
-        teamSpinner.setOnItemSelectedListener(getSpinnerListenerForCustomText(getString(R.string.add_team_spinner_item), getString(R.string.profile_team_dialog_hint), getString(R.string.new_team_empty_string_error),teamSpinnerItems, teamSpinnerAdapter, prevTeamSpinnerPosition));
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
         final ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
@@ -126,14 +102,12 @@ public class ProfileActivity extends AppCompatActivity{
                         if(majorSpinnerAdapter.getPosition(member.getMajor()) != -1)
                         {
                             majorSpinner.setSelection(majorSpinnerAdapter.getPosition(member.getMajor()));
-                            prevMajorSpinnerPosition.setValue(majorSpinner.getSelectedItemPosition());
                         }
                         if(yearSpinnerAdapter.getPosition(member.getYear()) != -1){
                             yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
                         }
                         if(teamSpinnerAdapter.getPosition(member.getTeam()) != -1){
                             teamSpinner.setSelection(teamSpinnerAdapter.getPosition(member.getTeam()));
-                            prevTeamSpinnerPosition.setValue(teamSpinner.getSelectedItemPosition());
                         }
                         if(titleSpinnerAdapter.getPosition(member.getTitle()) != -1){
                             titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
@@ -227,70 +201,6 @@ public class ProfileActivity extends AppCompatActivity{
             final Throwable cropError = UCrop.getError(data);
             Log.e(TAG, "Error cropping image", cropError);
         }
-    }
-
-    private AdapterView.OnItemSelectedListener getSpinnerListenerForCustomText(final String selectedText, final String hint, final String EmptyStringDialogErrorMessage, final List<String> spinnerItems, final ArrayAdapter<String> adapter, final MutableInteger prevSpinnerPosition){
-        return new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(final AdapterView<?> parent, View view, int position, long id) {
-                //&& !parent.getItemAtPosition(prevSpinnerPosition.getValue()).toString().equals(selectedText)
-                if(parent.getSelectedItem() != null && parent.getSelectedItem().toString().equals(selectedText)){
-                    final View alertDialogView = LayoutInflater.from(ProfileActivity.this).inflate(R.layout.profile_spinner_alert_dialog,null);
-                    AlertDialog.Builder builder;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        builder = new AlertDialog.Builder(ProfileActivity.this, android.R.style.Theme_Material_Light_Dialog);
-                    } else {
-                        builder = new AlertDialog.Builder(ProfileActivity.this);
-                    }
-                    final EditText inputEditText = alertDialogView.findViewById(R.id.alertDialog_editText);
-                    inputEditText.setHint(hint);
-                    builder.setView(alertDialogView);
-                    builder.setTitle(selectedText)
-                            // Listener set to null because we override OnClick later
-                            .setPositiveButton("OK", null)
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            })
-                            .setOnCancelListener(new DialogInterface.OnCancelListener(){
-                                @Override
-                                public void onCancel(DialogInterface dialog) {
-                                    parent.setSelection(prevSpinnerPosition.getValue());
-                                }
-                            });
-
-                    final AlertDialog dialog = builder.create();
-                    dialog.show();
-                    //dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String inputText = inputEditText.getText().toString();
-                            if(!inputText.equals("")){
-                                spinnerItems.add(0, inputText);
-                                adapter.notifyDataSetChanged();
-                                parent.setSelection(0);
-                                prevSpinnerPosition.setValue(parent.getSelectedItemPosition());
-                                dialog.dismiss();
-                            }
-                            else
-                            {
-                                inputEditText.setError(EmptyStringDialogErrorMessage);
-                            }
-                        }
-                    });
-                }
-                else if(parent.getSelectedItem() != null)
-                {
-                    prevSpinnerPosition.setValue(parent.getSelectedItemPosition());
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        };
     }
 
     @Override

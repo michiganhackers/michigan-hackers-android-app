@@ -42,20 +42,14 @@ public class DirectoryViewModel extends ViewModel {
     private MutableLiveData<Map<String, Team>> teamsByName;
     private Map<String, Team> teamsByNameLocal;
 
-    private MutableLiveData<List<String>> majors;
-    private List<String> majorsLocal;
-
     private DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-    private DatabaseReference majorsRef = FirebaseDatabase.getInstance().getReference().child("Majors");
 
     public DirectoryViewModel() {
         teamsByNameLocal = new TreeMap<>();
-        majorsLocal = new ArrayList<>();
         if (this.teamsByName != null) {
             return;
         } else {
             teamsByName = new MutableLiveData<>();
-            majors = new MutableLiveData<>();
             teamsRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -89,21 +83,6 @@ public class DirectoryViewModel extends ViewModel {
                 }
             });
 
-            majorsRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Map<String, String> majorsMap = (HashMap<String,String>) dataSnapshot.getValue();
-                    if(majorsMap != null){
-                        majorsLocal = new ArrayList<>(majorsMap.values());
-                        majors.setValue(majorsLocal);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "onCancelled for majorsRef addValueEventListener");
-                }
-            });
         }
     }
 
@@ -111,13 +90,8 @@ public class DirectoryViewModel extends ViewModel {
         return teamsByName;
     }
 
-    public MutableLiveData<List<String>> getMajors() {
-        return majors;
-    }
-
     public void addMember(Member member, Uri filePath) {
         uploadProfilePhoto(member, filePath);
-        addMajor(member.getMajor());
         if (teamsByNameLocal.containsKey(member.getTeam())) {
             DatabaseReference memberRef = teamsRef.child(member.getTeam()).child("members").child(member.getUid());
             Member memberLocal = teamsByNameLocal.get(member.getTeam()).getMember(member.getUid());
@@ -240,12 +214,6 @@ public class DirectoryViewModel extends ViewModel {
                             //todo
                         }
                     });
-        }
-    }
-
-    private void addMajor(String major){
-        if(!majorsLocal.contains(major)){
-            majorsRef.push().setValue(major);
         }
     }
 
