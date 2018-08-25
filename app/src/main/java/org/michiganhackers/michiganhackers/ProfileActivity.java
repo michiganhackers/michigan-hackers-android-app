@@ -42,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity{
     private Uri croppedImageFileUri;
     FirebaseAuth auth;
     FirebaseAuth.AuthStateListener authListener;
+    Boolean teamSpinnerSelectedSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class ProfileActivity extends AppCompatActivity{
                     Log.e(TAG, "Error while converting profilePicCropped to bitmap", e);
                 }
             }
+            teamSpinnerSelectedSet = savedInstanceState.getBoolean("teamSpinnerSelectedSet");
         }
         final DirectoryViewModel directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
 
@@ -106,6 +108,18 @@ public class ProfileActivity extends AppCompatActivity{
                     teamSpinnerItems.clear();
                     teamSpinnerItems.addAll(teams);
                     teamSpinnerAdapter.notifyDataSetChanged();
+                    // Display the user's previous team selection if it hasn't been yet
+                    if(!teamSpinnerSelectedSet){
+                        FirebaseUser user = auth.getCurrentUser();
+                        if(user != null) {
+                            String uid = user.getUid();
+                            Member member = directoryViewModel.getMember(uid);
+                            if (member != null) {
+                                teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
+                                teamSpinnerSelectedSet = true;
+                            }
+                        }
+                    }
                 }
             }
         };
@@ -140,6 +154,7 @@ public class ProfileActivity extends AppCompatActivity{
                         }
                         if(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()) != -1){
                             teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
+                            teamSpinnerSelectedSet = true;
                         }
                         if(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()) != -1){
                             titleSpinner.setSelection(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()));
@@ -237,6 +252,7 @@ public class ProfileActivity extends AppCompatActivity{
         if(croppedImageFileUri != null){
             outState.putParcelable("croppedImageFileUri", croppedImageFileUri);
         }
+        outState.putBoolean("teamSpinnerSelectedSet", teamSpinnerSelectedSet);
         super.onSaveInstanceState(outState);
     }
 
