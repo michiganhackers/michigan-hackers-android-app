@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity{
     private final static int PICK_IMAGE = 1;
     private static final String TAG = ProfileActivity.class.getName();
     private Uri croppedImageFileUri;
+    FirebaseAuth auth;
+    FirebaseAuth.AuthStateListener authListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +62,20 @@ public class ProfileActivity extends AppCompatActivity{
         final DirectoryViewModel directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
 
         //get firebase auth instance
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-        //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    // user auth state is changed - user is null
+                    // launch login activity
+                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        };
 
         final EditText nameEditText = findViewById(R.id.profile_name);
 
@@ -106,6 +119,8 @@ public class ProfileActivity extends AppCompatActivity{
         final ImageView profilePic = findViewById(R.id.profile_pic);
 
         // Fill in editTexts with user's current info
+        //get current user
+        FirebaseUser user = auth.getCurrentUser();
         if(user != null){
             final String uid = user.getUid();
             final Observer<Map<String, Team>> teamsByNameObserver = new Observer<Map<String, Team>>() {
@@ -142,10 +157,6 @@ public class ProfileActivity extends AppCompatActivity{
                 directoryViewModel.getTeamsByName().observe(this, teamsByNameObserver);
             }
         }
-        else
-        {
-            Log.e(TAG, "Null user onCreate");
-        }
 
         Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +168,8 @@ public class ProfileActivity extends AppCompatActivity{
                 String year = yearSpinner.getSelectedItem().toString();
                 String title = titleSpinner.getSelectedItem().toString();
                 String bio = bioEditText.getText().toString();
+
+                FirebaseUser user = auth.getCurrentUser();
                 if(user != null){
                     String uid = user.getUid();
                     Member member = new Member(memberName, uid, bio, teamName, year, major, title);
@@ -166,7 +179,6 @@ public class ProfileActivity extends AppCompatActivity{
                 else
                 {
                     Toast.makeText(ProfileActivity.this, "Failed to update profile", Toast.LENGTH_LONG).show();
-                    Log.e(TAG, "Null user submitChangesButton");
                 }
             }
         });
@@ -236,6 +248,20 @@ public class ProfileActivity extends AppCompatActivity{
         }
         public int getValue() {
             return value;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
         }
     }
 }

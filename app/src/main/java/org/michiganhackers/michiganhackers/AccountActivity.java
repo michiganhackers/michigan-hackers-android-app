@@ -29,6 +29,7 @@ public class AccountActivity extends AppCompatActivity {
     private EditText passwordResetEmail, newEmail, password, confirmPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
+    FirebaseAuth.AuthStateListener authListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,18 @@ public class AccountActivity extends AppCompatActivity {
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    // user auth state is changed - user is null
+                    // launch login activity
+                    startActivity(new Intent(AccountActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        };
 
         btnChangeEmail = (Button) findViewById(R.id.change_email_button);
         btnChangePassword = (Button) findViewById(R.id.change_password_button);
@@ -91,6 +102,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
+                FirebaseUser user = auth.getCurrentUser();
                 if (user != null && !newEmail.getText().toString().trim().equals("")) {
                     user.updateEmail(newEmail.getText().toString().trim())
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -98,7 +110,7 @@ public class AccountActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(AccountActivity.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
-                                        signOut();
+                                        auth.signOut();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
                                         Toast.makeText(AccountActivity.this, "Failed to update email!", Toast.LENGTH_LONG).show();
@@ -106,7 +118,11 @@ public class AccountActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                } else if (newEmail.getText().toString().trim().equals("")) {
+                }
+                else if (user == null){
+                    Toast.makeText(AccountActivity.this, "Error with user", Toast.LENGTH_SHORT).show();
+                }
+                else if (newEmail.getText().toString().trim().equals("")) {
                     newEmail.setError("Enter email");
                     progressBar.setVisibility(View.GONE);
                 }
@@ -131,6 +147,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
+                FirebaseUser user = auth.getCurrentUser();
                 if (user != null && !password.getText().toString().trim().equals("") && !confirmPassword.getText().toString().trim().equals("")) {
                     if (password.getText().toString().trim().length() < 6) {
                         password.setError("Password too short, enter minimum 6 characters");
@@ -149,6 +166,7 @@ public class AccountActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(AccountActivity.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
+                                            auth.signOut();
                                             progressBar.setVisibility(View.GONE);
                                         } else {
                                             Toast.makeText(AccountActivity.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
@@ -226,6 +244,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
+                FirebaseUser user = auth.getCurrentUser();
                 if (user != null) {
                     final String uid = user.getUid();
                     user.delete()
@@ -261,8 +280,7 @@ public class AccountActivity extends AppCompatActivity {
                         .setMessage("Are you sure you want to sign out?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                signOut();
-                                finish();
+                                auth.signOut();
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -276,15 +294,24 @@ public class AccountActivity extends AppCompatActivity {
 
     }
 
-    //sign out method
-    public void signOut() {
-        auth.signOut();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
     }
 
 }

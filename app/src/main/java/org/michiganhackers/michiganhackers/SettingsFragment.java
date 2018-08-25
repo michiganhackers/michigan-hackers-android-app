@@ -37,15 +37,8 @@ public class SettingsFragment extends Fragment {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                if (auth.getCurrentUser() == null) {
-                    getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
-                }
-                else
-                {
-                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                    getActivity().startActivity(intent);
-                }
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
@@ -53,15 +46,8 @@ public class SettingsFragment extends Fragment {
         editAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                if (auth.getCurrentUser() == null) {
-                    getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
-                }
-                else
-                {
-                    Intent intent = new Intent(getActivity(), AccountActivity.class);
-                    getActivity().startActivity(intent);
-                }
+                Intent intent = new Intent(getActivity(), AccountActivity.class);
+                getActivity().startActivity(intent);
 
             }
         });
