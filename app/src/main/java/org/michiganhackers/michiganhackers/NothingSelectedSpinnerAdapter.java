@@ -11,6 +11,8 @@ import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * Decorator Adapter to allow a Spinner to show a 'Nothing Selected...' initially
  * displayed instead of the first choice in the Adapter.
@@ -151,5 +153,4 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
         int position = adapter.getPosition(item);
         return position == -1 ? -1 : position + EXTRA;
     }
-
 }

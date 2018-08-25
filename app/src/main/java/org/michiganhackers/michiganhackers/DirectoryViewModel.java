@@ -99,6 +99,10 @@ public class DirectoryViewModel extends ViewModel {
                         teamsListLocal = new ArrayList<>(teamsListMap.values());
                         teamsList.setValue(teamsListLocal);
                     }
+                    else{
+                        teamsListLocal = new ArrayList<>();
+                        teamsList.setValue(teamsListLocal);
+                    }
                 }
 
                 @Override

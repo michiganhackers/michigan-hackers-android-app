@@ -94,10 +94,11 @@ public class ProfileActivity extends AppCompatActivity{
 
         final Spinner teamSpinner = findViewById(R.id.profile_team);
         final List<CharSequence> teamSpinnerItems = new ArrayList<>();
-        final ArrayAdapter<CharSequence> teamSpinnerAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
+        final ArrayAdapter<CharSequence> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final NothingSelectedSpinnerAdapter teamNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint),this);
         teamSpinner.setAdapter(teamNothingSelectedSpinnerAdapter);
+        // Note: The team spinner will update in realtime. Some changes to the team list will change which team the user has selected.
         final Observer<List<String>> teamsListObserver = new Observer<List<String>>() {
             @Override
             public void onChanged(@Nullable List<String> teams) {
