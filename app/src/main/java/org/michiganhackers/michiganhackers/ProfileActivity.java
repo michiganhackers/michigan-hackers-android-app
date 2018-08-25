@@ -32,6 +32,7 @@ import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -80,20 +81,23 @@ public class ProfileActivity extends AppCompatActivity{
         final EditText nameEditText = findViewById(R.id.profile_name);
 
         final Spinner majorSpinner = findViewById(R.id.profile_major);
-        final ArrayAdapter<CharSequence> majorSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.majors_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> majorSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.majors_array, android.R.layout.simple_spinner_item);
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        majorSpinner.setAdapter(new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint),this));
+        final NothingSelectedSpinnerAdapter majorNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint),this);
+        majorSpinner.setAdapter(majorNothingSelectedSpinnerAdapter);
 
         final Spinner yearSpinner = findViewById(R.id.profile_year);
-        final ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
         yearSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        yearSpinner.setAdapter(new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint),this));
+        final NothingSelectedSpinnerAdapter yearNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint),this);
+        yearSpinner.setAdapter(yearNothingSelectedSpinnerAdapter);
 
         final Spinner teamSpinner = findViewById(R.id.profile_team);
-        final List<String> teamSpinnerItems = new ArrayList<>();
-        final ArrayAdapter<String> teamSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
+        final List<CharSequence> teamSpinnerItems = new ArrayList<>();
+        final ArrayAdapter<CharSequence> teamSpinnerAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        teamSpinner.setAdapter(new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint),this));
+        final NothingSelectedSpinnerAdapter teamNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint),this);
+        teamSpinner.setAdapter(teamNothingSelectedSpinnerAdapter);
         final Observer<List<String>> teamsListObserver = new Observer<List<String>>() {
             @Override
             public void onChanged(@Nullable List<String> teams) {
@@ -102,18 +106,15 @@ public class ProfileActivity extends AppCompatActivity{
                     teamSpinnerItems.addAll(teams);
                     teamSpinnerAdapter.notifyDataSetChanged();
                 }
-                directoryViewModel.getTeamsList().removeObserver(this);
             }
         };
-        if(savedInstanceState == null)
-        {
-            directoryViewModel.getTeamsList().observe(this, teamsListObserver);
-        }
+        directoryViewModel.getTeamsList().observe(this, teamsListObserver);
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
-        final ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
         titleSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        titleSpinner.setAdapter(new NothingSelectedSpinnerAdapter(titleSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_title_hint),this));
+        final NothingSelectedSpinnerAdapter titleNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(titleSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_title_hint),this);
+        titleSpinner.setAdapter(titleNothingSelectedSpinnerAdapter);
 
         final EditText bioEditText = findViewById(R.id.profile_bio);
         final ImageView profilePic = findViewById(R.id.profile_pic);
@@ -129,18 +130,18 @@ public class ProfileActivity extends AppCompatActivity{
                     Member member = directoryViewModel.getMember(uid);
                     if(member != null){
                         nameEditText.setText(member.getName());
-                        if(majorSpinnerAdapter.getPosition(member.getMajor()) != -1)
+                        if(majorNothingSelectedSpinnerAdapter.getPosition(member.getMajor()) != -1)
                         {
-                            majorSpinner.setSelection(majorSpinnerAdapter.getPosition(member.getMajor()));
+                            majorSpinner.setSelection(majorNothingSelectedSpinnerAdapter.getPosition(member.getMajor()));
                         }
-                        if(yearSpinnerAdapter.getPosition(member.getYear()) != -1){
-                            yearSpinner.setSelection(yearSpinnerAdapter.getPosition(member.getYear()));
+                        if(yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()) != -1){
+                            yearSpinner.setSelection(yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()));
                         }
-                        if(teamSpinnerAdapter.getPosition(member.getTeam()) != -1){
-                            teamSpinner.setSelection(teamSpinnerAdapter.getPosition(member.getTeam()));
+                        if(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()) != -1){
+                            teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
                         }
-                        if(titleSpinnerAdapter.getPosition(member.getTitle()) != -1){
-                            titleSpinner.setSelection(titleSpinnerAdapter.getPosition(member.getTitle()));
+                        if(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()) != -1){
+                            titleSpinner.setSelection(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()));
                         }
                         bioEditText.setText(member.getBio());
                         GlideApp.with(ProfileActivity.this)

@@ -145,7 +145,7 @@ public class DirectoryViewModel extends ViewModel {
                     }
                 }
             });
-        } else  if(teamsListLocal.contains(member.getTeam())){
+        } else if(teamsListLocal.contains(member.getTeam())){
             Team team = new Team(member.getTeam());
             team.setMember(member);
             teamsRef.child(member.getTeam()).setValue(team, new DatabaseReference.CompletionListener() {

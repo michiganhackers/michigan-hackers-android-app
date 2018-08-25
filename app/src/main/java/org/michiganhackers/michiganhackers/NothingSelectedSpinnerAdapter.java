@@ -6,6 +6,7 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -14,11 +15,15 @@ import android.widget.TextView;
  * Decorator Adapter to allow a Spinner to show a 'Nothing Selected...' initially
  * displayed instead of the first choice in the Adapter.
  * Taken from: https://stackoverflow.com/questions/867518/how-to-make-an-android-spinner-with-initial-text-select-one
+ * edited by Vincent Nagel
  */
 public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapter {
 
     protected static final int EXTRA = 1;
-    protected SpinnerAdapter adapter;
+    // NOTE: I changed adapter from SpinnerAdapter to ArrayAdapter<CharSequence>, but I do not fully know the implications of this.
+    // This was done to implement getPostition(). If this breaks NothingSelectedSpinnerAdapter, a
+    // workaround could be to just do arraylist.getPosition(item) + EXTRA outside of this class wherever getPosition is needed (and account for -1)
+    protected ArrayAdapter<CharSequence> adapter;
     protected Context context;
     protected int nothingSelectedLayout;
     protected int nothingSelectedDropdownLayout;
@@ -26,14 +31,14 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
     private String hint;
 
     // Use this constructor to not have the hint in the list of items
-    public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter,
+    public NothingSelectedSpinnerAdapter(ArrayAdapter<CharSequence> spinnerAdapter,
             int nothingSelectedLayout, String hint, Context context) {
 
         this(spinnerAdapter, nothingSelectedLayout, -1, hint, context);
     }
 
     // Use this constructor to have the hint as the first row in the list of items
-    public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter, int nothingSelectedLayout,
+    public NothingSelectedSpinnerAdapter(ArrayAdapter<CharSequence> spinnerAdapter, int nothingSelectedLayout,
                                          int nothingSelectedDropdownLayout, String hint, Context context) {
         this.adapter = spinnerAdapter;
         this.context = context;
@@ -89,8 +94,7 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
 
     @Override
     public int getCount() {
-        int count = adapter.getCount();
-        return count == 0 ? 0 : count + EXTRA;
+        return adapter.getCount() + EXTRA;
     }
 
     @Override
@@ -141,6 +145,11 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
     @Override
     public boolean isEnabled(int position) {
         return position != 0; // Don't allow the 'nothing selected' item to be picked.
+    }
+
+    public int getPosition(CharSequence item){
+        int position = adapter.getPosition(item);
+        return position == -1 ? -1 : position + EXTRA;
     }
 
 }
