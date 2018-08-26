@@ -40,49 +40,52 @@ import java.util.UUID;
 public class DirectoryViewModel extends ViewModel {
     private static final String TAG = "DirectoryViewModel";
 
-    private MutableLiveData<Map<String, Team>> teamsByName;
-    private Map<String, Team> teamsByNameLocal;
+    private MutableLiveData<Map<String, Team>> teams;
+    private Map<String, Team> teamsLocal;
 
-    private MutableLiveData<List<String>> teamsList;
-    private List<String> teamsListLocal;
+    private MutableLiveData<Map<String,Member>> members;
+    private Map<String,Member> membersLocal;
 
     private DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
-    private DatabaseReference teamsListRef = FirebaseDatabase.getInstance().getReference().child("TeamsList");
+    private DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child("Members");
+
 
     public DirectoryViewModel() {
-        teamsByNameLocal = new TreeMap<>();
-        teamsListLocal = new ArrayList<>();
-        if (this.teamsByName != null) {
+        // teams can be ordered in treemap because their key is team name
+        teamsLocal = new TreeMap<>();
+        // members cannot be ordered in treemap because their key is user id (to allow for duplicate names)
+        membersLocal = new HashMap<>();
+        if (this.teams != null) {
             return;
         } else {
-            teamsByName = new MutableLiveData<>();
-            teamsList = new MutableLiveData<>();
+            teams = new MutableLiveData<>();
+            members = new MutableLiveData<>();
             teamsRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     Team team = dataSnapshot.getValue(Team.class);
                     // No nullptr exception b/c team cannot exist without a name
-                    teamsByNameLocal.put(team.getName(), team);
-                    teamsByName.setValue(teamsByNameLocal);
+                    teamsLocal.put(team.getName(), team);
+                    teams.setValue(teamsLocal);
                 }
 
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     Team team = dataSnapshot.getValue(Team.class);
-                    teamsByNameLocal.put(team.getName(), team);
-                    teamsByName.setValue(teamsByNameLocal);
+                    teamsLocal.put(team.getName(), team);
+                    teams.setValue(teamsLocal);
                 }
 
                 @Override
                 public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                     Team team = dataSnapshot.getValue(Team.class);
-                    teamsByNameLocal.remove(team.getName());
-                    teamsByName.setValue(teamsByNameLocal);
+                    teamsLocal.remove(team.getName());
+                    teams.setValue(teamsLocal);
                 }
 
                 @Override
                 public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    //Todo
+                    // Not relevant because firebase data isn't ordered
                 }
 
                 @Override
@@ -91,35 +94,54 @@ public class DirectoryViewModel extends ViewModel {
                 }
             });
 
-            teamsListRef.addValueEventListener(new ValueEventListener() {
+            membersRef.addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Map<String, String> teamsListMap = (HashMap<String,String>) dataSnapshot.getValue();
-                    if(teamsListMap != null){
-                        teamsListLocal = new ArrayList<>(teamsListMap.values());
-                        teamsList.setValue(teamsListLocal);
-                    }
-                    else{
-                        teamsListLocal = new ArrayList<>();
-                        teamsList.setValue(teamsListLocal);
-                    }
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    Member member = dataSnapshot.getValue(Member.class);
+                    membersLocal.put(member.getUid(), member);
+                    members.setValue(membersLocal);
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    Member member = dataSnapshot.getValue(Member.class);
+                    membersLocal.put(member.getUid(), member);
+                    members.setValue(membersLocal);
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                    Member member = dataSnapshot.getValue(Member.class);
+                    membersLocal.remove(member.getUid());
+                    members.setValue(membersLocal);
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    // Not relevant because firebase data isn't ordered
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "onCancelled for teamsListsRef.addValueEventListener");
+                    Log.e(TAG, "onCancelled for membersRef addChildEventListener");
                 }
             });
 
         }
     }
 
-    LiveData<Map<String, Team>> getTeamsByName() {
-        return teamsByName;
+    LiveData<Map<String, Team>> getTeams() {
+        return teams;
+    }
+    LiveData<Map<String, Member>> getMembers() {
+        return members;
     }
 
     public void addMember(Member member, Uri filePath) {
         uploadProfilePhoto(member, filePath);
+        // add member to team
+
+        // add member to members
         if (teamsByNameLocal.containsKey(member.getTeam())) {
             DatabaseReference memberRef = teamsRef.child(member.getTeam()).child("members").child(member.getUid());
             Member memberLocal = teamsByNameLocal.get(member.getTeam()).getMember(member.getUid());
@@ -164,6 +186,12 @@ public class DirectoryViewModel extends ViewModel {
             });
         } else{
             Log.e(TAG,"Attempted to add member to non-existent team");
+        }
+    }
+
+    public void addTeam(Team team){
+        if(!teamsLocal.containsKey(team.getName())){
+            teamsRef.child(team.getName()).setValue(team);
         }
     }
 
@@ -249,12 +277,6 @@ public class DirectoryViewModel extends ViewModel {
 
     public MutableLiveData<List<String>> getTeamsList() {
         return teamsList;
-    }
-
-    public void addTeamToTeamsList(String team){
-        if(!teamsListLocal.contains(team)){
-            teamsListRef.push().setValue(team);
-        }
     }
 
 }

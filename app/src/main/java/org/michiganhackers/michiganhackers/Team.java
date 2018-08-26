@@ -12,7 +12,7 @@ import java.util.TreeMap;
 public class Team {
     private String name;
     private String info;
-    private Map<String, Member> members = new TreeMap<>();
+    private List<String> members;
 
     public Team(){
     }

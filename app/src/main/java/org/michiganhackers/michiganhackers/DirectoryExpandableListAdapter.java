@@ -17,7 +17,8 @@ import java.util.TreeMap;
 
 public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
-    private Map<String, Team> teamsByName;
+    private List<Team> teams;
+    private List<Member> members;
     private Context context;
 
     public DirectoryExpandableListAdapter(Context context) {
