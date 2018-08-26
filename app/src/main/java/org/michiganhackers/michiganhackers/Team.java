@@ -12,7 +12,6 @@ import java.util.TreeMap;
 public class Team {
     private String name;
     private String info;
-    private List<String> members;
 
     public Team(){
     }
@@ -21,13 +20,6 @@ public class Team {
         this.name = name;
     }
 
-    public void setMember(Member member) {
-        members.put(member.getUid(), member);
-    }
-    public Member getMemberByIndex(int index){
-        List<String> memberIds = new ArrayList<>(members.keySet());
-        return members.get(memberIds.get(index));
-    }
     public String getName() {
         return name;
     }
@@ -40,26 +32,8 @@ public class Team {
         this.info = info;
     }
 
-    public int getSize(){
-        return members.size();
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Map<String, Member> getMembers() {
-        return members;
-    }
-
-    public Member getMember(String uid){
-        if(members.containsKey(uid)){
-            return members.get(uid);
-        }
-        else
-        {
-            return null;
-        }
     }
 
 }

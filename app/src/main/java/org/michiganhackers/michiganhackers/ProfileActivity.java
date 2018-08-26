@@ -36,7 +36,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class ProfileActivity extends AppCompatActivity{
+public class ProfileActivity extends AppCompatActivity {
     private final static int PICK_IMAGE = 1;
     private static final String TAG = ProfileActivity.class.getName();
     private Uri croppedImageFileUri;
@@ -48,15 +48,14 @@ public class ProfileActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             croppedImageFileUri = savedInstanceState.getParcelable("croppedImageFileUri");
-            if(croppedImageFileUri != null){
+            if (croppedImageFileUri != null) {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), croppedImageFileUri);
                     ImageView profilePic = findViewById(R.id.profile_pic);
                     profilePic.setImageBitmap(bitmap);
-                }
-                catch(IOException e){
+                } catch (IOException e) {
                     Log.e(TAG, "Error while converting profilePicCropped to bitmap", e);
                 }
             }
@@ -85,28 +84,30 @@ public class ProfileActivity extends AppCompatActivity{
         final Spinner majorSpinner = findViewById(R.id.profile_major);
         ArrayAdapter<CharSequence> majorSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.majors_array, android.R.layout.simple_spinner_item);
         majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        final NothingSelectedSpinnerAdapter majorNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint),this);
+        final NothingSelectedSpinnerAdapter majorNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint), this);
         majorSpinner.setAdapter(majorNothingSelectedSpinnerAdapter);
 
         final Spinner yearSpinner = findViewById(R.id.profile_year);
         ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
         yearSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        final NothingSelectedSpinnerAdapter yearNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint),this);
+        final NothingSelectedSpinnerAdapter yearNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint), this);
         yearSpinner.setAdapter(yearNothingSelectedSpinnerAdapter);
 
         final Spinner teamSpinner = findViewById(R.id.profile_team);
         final List<CharSequence> teamSpinnerItems = new ArrayList<>();
         final ArrayAdapter<CharSequence> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        final NothingSelectedSpinnerAdapter teamNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint),this);
+        final NothingSelectedSpinnerAdapter teamNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint), this);
         teamSpinner.setAdapter(teamNothingSelectedSpinnerAdapter);
-        // Note: The team spinner will update in realtime. Some changes to the team list will change which team the user has selected.
-        final Observer<List<String>> teamsListObserver = new Observer<List<String>>() {
+        // Note: The team spinner will update in real time. Some changes to the team list will change which team the user has selected.
+        final Observer<Map<String, Team>> teamsListObserver = new Observer<Map<String,Team>>() {
             @Override
-            public void onChanged(@Nullable List<String> teams) {
-                if (teams != null){
+            public void onChanged(@Nullable Map<String,Team> teamsByName) {
+                if (teamsByName != null) {
+                    // Populate team spinner
+                    ArrayList<String> teamsList = new ArrayList<>(teamsByName.keySet());
                     teamSpinnerItems.clear();
-                    teamSpinnerItems.addAll(teams);
+                    teamSpinnerItems.addAll(teamsList);
                     teamSpinnerAdapter.notifyDataSetChanged();
                     // Display the user's previous team selection if it hasn't been yet
                     if(!teamSpinnerSelectedSet){
@@ -115,48 +116,44 @@ public class ProfileActivity extends AppCompatActivity{
                             String uid = user.getUid();
                             Member member = directoryViewModel.getMember(uid);
                             if (member != null) {
-                                teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
-                                teamSpinnerSelectedSet = true;
+                                if (teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()) != -1) {
+                                    teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
+                                    teamSpinnerSelectedSet = true;
+                                }
                             }
                         }
                     }
                 }
             }
         };
-        directoryViewModel.getTeamsList().observe(this, teamsListObserver);
+        directoryViewModel.getTeamsByName().observe(this, teamsListObserver);
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
         ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
         titleSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        final NothingSelectedSpinnerAdapter titleNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(titleSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_title_hint),this);
+        final NothingSelectedSpinnerAdapter titleNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(titleSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_title_hint), this);
         titleSpinner.setAdapter(titleNothingSelectedSpinnerAdapter);
 
         final EditText bioEditText = findViewById(R.id.profile_bio);
         final ImageView profilePic = findViewById(R.id.profile_pic);
 
-        // Fill in editTexts with user's current info
-        //get current user
-        FirebaseUser user = auth.getCurrentUser();
-        if(user != null){
-            final String uid = user.getUid();
-            final Observer<Map<String, Team>> teamsByNameObserver = new Observer<Map<String, Team>>() {
-                @Override
-                public void onChanged(@Nullable final Map<String, Team> teamsByName) {
+        final Observer<Map<String, Team>> profileInfoObserver = new Observer<Map<String, Team>>() {
+            @Override
+            public void onChanged(@Nullable final Map<String, Team> teamsByName) {
+                // Fill in profile fields with user's current info.
+                FirebaseUser user = auth.getCurrentUser();
+                if (user != null) {
+                    String uid = user.getUid();
                     Member member = directoryViewModel.getMember(uid);
-                    if(member != null){
+                    if (member != null) {
                         nameEditText.setText(member.getName());
-                        if(majorNothingSelectedSpinnerAdapter.getPosition(member.getMajor()) != -1)
-                        {
+                        if (majorNothingSelectedSpinnerAdapter.getPosition(member.getMajor()) != -1) {
                             majorSpinner.setSelection(majorNothingSelectedSpinnerAdapter.getPosition(member.getMajor()));
                         }
-                        if(yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()) != -1){
+                        if (yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()) != -1) {
                             yearSpinner.setSelection(yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()));
                         }
-                        if(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()) != -1){
-                            teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
-                            teamSpinnerSelectedSet = true;
-                        }
-                        if(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()) != -1){
+                        if (titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()) != -1) {
                             titleSpinner.setSelection(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()));
                         }
                         bioEditText.setText(member.getBio());
@@ -165,16 +162,16 @@ public class ProfileActivity extends AppCompatActivity{
                                 .placeholder(R.drawable.ic_directory)
                                 .centerCrop()
                                 .into(profilePic);
+                        // Note that the observer is removed after the team with the current user is found and his/her info is added
+                        // This is one reason why the team spinner is not populated with this observer
                         directoryViewModel.getTeamsByName().removeObserver(this);
                     }
                 }
-            };
-            if(savedInstanceState == null)
-            {
-                directoryViewModel.getTeamsByName().observe(this, teamsByNameObserver);
             }
+        };
+        if (savedInstanceState == null) {
+            directoryViewModel.getTeamsByName().observe(this, profileInfoObserver);
         }
-
         Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,21 +184,19 @@ public class ProfileActivity extends AppCompatActivity{
                 String bio = bioEditText.getText().toString();
 
                 FirebaseUser user = auth.getCurrentUser();
-                if(user != null){
+                if (user != null) {
                     String uid = user.getUid();
                     Member member = new Member(memberName, uid, bio, teamName, year, major, title);
                     directoryViewModel.addMember(member, croppedImageFileUri);
                     finish();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(ProfileActivity.this, "Failed to update profile", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
         FloatingActionButton imageEditButton = findViewById(R.id.profile_imageEditButton);
-        imageEditButton.setOnClickListener(new View.OnClickListener(){
+        imageEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -226,19 +221,17 @@ public class ProfileActivity extends AppCompatActivity{
                 String imageFileName = "profilePicCropped.jpeg";
                 File croppedImageFile = File.createTempFile(imageFileName, null, getCacheDir());
                 Uri destinationImageFileUri = Uri.fromFile(croppedImageFile);
-                UCrop.of(sourceImageFileUri, destinationImageFileUri).withAspectRatio(1,1).start(ProfileActivity.this);
+                UCrop.of(sourceImageFileUri, destinationImageFileUri).withAspectRatio(1, 1).start(ProfileActivity.this);
             } catch (IOException e) {
                 Log.e(TAG, "Error while creating profilePic temp file", e);
             }
-        }
-        else if(resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+        } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             croppedImageFileUri = UCrop.getOutput(data);
-            try{
+            try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), croppedImageFileUri);
                 ImageView profilePic = findViewById(R.id.profile_pic);
                 profilePic.setImageBitmap(bitmap);
-            }
-            catch(IOException e){
+            } catch (IOException e) {
                 Log.e(TAG, "Error while converting profilePicCropped to bitmap", e);
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
@@ -249,7 +242,7 @@ public class ProfileActivity extends AppCompatActivity{
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if(croppedImageFileUri != null){
+        if (croppedImageFileUri != null) {
             outState.putParcelable("croppedImageFileUri", croppedImageFileUri);
         }
         outState.putBoolean("teamSpinnerSelectedSet", teamSpinnerSelectedSet);
@@ -258,12 +251,15 @@ public class ProfileActivity extends AppCompatActivity{
 
     private class MutableInteger {
         private int value;
+
         public MutableInteger(int value) {
             this.value = value;
         }
+
         public void setValue(int value) {
             this.value = value;
         }
+
         public int getValue() {
             return value;
         }

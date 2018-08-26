@@ -1,6 +1,5 @@
 package org.michiganhackers.michiganhackers;
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
@@ -43,8 +42,8 @@ public class DirectoryViewModel extends ViewModel {
     private MutableLiveData<Map<String, Team>> teams;
     private Map<String, Team> teamsLocal;
 
-    private MutableLiveData<Map<String,Member>> members;
-    private Map<String,Member> membersLocal;
+    private MutableLiveData<Map<String, Member>> members;
+    private Map<String, Member> membersLocal;
 
     private DatabaseReference teamsRef = FirebaseDatabase.getInstance().getReference().child("Teams");
     private DatabaseReference membersRef = FirebaseDatabase.getInstance().getReference().child("Members");
@@ -98,6 +97,7 @@ public class DirectoryViewModel extends ViewModel {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     Member member = dataSnapshot.getValue(Member.class);
+                    // No nullptr exception b/c member cannot exist without a uid
                     membersLocal.put(member.getUid(), member);
                     members.setValue(membersLocal);
                 }
@@ -133,65 +133,38 @@ public class DirectoryViewModel extends ViewModel {
     LiveData<Map<String, Team>> getTeams() {
         return teams;
     }
+
     LiveData<Map<String, Member>> getMembers() {
         return members;
     }
 
-    public void addMember(Member member, Uri filePath) {
-        uploadProfilePhoto(member, filePath);
-        // add member to team
-
-        // add member to members
-        if (teamsByNameLocal.containsKey(member.getTeam())) {
-            DatabaseReference memberRef = teamsRef.child(member.getTeam()).child("members").child(member.getUid());
-            Member memberLocal = teamsByNameLocal.get(member.getTeam()).getMember(member.getUid());
-            // If the member already exists and the name is different, change firebase auth display name
-            if (memberLocal != null && !memberLocal.getName().equals(member.getName())) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(member.getName()).build();
-                    user.updateProfile(profileUpdates)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (!task.isSuccessful()) {
-                                        Log.e(TAG, "Failed to update auth display name");
-                                    }
+    public void addMember(Member newMember, Uri filePath) {
+        uploadProfilePhoto(newMember, filePath);
+        DatabaseReference memberRef = membersRef.child(newMember.getUid());
+        Member memberLocal = membersLocal.get(newMember.getUid());
+        // If the member already exists and the name is different, change firebase auth display name
+        if (memberLocal != null && !memberLocal.getName().equals(newMember.getName())) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newMember.getName()).build();
+                user.updateProfile(profileUpdates)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.e(TAG, "Failed to update auth display name");
                                 }
-                            });
-                }
+                            }
+                        });
             }
-            memberRef.setValue(member, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    if (databaseError != null) {
-                        //todo: This is if data could not be saved
-                    } else {
-
-                    }
-                }
-            });
-        } else if(teamsListLocal.contains(member.getTeam())){
-            Team team = new Team(member.getTeam());
-            team.setMember(member);
-            teamsRef.child(member.getTeam()).setValue(team, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    if (databaseError != null) {
-                        //todo: This is if data could not be saved
-                    } else {
-
-                    }
-                }
-            });
-        } else{
-            Log.e(TAG,"Attempted to add member to non-existent team");
         }
+        memberRef.setValue(newMember);
     }
 
-    public void addTeam(Team team){
-        if(!teamsLocal.containsKey(team.getName())){
-            teamsRef.child(team.getName()).setValue(team);
+    public void addTeam(String teamName) {
+        if (!teamsLocal.containsKey(teamName)) {
+            Team team = new Team(teamName);
+            teamsRef.child(teamName).setValue(team);
         }
     }
 

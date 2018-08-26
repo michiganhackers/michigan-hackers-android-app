@@ -1,9 +1,11 @@
 package org.michiganhackers.michiganhackers;
 
+import java.util.List;
+
 public class Member {
     private String name;
     private String bio;
-    private String team;
+    private List<String> teams;
     private String year;
     private String major;
     private String title;
@@ -13,17 +15,17 @@ public class Member {
     public Member() {
     }
 
-    public Member(String name, String uid, String team) {
+    public Member(String name, String uid, List<String> teams) {
         this.name = name;
-        this.team = team;
+        this.teams = teams;
         this.uid = uid;
     }
 
-    public Member(String name, String uid, String bio, String team, String year, String major, String title) {
+    public Member(String name, String uid, String bio, List<String> teams, String year, String major, String title) {
         this.name = name;
         this.uid = uid;
         this.bio = bio;
-        this.team = team;
+        this.teams = teams;
         this.year = year;
         this.major = major;
         this.title = title;
@@ -33,16 +35,24 @@ public class Member {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getBio() {
         return bio;
     }
 
-    public String getTeam() {
-        return team;
-    }
-
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public List<String> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<String> teams) {
+        this.teams = teams;
     }
 
     public String getYear() {
@@ -67,14 +77,6 @@ public class Member {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setTeam(String team) {
-        this.team = team;
     }
 
     public String getUid() {
