@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,13 +25,24 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     public DirectoryExpandableListAdapter(Context context) {
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.teamsByName = new TreeMap<>();
+        this.teams = new ArrayList<>();
+        this.members = new ArrayList<>();
         this.context = context;
     }
 
     @Override
     public Member getChild(int groupPosition, int childPosition){
-        return getGroup(groupPosition).getMemberByIndex(childPosition);
+        Team team = teams.get(groupPosition);
+        int pos = -1;
+        for (int i = 0; i < members.size(); ++i){
+            if(members.get(i).getTeams().contains(team.getName())){
+                ++pos;
+            }
+            if(pos == childPosition){
+                return members.get(i);
+            }
+        }
+        return null;
     }
 
     @Override
@@ -61,18 +74,24 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return getGroup(groupPosition).getSize();
+        Team team = teams.get(groupPosition);
+        int ct = 0;
+        for (int i = 0; i < members.size(); ++i){
+            if(members.get(i).getTeams().contains(team.getName())){
+                ++ct;
+            }
+        }
+        return ct;
     }
 
     @Override
     public Team getGroup(int groupPosition) {
-        List<String> teamNames = new ArrayList<>(teamsByName.keySet());
-        return teamsByName.get(teamNames.get(groupPosition));
+        return teams.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return teamsByName.size();
+        return teams.size();
     }
 
     @Override
@@ -104,8 +123,19 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public void setTeamsByName(Map<String, Team> teamsByName) {
-        this.teamsByName = teamsByName;
+    // Note: Parameter type is TreeMap and not Map to make sure it gets sorted teams
+    public void setTeams(TreeMap<String,Team> teams) {
+        this.teams = new ArrayList<>(teams.values());
+    }
+
+    public void setMembers(Map<String,Member> members) {
+        this.members = new ArrayList<>(members.values());
+        Collections.sort(this.members,new Comparator<Member>() {
+            @Override
+            public int compare(Member o1, Member o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
     }
 }
 

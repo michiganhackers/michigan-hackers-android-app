@@ -61,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
             teamSpinnerSelectedSet = savedInstanceState.getBoolean("teamSpinnerSelectedSet");
         }
-        final DirectoryViewModel directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
+        final ProfileViewModel profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -99,34 +99,35 @@ public class ProfileActivity extends AppCompatActivity {
         teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final NothingSelectedSpinnerAdapter teamNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint), this);
         teamSpinner.setAdapter(teamNothingSelectedSpinnerAdapter);
+
         // Note: The team spinner will update in real time. Some changes to the team list will change which team the user has selected.
-        final Observer<Map<String, Team>> teamsListObserver = new Observer<Map<String,Team>>() {
+        final Observer<List<String>> teamNamesObserver = new Observer<List<String>>() {
             @Override
-            public void onChanged(@Nullable Map<String,Team> teamsByName) {
-                if (teamsByName != null) {
+            public void onChanged(@Nullable List<String> teamNames) {
+                if (teamNames != null) {
                     // Populate team spinner
-                    ArrayList<String> teamsList = new ArrayList<>(teamsByName.keySet());
                     teamSpinnerItems.clear();
-                    teamSpinnerItems.addAll(teamsList);
+                    teamSpinnerItems.addAll(teamNames);
                     teamSpinnerAdapter.notifyDataSetChanged();
-                    // Display the user's previous team selection if it hasn't been yet
-                    if(!teamSpinnerSelectedSet){
-                        FirebaseUser user = auth.getCurrentUser();
-                        if(user != null) {
-                            String uid = user.getUid();
-                            Member member = directoryViewModel.getMember(uid);
-                            if (member != null) {
-                                if (teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()) != -1) {
-                                    teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
-                                    teamSpinnerSelectedSet = true;
-                                }
-                            }
-                        }
-                    }
                 }
             }
         };
-        directoryViewModel.getTeamsByName().observe(this, teamsListObserver);
+        profileViewModel.getTeamNames().observe(this, teamNamesObserver);
+
+        // Display the user's previous team selection if it hasn't been yet
+        if(!teamSpinnerSelectedSet){
+            FirebaseUser user = auth.getCurrentUser();
+            if(user != null) {
+                String uid = user.getUid();
+                Member member = profileViewModel.getMember(uid);
+                if (member != null) {
+                    if (teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()) != -1) {
+                        teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
+                        teamSpinnerSelectedSet = true;
+                    }
+                }
+            }
+        }
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
         ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);

@@ -37,14 +37,23 @@ public class DirectoryFragment extends Fragment {
         final DirectoryExpandableListAdapter directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext());
         expandableListView.setAdapter(directoryExpandableListAdapter);
 
-        final Observer<Map<String,Team>> teamsByNameObserver = new Observer<Map<String,Team>>() {
+        final Observer<Map<String,Team>> teamsObserver = new Observer<Map<String,Team>>() {
             @Override
-            public void onChanged(@Nullable final Map<String,Team> teamsByName) {
-                directoryExpandableListAdapter.setTeamsByName(teamsByName);
+            public void onChanged(@Nullable final Map<String,Team> teams) {
+                directoryExpandableListAdapter.setTeams(teams);
                 directoryExpandableListAdapter.notifyDataSetChanged();
             }
         };
-        directoryViewModel.getTeamsByName().observe(this, teamsByNameObserver);
+        directoryViewModel.getTeams().observe(this, teamsObserver);
+
+        final Observer<Map<String,Member>> membersObserver = new Observer<Map<String,Member>>() {
+            @Override
+            public void onChanged(@Nullable final Map<String,Member> members) {
+                directoryExpandableListAdapter.setMembers(members);
+                directoryExpandableListAdapter.notifyDataSetChanged();
+            }
+        };
+        directoryViewModel.getMembers().observe(this, membersObserver);
 
         return layout;
     }
