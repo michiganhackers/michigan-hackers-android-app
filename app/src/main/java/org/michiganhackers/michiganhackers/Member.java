@@ -7,7 +7,7 @@ public class Member {
     private String bio;
     private List<String> teams;
     private String year;
-    private String major;
+    private List<String> majors;
     private String title;
     private String uid;
     private String photoUrl;
@@ -21,13 +21,13 @@ public class Member {
         this.uid = uid;
     }
 
-    public Member(String name, String uid, String bio, List<String> teams, String year, String major, String title) {
+    public Member(String name, String uid, String bio, List<String> teams, String year, List<String> majors, String title) {
         this.name = name;
         this.uid = uid;
         this.bio = bio;
         this.teams = teams;
         this.year = year;
-        this.major = major;
+        this.majors = majors;
         this.title = title;
     }
 
@@ -63,12 +63,12 @@ public class Member {
         this.year = year;
     }
 
-    public String getMajor() {
-        return major;
+    public List<String> getMajors() {
+        return majors;
     }
 
-    public void setMajor(String major) {
-        this.major = major;
+    public void setMajors(List<String> majors) {
+        this.majors = majors;
     }
 
     public String getTitle() {

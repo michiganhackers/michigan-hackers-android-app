@@ -101,7 +101,6 @@ public class ProfileViewModel extends ViewModel {
                                 DocumentSnapshot documentSnapshot = task.getResult();
                                 if(documentSnapshot.exists()){
                                     member.setValue(documentSnapshot.toObject(Member.class));
-
                                 }
                                 else{
                                     Log.e(TAG, "Member document does not exist:  ", task.getException());
@@ -118,6 +117,10 @@ public class ProfileViewModel extends ViewModel {
 
     public LiveData<List<String>> getTeamNames() {
         return teamNames;
+    }
+
+    public MutableLiveData<Member> getMember() {
+        return member;
     }
 
     public void setMember(Member newMember, Uri filePath) {

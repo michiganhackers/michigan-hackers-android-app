@@ -110,24 +110,25 @@ public class ProfileActivity extends AppCompatActivity {
                     teamSpinnerItems.addAll(teamNames);
                     teamSpinnerAdapter.notifyDataSetChanged();
                 }
+                // Display the user's previous team selection if it hasn't been yet
+                if(!teamSpinnerSelectedSet){
+                    FirebaseUser user = auth.getCurrentUser();
+                    if(user != null) {
+                        String uid = user.getUid();
+                        Member member = profileViewModel.getMember().getValue();
+                        if (member != null) {
+                            if (teamNothingSelectedSpinnerAdapter.getPosition(member.getTeams().get(1)) != -1) {
+                                teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
+                                teamSpinnerSelectedSet = true;
+                            }
+                        }
+                    }
+                }
             }
         };
         profileViewModel.getTeamNames().observe(this, teamNamesObserver);
 
-        // Display the user's previous team selection if it hasn't been yet
-        if(!teamSpinnerSelectedSet){
-            FirebaseUser user = auth.getCurrentUser();
-            if(user != null) {
-                String uid = user.getUid();
-                Member member = profileViewModel.getMember(uid);
-                if (member != null) {
-                    if (teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()) != -1) {
-                        teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
-                        teamSpinnerSelectedSet = true;
-                    }
-                }
-            }
-        }
+
 
         final Spinner titleSpinner = findViewById(R.id.profile_title);
         ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
