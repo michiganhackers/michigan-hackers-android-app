@@ -148,17 +148,8 @@ public class ProfileViewModel extends ViewModel {
 
     private void uploadProfilePhoto(Uri filePath) {
         if (filePath != null) {
-            // If the member already exists, delete current profile picture
-            Member memberLocal = this.member.getValue();
-            if (memberLocal != null && memberLocal.getPhotoUrl() != null) {
-                StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(memberLocal.getPhotoUrl());
-                photoRef.delete().addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "Failed to delete member's old profile picture", e);
-                    }
-                });
-            }
+            // delete old profile picture
+            deleteProfilePhoto();
             // Upload picture and set member photoUri
             final StorageReference photoRef = storageRef.child("images/users/" + UUID.randomUUID().toString());
             photoRef.putFile(filePath)
@@ -205,6 +196,19 @@ public class ProfileViewModel extends ViewModel {
                             Log.e(TAG, "Failed to add user profile image to storage", e);
                         }
                     });
+        }
+    }
+
+    private void deleteProfilePhoto(){
+        Member memberLocal = member.getValue();
+        if (memberLocal != null && memberLocal.getPhotoUrl() != null) {
+            StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(memberLocal.getPhotoUrl());
+            photoRef.delete().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "Failed to delete member's old profile picture", e);
+                }
+            });
         }
     }
 

@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -36,7 +35,7 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        final DirectoryViewModel directoryViewModel = ViewModelProviders.of(this).get(DirectoryViewModel.class);
+        final AccountViewModel accountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -118,11 +117,9 @@ public class AccountActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                }
-                else if (user == null){
+                } else if (user == null) {
                     Toast.makeText(AccountActivity.this, "Error with user", Toast.LENGTH_SHORT).show();
-                }
-                else if (newEmail.getText().toString().trim().equals("")) {
+                } else if (newEmail.getText().toString().trim().equals("")) {
                     newEmail.setError("Enter email");
                     progressBar.setVisibility(View.GONE);
                 }
@@ -153,13 +150,11 @@ public class AccountActivity extends AppCompatActivity {
                         password.setError("Password too short, enter minimum 6 characters");
                         confirmPassword.setError("Password too short, enter minimum 6 characters");
                         progressBar.setVisibility(View.GONE);
-                    }
-                    else if(!password.getText().equals(confirmPassword.getText())) {
+                    } else if (!password.getText().equals(confirmPassword.getText())) {
                         password.setError("Passwords do not match");
                         confirmPassword.setError("Passwords do not match");
                         progressBar.setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                         user.updatePassword(password.getText().toString().trim())
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -254,7 +249,7 @@ public class AccountActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(AccountActivity.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(AccountActivity.this, SignupActivity.class));
-                                        directoryViewModel.removeMember(uid);
+                                        accountViewModel.removeMember(uid);
                                         finish();
                                         progressBar.setVisibility(View.GONE);
                                     } else {

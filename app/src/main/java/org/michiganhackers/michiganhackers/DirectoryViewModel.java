@@ -19,8 +19,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -49,64 +52,73 @@ public class DirectoryViewModel extends ViewModel {
         teamsRef = FirebaseFirestore.getInstance().collection("Teams");
         membersRef = FirebaseFirestore.getInstance().collection("Members");
 
-        if (this.teams == null){
+        if (this.teams == null) {
             teams = new MutableLiveData<>();
             members = new MutableLiveData<>();
 
             teams = new MutableLiveData<>();
-            teamsRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            teamsRef
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
-                        public void onSuccess(QuerySnapshot documentSnapshots) {
-                            Map<String, Team> teamsLocal = new TreeMap<>();
-                            for (DocumentSnapshot documentSnapshot : documentSnapshots) {
-                                Team team = documentSnapshot.toObject(Team.class);
-                                teamsLocal.put(team.getName(), team);
+                        public void onEvent(@Nullable QuerySnapshot snapshots,
+                                            @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.w(TAG, "teamsRef snapshot listen error", e);
+                                return;
                             }
-                            teams.setValue(teamsLocal);
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "Failed to lead teams documents: ", e);
+
+                            if (snapshots != null) {
+                                for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                                    Team team = dc.getDocument().toObject(Team.class);
+                                    Map<String, Team> teamsLocal = teams.getValue() == null ? new TreeMap<String, Team>() : teams.getValue();
+                                    switch (dc.getType()) {
+                                        case ADDED:
+                                        case MODIFIED:
+                                            teamsLocal.put(team.getName(), team);
+                                            teams.setValue(teamsLocal);
+                                            break;
+                                        case REMOVED:
+                                            teamsLocal.remove(team.getName());
+                                            teams.setValue(teamsLocal);
+                                            break;
+                                    }
+                                }
+                            }
+
                         }
                     });
 
 
-            membersRef.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Member member = dataSnapshot.getValue(Member.class);
-                    // No nullptr exception b/c member cannot exist without a uid
-                    membersLocal.put(member.getUid(), member);
-                    members.setValue(membersLocal);
-                }
+            membersRef
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot snapshots,
+                                            @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.w(TAG, "membersRef snapshot listen error", e);
+                                return;
+                            }
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Member member = dataSnapshot.getValue(Member.class);
-                    membersLocal.put(member.getUid(), member);
-                    members.setValue(membersLocal);
-                }
+                            if (snapshots != null) {
+                                for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                                    Member member = dc.getDocument().toObject(Member.class);
+                                    Map<String, Member> membersLocal = members.getValue() == null ? new HashMap<String, Member>() : members.getValue();
+                                    switch (dc.getType()) {
+                                        case ADDED:
+                                        case MODIFIED:
+                                            membersLocal.put(member.getUid(), member);
+                                            members.setValue(membersLocal);
+                                            break;
+                                        case REMOVED:
+                                            membersLocal.remove(member.getUid());
+                                            members.setValue(membersLocal);
+                                            break;
+                                    }
+                                }
+                            }
 
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                    Member member = dataSnapshot.getValue(Member.class);
-                    membersLocal.remove(member.getUid());
-                    members.setValue(membersLocal);
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    // Not relevant because firebase data isn't ordered
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "onCancelled for membersRef addChildEventListener");
-                }
-            });
+                        }
+                    });
 
         }
     }
@@ -117,16 +129,6 @@ public class DirectoryViewModel extends ViewModel {
 
     LiveData<Map<String, Member>> getMembers() {
         return members;
-    }
-
-    public Member getMember(String uid) {
-        for (Map.Entry<String, Team> team : teamsByNameLocal.entrySet()) {
-            Member member = team.getValue().getMember(uid);
-            if (member != null) {
-                return member;
-            }
-        }
-        return null;
     }
 
 }
