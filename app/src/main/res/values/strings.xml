@@ -42,14 +42,14 @@
     <string name="forgot_password_msg">"Enter your registered email and we'll send you instructions to reset your password".</string>
     <string name="account">Account</string>
     <string name="add_team_spinner_item">Add new team</string>
-    <string name="select_major_hint">Select major</string>
-    <string name="select_team_hint">Select team</string>
     <string name="select_year_hint">Select year</string>
     <string name="select_title_hint">Select title</string>
     <string name="profile_major_dialog_hint">Major</string>
     <string name="profile_team_dialog_hint">Team</string>
     <string name="new_team_empty_string_error">Enter a team</string>
+    <string name="add_major">Add Major</string>
     <string name="add_team">Add Team</string>
+    <string name="profile_picture">Profile picture</string>
 
     <string-array name="year_array">
         <item>Freshman</item>

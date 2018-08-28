@@ -124,7 +124,7 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     // Note: Parameter type is TreeMap and not Map to make sure it gets sorted teams
-    public void setTeams(TreeMap<String,Team> teams) {
+    public void setTeams(Map<String,Team> teams) {
         this.teams = new ArrayList<>(teams.values());
     }
 

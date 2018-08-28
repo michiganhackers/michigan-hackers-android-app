@@ -45,7 +45,7 @@ public class DirectoryViewModel extends ViewModel {
     private MutableLiveData<Map<String, Team>> teams;
     private MutableLiveData<Map<String, Member>> members;
 
-    CollectionReference teamsRef, membersRef;
+    private CollectionReference teamsRef, membersRef;
 
 
     public DirectoryViewModel() {
@@ -123,12 +123,18 @@ public class DirectoryViewModel extends ViewModel {
         }
     }
 
-    LiveData<Map<String, Team>> getTeams() {
+    public LiveData<Map<String, Team>> getTeams() {
         return teams;
     }
 
-    LiveData<Map<String, Member>> getMembers() {
+    public LiveData<Map<String, Member>> getMembers() {
         return members;
+    }
+
+    public void addTeam(String teamName){
+        if(teams.getValue() != null && !teams.getValue().containsKey(teamName)){
+            teamsRef.document(teamName).set(new Team(teamName));
+        }
     }
 
 }

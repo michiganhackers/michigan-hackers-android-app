@@ -1,5 +1,6 @@
 package org.michiganhackers.michiganhackers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Member {
@@ -13,6 +14,7 @@ public class Member {
     private String photoUrl;
 
     public Member() {
+        teams = new ArrayList<>();
     }
 
     public Member(String name, String uid, List<String> teams) {

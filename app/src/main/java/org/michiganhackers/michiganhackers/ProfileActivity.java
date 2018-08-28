@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,9 +42,20 @@ public class ProfileActivity extends AppCompatActivity {
     private final static int PICK_IMAGE = 1;
     private static final String TAG = ProfileActivity.class.getName();
     private Uri croppedImageFileUri;
+
     FirebaseAuth auth;
     FirebaseAuth.AuthStateListener authListener;
-    Boolean teamSpinnerSelectedSet = false;
+
+    Boolean teamsSelectedSet = false;
+    private ProfileViewModel profileViewModel;
+
+    private EditText nameEditText;
+    private Spinner yearSpinner;
+    private MultiAutoCompleteTextView teamsMultiAutoCompleteTextView;
+    MultiAutoCompleteTextView majorsMultiAutoCompleteTextView;
+    private Spinner titleSpinner;
+    private EditText bioEditText;
+    private ImageView profilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +72,10 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.e(TAG, "Error while converting profilePicCropped to bitmap", e);
                 }
             }
-            teamSpinnerSelectedSet = savedInstanceState.getBoolean("teamSpinnerSelectedSet");
+            teamsSelectedSet = savedInstanceState.getBoolean("teamsSelectedSet");
         }
-        final ProfileViewModel profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        // todo: create with constructoor
+        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -79,49 +93,37 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-        final EditText nameEditText = findViewById(R.id.profile_name);
+        nameEditText = findViewById(R.id.profile_name);
 
-        final Spinner majorSpinner = findViewById(R.id.profile_major);
-        ArrayAdapter<CharSequence> majorSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.majors_array, android.R.layout.simple_spinner_item);
-        majorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        final NothingSelectedSpinnerAdapter majorNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(majorSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_major_hint), this);
-        majorSpinner.setAdapter(majorNothingSelectedSpinnerAdapter);
+        majorsMultiAutoCompleteTextView = findViewById(R.id.profile_majors);
+        final ArrayAdapter<CharSequence> majorsMultiAutoCompleteTextViewAdapter = ArrayAdapter.createFromResource(this, R.array.majors_array, android.R.layout.simple_dropdown_item_1line);
+        majorsMultiAutoCompleteTextView.setAdapter(majorsMultiAutoCompleteTextViewAdapter);
+        majorsMultiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        final Spinner yearSpinner = findViewById(R.id.profile_year);
+        yearSpinner = findViewById(R.id.profile_year);
         ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
         yearSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final NothingSelectedSpinnerAdapter yearNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint), this);
         yearSpinner.setAdapter(yearNothingSelectedSpinnerAdapter);
 
-        final Spinner teamSpinner = findViewById(R.id.profile_team);
-        final List<CharSequence> teamSpinnerItems = new ArrayList<>();
-        final ArrayAdapter<CharSequence> teamSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, teamSpinnerItems);
-        teamSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        final NothingSelectedSpinnerAdapter teamNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(teamSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_team_hint), this);
-        teamSpinner.setAdapter(teamNothingSelectedSpinnerAdapter);
+        teamsMultiAutoCompleteTextView = findViewById(R.id.profile_teams);
+        List<CharSequence> teamsItems = new ArrayList<>();
+        final ArrayAdapter<CharSequence> teamsMultiAutoCompleteTextViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, teamsItems);
+        teamsMultiAutoCompleteTextView.setAdapter(teamsMultiAutoCompleteTextViewAdapter);
+        teamsMultiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        // Note: The team spinner will update in real time. Some changes to the team list will change which team the user has selected.
         final Observer<List<String>> teamNamesObserver = new Observer<List<String>>() {
             @Override
             public void onChanged(@Nullable List<String> teamNames) {
                 if (teamNames != null) {
                     // Populate team spinner
-                    teamSpinnerItems.clear();
-                    teamSpinnerItems.addAll(teamNames);
-                    teamSpinnerAdapter.notifyDataSetChanged();
-                }
-                // Display the user's previous team selection if it hasn't been yet
-                if(!teamSpinnerSelectedSet){
-                    FirebaseUser user = auth.getCurrentUser();
-                    if(user != null) {
-                        String uid = user.getUid();
-                        Member member = profileViewModel.getMember().getValue();
-                        if (member != null) {
-                            if (teamNothingSelectedSpinnerAdapter.getPosition(member.getTeams().get(1)) != -1) {
-                                teamSpinner.setSelection(teamNothingSelectedSpinnerAdapter.getPosition(member.getTeam()));
-                                teamSpinnerSelectedSet = true;
-                            }
-                        }
+                    teamsMultiAutoCompleteTextViewAdapter.clear();
+                    teamsMultiAutoCompleteTextViewAdapter.addAll(teamNames);
+                    teamsMultiAutoCompleteTextViewAdapter.notifyDataSetChanged();
+
+                    // Display the user's previous team selection if it hasn't been yet
+                    if (!teamsSelectedSet) {
+                        setTeamsSelection(teamsMultiAutoCompleteTextViewAdapter);
                     }
                 }
             }
@@ -129,58 +131,60 @@ public class ProfileActivity extends AppCompatActivity {
         profileViewModel.getTeamNames().observe(this, teamNamesObserver);
 
 
-
-        final Spinner titleSpinner = findViewById(R.id.profile_title);
+        titleSpinner = findViewById(R.id.profile_title);
         ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
         titleSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final NothingSelectedSpinnerAdapter titleNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(titleSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_title_hint), this);
         titleSpinner.setAdapter(titleNothingSelectedSpinnerAdapter);
 
-        final EditText bioEditText = findViewById(R.id.profile_bio);
-        final ImageView profilePic = findViewById(R.id.profile_pic);
+        bioEditText = findViewById(R.id.profile_bio);
+        profilePic = findViewById(R.id.profile_pic);
 
-        final Observer<Map<String, Team>> profileInfoObserver = new Observer<Map<String, Team>>() {
+        final Observer<Member> memberObserver = new Observer<Member>() {
             @Override
-            public void onChanged(@Nullable final Map<String, Team> teamsByName) {
+            public void onChanged(@Nullable final Member member) {
                 // Fill in profile fields with user's current info.
-                FirebaseUser user = auth.getCurrentUser();
-                if (user != null) {
-                    String uid = user.getUid();
-                    Member member = directoryViewModel.getMember(uid);
-                    if (member != null) {
-                        nameEditText.setText(member.getName());
-                        if (majorNothingSelectedSpinnerAdapter.getPosition(member.getMajor()) != -1) {
-                            majorSpinner.setSelection(majorNothingSelectedSpinnerAdapter.getPosition(member.getMajor()));
-                        }
-                        if (yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()) != -1) {
-                            yearSpinner.setSelection(yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()));
-                        }
-                        if (titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()) != -1) {
-                            titleSpinner.setSelection(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()));
-                        }
-                        bioEditText.setText(member.getBio());
-                        GlideApp.with(ProfileActivity.this)
-                                .load(member.getPhotoUrl())
-                                .placeholder(R.drawable.ic_directory)
-                                .centerCrop()
-                                .into(profilePic);
-                        // Note that the observer is removed after the team with the current user is found and his/her info is added
-                        // This is one reason why the team spinner is not populated with this observer
-                        directoryViewModel.getTeamsByName().removeObserver(this);
+                if (member != null) {
+                    nameEditText.setText(member.getName());
+                    // Display the user's previous team selection if it hasn't been yet
+                    if (!teamsSelectedSet) {
+                        setTeamsSelection(teamsMultiAutoCompleteTextViewAdapter);
                     }
+                    for (String major : member.getMajors()) {
+                        if (majorsMultiAutoCompleteTextViewAdapter.getPosition(major) != -1) {
+                            String newText = majorsMultiAutoCompleteTextView.getText().toString() + major + ", ";
+                            majorsMultiAutoCompleteTextView.setText(newText);
+                        }
+                    }
+                    if (yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()) != -1) {
+                        yearSpinner.setSelection(yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()));
+                    }
+                    if (titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()) != -1) {
+                        titleSpinner.setSelection(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()));
+                    }
+                    bioEditText.setText(member.getBio());
+                    GlideApp.with(ProfileActivity.this)
+                            .load(member.getPhotoUrl())
+                            .placeholder(R.drawable.ic_directory)
+                            .centerCrop()
+                            .into(profilePic);
+                    // Note that the observer is removed after the team with the current user is found and his/her info is added
+                    // This is one reason why the team spinner is not populated with this observer
+                    profileViewModel.getMember().removeObserver(this);
                 }
             }
+
         };
         if (savedInstanceState == null) {
-            directoryViewModel.getTeamsByName().observe(this, profileInfoObserver);
+            profileViewModel.getMember().observe(this, memberObserver);
         }
         Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String teamName = teamSpinner.getSelectedItem().toString();
+                List<String> teamNames = Arrays.asList(teamsMultiAutoCompleteTextView.getText().toString().split(", "));
                 String memberName = nameEditText.getText().toString();
-                String major = majorSpinner.getSelectedItem().toString();
+                List<String> majors = Arrays.asList(majorsMultiAutoCompleteTextView.getText().toString().split(", "));
                 String year = yearSpinner.getSelectedItem().toString();
                 String title = titleSpinner.getSelectedItem().toString();
                 String bio = bioEditText.getText().toString();
@@ -188,8 +192,9 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseUser user = auth.getCurrentUser();
                 if (user != null) {
                     String uid = user.getUid();
-                    Member member = new Member(memberName, uid, bio, teamName, year, major, title);
-                    directoryViewModel.addMember(member, croppedImageFileUri);
+                    Member member = new Member(memberName, uid, bio, teamNames, year, majors, title);
+                    // Todo: Add listener to setMember to add progressBar as well as toast if failed to update profile
+                    profileViewModel.setMember(member, croppedImageFileUri);
                     finish();
                 } else {
                     Toast.makeText(ProfileActivity.this, "Failed to update profile", Toast.LENGTH_LONG).show();
@@ -247,7 +252,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (croppedImageFileUri != null) {
             outState.putParcelable("croppedImageFileUri", croppedImageFileUri);
         }
-        outState.putBoolean("teamSpinnerSelectedSet", teamSpinnerSelectedSet);
+        outState.putBoolean("teamsSelectedSet", teamsSelectedSet);
         super.onSaveInstanceState(outState);
     }
 
@@ -278,6 +283,24 @@ public class ProfileActivity extends AppCompatActivity {
         super.onStop();
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
+        }
+    }
+
+    void setTeamsSelection(ArrayAdapter<CharSequence> teamsMultiAutoCompleteTextViewAdapter) {
+        Member member = profileViewModel.getMember().getValue();
+        if (member != null) {
+            if (member.getTeams().size() != 0) {
+                teamsSelectedSet = true;
+                for (String team : member.getTeams()) {
+                    if (teamsMultiAutoCompleteTextViewAdapter.getPosition(team) != -1) {
+                        String newText = teamsMultiAutoCompleteTextView.getText().toString() + team + ", ";
+                        teamsMultiAutoCompleteTextView.setText(newText);
+                    } else {
+                        teamsSelectedSet = false;
+                    }
+                }
+            }
+
         }
     }
 }
