@@ -68,6 +68,10 @@ public class DirectoryViewModel extends ViewModel {
                             }
 
                             if (snapshots != null) {
+                                if(snapshots.getDocumentChanges().size() == 0) {
+                                    Map<String, Team> teamsLocal = new TreeMap<String, Team>();
+                                    teams.setValue(teamsLocal);
+                                }
                                 for (DocumentChange dc : snapshots.getDocumentChanges()) {
                                     Team team = dc.getDocument().toObject(Team.class);
                                     Map<String, Team> teamsLocal = teams.getValue() == null ? new TreeMap<String, Team>() : teams.getValue();
@@ -100,6 +104,10 @@ public class DirectoryViewModel extends ViewModel {
                             }
 
                             if (snapshots != null) {
+                                if(snapshots.getDocumentChanges().size() == 0) {
+                                    Map<String, Member> membersLocal = new HashMap<String, Member>();
+                                    members.setValue(membersLocal);
+                                }
                                 for (DocumentChange dc : snapshots.getDocumentChanges()) {
                                     Member member = dc.getDocument().toObject(Member.class);
                                     Map<String, Member> membersLocal = members.getValue() == null ? new HashMap<String, Member>() : members.getValue();

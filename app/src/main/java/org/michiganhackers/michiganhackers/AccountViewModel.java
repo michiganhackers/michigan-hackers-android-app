@@ -66,8 +66,8 @@ public class AccountViewModel extends ViewModel {
                                 DocumentSnapshot documentSnapshot = task.getResult();
                                 if (documentSnapshot.exists()) {
                                     member.setValue(documentSnapshot.toObject(Member.class));
-                                } else {
-                                    Log.e(TAG, "Member document does not exist:  ", task.getException());
+                                } else{
+                                    member.setValue(new Member());
                                 }
                             } else {
                                 Log.e(TAG, "Failed to get member document: ", task.getException());

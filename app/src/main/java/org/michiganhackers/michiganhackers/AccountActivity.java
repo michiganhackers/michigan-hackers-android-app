@@ -28,30 +28,33 @@ public class AccountActivity extends AppCompatActivity {
     private EditText passwordResetEmail, newEmail, password, confirmPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
-    FirebaseAuth.AuthStateListener authListener;
+    private FirebaseAuth.AuthStateListener authListener;
+    private AccountViewModel accountViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        final AccountViewModel accountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
-
-        //get firebase auth instance
         auth = FirebaseAuth.getInstance();
-
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user == null) {
-                    // user auth state is changed - user is null
-                    // launch login activity
                     startActivity(new Intent(AccountActivity.this, LoginActivity.class));
                     finish();
                 }
             }
         };
+        FirebaseUser user = auth.getCurrentUser();
+        if (user == null) {
+            startActivity(new Intent(AccountActivity.this, LoginActivity.class));
+            finish();
+            return;
+        }
+
+        accountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
 
         btnChangeEmail = (Button) findViewById(R.id.change_email_button);
         btnChangePassword = (Button) findViewById(R.id.change_password_button);

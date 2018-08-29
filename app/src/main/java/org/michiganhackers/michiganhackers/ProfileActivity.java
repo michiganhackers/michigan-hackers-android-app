@@ -43,10 +43,10 @@ public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = ProfileActivity.class.getName();
     private Uri croppedImageFileUri;
 
-    FirebaseAuth auth;
-    FirebaseAuth.AuthStateListener authListener;
+    private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener authListener;
 
-    Boolean teamsSelectedSet = false;
+    private Boolean teamsSelectedSet = false;
     private ProfileViewModel profileViewModel;
 
     private EditText nameEditText;
@@ -61,6 +61,30 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        auth = FirebaseAuth.getInstance();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        };
+
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            String uid = user.getUid();
+            ProfileViewModelFactory profileViewModelFactory = new ProfileViewModelFactory(uid);
+            profileViewModel = ViewModelProviders.of(this, profileViewModelFactory).get(ProfileViewModel.class);
+        } else {
+            startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         if (savedInstanceState != null) {
             croppedImageFileUri = savedInstanceState.getParcelable("croppedImageFileUri");
             if (croppedImageFileUri != null) {
@@ -74,24 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
             teamsSelectedSet = savedInstanceState.getBoolean("teamsSelectedSet");
         }
-        // todo: create with constructoor
-        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
-        //get firebase auth instance
-        auth = FirebaseAuth.getInstance();
-
-        authListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    // user auth state is changed - user is null
-                    // launch login activity
-                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-        };
 
         nameEditText = findViewById(R.id.profile_name);
 
@@ -129,7 +136,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
         profileViewModel.getTeamNames().observe(this, teamNamesObserver);
-
 
         titleSpinner = findViewById(R.id.profile_title);
         ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
