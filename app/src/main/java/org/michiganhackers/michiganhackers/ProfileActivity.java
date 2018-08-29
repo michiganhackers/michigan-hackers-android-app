@@ -188,22 +188,68 @@ public class ProfileActivity extends AppCompatActivity {
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> teamNames = Arrays.asList(teamsMultiAutoCompleteTextView.getText().toString().split(", "));
-                String memberName = nameEditText.getText().toString();
-                List<String> majors = Arrays.asList(majorsMultiAutoCompleteTextView.getText().toString().split(", "));
+                List<String> teamNames = Arrays.asList(teamsMultiAutoCompleteTextView.getText().toString().split("\\s*\\,\\s*"));
+                String memberName = nameEditText.getText().toString().trim();
+                List<String> majors = Arrays.asList(majorsMultiAutoCompleteTextView.getText().toString().split("\\s*\\,\\s*"));
                 String year = yearSpinner.getSelectedItem().toString();
                 String title = titleSpinner.getSelectedItem().toString();
-                String bio = bioEditText.getText().toString();
+                String bio = bioEditText.getText().toString().trim();
 
-                FirebaseUser user = auth.getCurrentUser();
-                if (user != null) {
-                    String uid = user.getUid();
-                    Member member = new Member(memberName, uid, bio, teamNames, year, majors, title);
-                    // Todo: Add listener to setMember to add progressBar as well as toast if failed to update profile
-                    profileViewModel.setMember(member, croppedImageFileUri);
-                    finish();
-                } else {
-                    Toast.makeText(ProfileActivity.this, "Failed to update profile", Toast.LENGTH_LONG).show();
+                // Check user input and show warnings accordingly
+                // Todo: Make errors for spinners?
+                Boolean warningShown = false;
+                if(teamNames.size() == 0){
+                    Toast.makeText(ProfileActivity.this, "Please complete teams field", Toast.LENGTH_LONG).show();
+                    warningShown = true;
+                }
+                else if(majors.size() == 0){
+                    Toast.makeText(ProfileActivity.this, "Please complete majors field", Toast.LENGTH_LONG).show();
+                    warningShown = true;
+                }
+                else if(year.equals("")){
+                    Toast.makeText(ProfileActivity.this, "Please complete majors field", Toast.LENGTH_LONG).show();
+                    warningShown = true;
+                }
+                else if(title.equals("")){
+                    Toast.makeText(ProfileActivity.this, "Please complete title field", Toast.LENGTH_LONG).show();
+                    warningShown = true;
+                }
+                if(memberName.equals("")){
+                    nameEditText.setError("Enter name");
+                    warningShown = true;
+                }
+                for(String majorName: majors){
+                    if(majorsMultiAutoCompleteTextViewAdapter.getPosition(majorName) == -1){
+                        // Todo: automatically delete incorrect teams?
+                        majorsMultiAutoCompleteTextView.setError("All majors must exist");
+                        warningShown = true;
+                        break;
+                    }
+                }
+                for(String teamName: teamNames){
+                    if(teamsMultiAutoCompleteTextViewAdapter.getPosition(teamName) == -1){
+                        // Todo: automatically delete incorrect teams?
+                        teamsMultiAutoCompleteTextView.setError("All teams must exist");
+                        warningShown = true;
+                        break;
+                    }
+                }
+                if(bio.equals("")){
+                    bioEditText.setError("Enter bio");
+                    warningShown = true;
+                }
+
+                if(!warningShown){
+                    FirebaseUser user = auth.getCurrentUser();
+                    if (user != null) {
+                        String uid = user.getUid();
+                        Member member = new Member(memberName, uid, bio, teamNames, year, majors, title);
+                        // Todo: Add listener to setMember to add progressBar as well as toast if failed to update profile
+                        profileViewModel.setMember(member, croppedImageFileUri);
+                        finish();
+                    } else {
+                        Toast.makeText(ProfileActivity.this, "Failed to update profile", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
