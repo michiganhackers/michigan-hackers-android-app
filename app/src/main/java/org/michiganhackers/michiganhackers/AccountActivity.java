@@ -29,7 +29,7 @@ public class AccountActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
-    private AccountViewModel accountViewModel;
+    private ProfileViewModel profileViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +47,17 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         };
+
         FirebaseUser user = auth.getCurrentUser();
-        if (user == null) {
+        if (user != null) {
+            String uid = user.getUid();
+            ProfileViewModelFactory profileViewModelFactory = new ProfileViewModelFactory(uid);
+            profileViewModel = ViewModelProviders.of(this, profileViewModelFactory).get(ProfileViewModel.class);
+        } else {
             startActivity(new Intent(AccountActivity.this, LoginActivity.class));
             finish();
             return;
         }
-
-        accountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
 
         btnChangeEmail = (Button) findViewById(R.id.change_email_button);
         btnChangePassword = (Button) findViewById(R.id.change_password_button);
@@ -252,7 +255,7 @@ public class AccountActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(AccountActivity.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(AccountActivity.this, SignupActivity.class));
-                                        accountViewModel.removeMember(uid);
+                                        profileViewModel.removeMember(uid);
                                         finish();
                                         progressBar.setVisibility(View.GONE);
                                     } else {

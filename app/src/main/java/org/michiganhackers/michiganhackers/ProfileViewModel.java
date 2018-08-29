@@ -214,4 +214,9 @@ public class ProfileViewModel extends ViewModel {
         }
     }
 
+    public void removeMember(String uid) {
+        deleteProfilePhoto();
+        memberRef.delete();
+    }
+
 }
