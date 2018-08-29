@@ -127,7 +127,7 @@ public class ProfileViewModel extends ViewModel {
             uploadProfilePhoto(filePath);
             Member memberLocal = member.getValue();
             // If the member already exists and the name is different, change firebase auth display name
-            if (memberLocal != null && !memberLocal.getName().equals(newMember.getName())) {
+            if (memberLocal != null && memberLocal.getName() != null && !memberLocal.getName().equals(newMember.getName())) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newMember.getName()).build();

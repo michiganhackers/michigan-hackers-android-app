@@ -15,6 +15,7 @@ public class Member {
 
     public Member() {
         teams = new ArrayList<>();
+        majors = new ArrayList<>();
     }
 
     public Member(String name, String uid, List<String> teams) {
