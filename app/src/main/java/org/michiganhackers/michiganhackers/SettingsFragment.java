@@ -57,7 +57,9 @@ public class SettingsFragment extends Fragment {
         addTeamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                directoryViewModel.addTeam(addTeamEditText.getText().toString());
+                if(!addTeamEditText.getText().toString().equals("")){
+                    directoryViewModel.addTeam(addTeamEditText.getText().toString());
+                }
             }
         });
 
