@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -87,15 +88,23 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
+        profilePic = findViewById(R.id.profile_pic);
         if (savedInstanceState != null) {
             croppedImageFileUri = savedInstanceState.getParcelable("croppedImageFileUri");
-            if (croppedImageFileUri != null) {
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), croppedImageFileUri);
-                    ImageView profilePic = findViewById(R.id.profile_pic);
-                    profilePic.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    Log.e(TAG, "Error while converting profilePicCropped to bitmap", e);
+            if(croppedImageFileUri != null){
+                GlideApp.with(ProfileActivity.this)
+                        .load(croppedImageFileUri)
+                        .placeholder(R.drawable.ic_directory)
+                        .centerCrop()
+                        .into(profilePic);
+            }else{
+                Member member = profileViewModel.getMember().getValue();
+                if (member != null) {
+                    GlideApp.with(ProfileActivity.this)
+                            .load(member.getPhotoUrl())
+                            .placeholder(R.drawable.ic_directory)
+                            .centerCrop()
+                            .into(profilePic);
                 }
             }
             teamsSelectedSet = savedInstanceState.getBoolean("teamsSelectedSet");
@@ -147,13 +156,17 @@ public class ProfileActivity extends AppCompatActivity {
         titleSpinner.setAdapter(titleNothingSelectedSpinnerAdapter);
 
         bioEditText = findViewById(R.id.profile_bio);
-        profilePic = findViewById(R.id.profile_pic);
 
         final Observer<Member> memberObserver = new Observer<Member>() {
             @Override
             public void onChanged(@Nullable final Member member) {
                 // Fill in profile fields with user's current info.
                 if (member != null) {
+                    GlideApp.with(ProfileActivity.this)
+                            .load(member.getPhotoUrl())
+                            .placeholder(R.drawable.ic_directory)
+                            .centerCrop()
+                            .into(profilePic);
                     nameEditText.setText(member.getName());
                     // Display the user's previous team selection if it hasn't been yet
                     if (!teamsSelectedSet) {
@@ -172,11 +185,6 @@ public class ProfileActivity extends AppCompatActivity {
                         titleSpinner.setSelection(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()));
                     }
                     bioEditText.setText(member.getBio());
-                    GlideApp.with(ProfileActivity.this)
-                            .load(member.getPhotoUrl())
-                            .placeholder(R.drawable.ic_directory)
-                            .centerCrop()
-                            .into(profilePic);
                     // Note that the observer is removed after the team with the current user is found and his/her info is added
                     // This is one reason why the team spinner is not populated with this observer
                     profileViewModel.getMember().removeObserver(this);
@@ -209,48 +217,45 @@ public class ProfileActivity extends AppCompatActivity {
                 // Check user input and show warnings accordingly
                 // Todo: Make errors for spinners?
                 Boolean warningShown = false;
-                if(teamNames.size() == 0){
+                if (teamNames.size() == 0) {
                     Toast.makeText(ProfileActivity.this, "Please complete teams field", Toast.LENGTH_LONG).show();
                     warningShown = true;
-                }
-                else if(majors.size() == 0){
+                } else if (majors.size() == 0) {
                     Toast.makeText(ProfileActivity.this, "Please complete majors field", Toast.LENGTH_LONG).show();
                     warningShown = true;
-                }
-                else if(year.equals("")){
+                } else if (year.equals("")) {
                     Toast.makeText(ProfileActivity.this, "Please complete majors field", Toast.LENGTH_LONG).show();
                     warningShown = true;
-                }
-                else if(title.equals("")){
+                } else if (title.equals("")) {
                     Toast.makeText(ProfileActivity.this, "Please complete title field", Toast.LENGTH_LONG).show();
                     warningShown = true;
                 }
-                if(memberName.equals("")){
+                if (memberName.equals("")) {
                     nameEditText.setError("Enter name");
                     warningShown = true;
                 }
-                for(String majorName: majors){
-                    if(!majorsItems.contains(majorName)){
+                for (String majorName : majors) {
+                    if (!majorsItems.contains(majorName)) {
                         // Todo: automatically delete incorrect teams?
                         majorsMultiAutoCompleteTextView.setError("All majors must exist");
                         warningShown = true;
                         break;
                     }
                 }
-                for(String teamName: teamNames){
-                    if(!teamsItems.contains(teamName)){
+                for (String teamName : teamNames) {
+                    if (!teamsItems.contains(teamName)) {
                         // Todo: automatically delete incorrect teams?
                         teamsMultiAutoCompleteTextView.setError("All teams must exist");
                         warningShown = true;
                         break;
                     }
                 }
-                if(bio.equals("")){
+                if (bio.equals("")) {
                     bioEditText.setError("Enter bio");
                     warningShown = true;
                 }
 
-                if(!warningShown){
+                if (!warningShown) {
                     FirebaseUser user = auth.getCurrentUser();
                     if (user != null) {
                         String uid = user.getUid();
@@ -297,13 +302,12 @@ public class ProfileActivity extends AppCompatActivity {
             }
         } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             croppedImageFileUri = UCrop.getOutput(data);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), croppedImageFileUri);
-                ImageView profilePic = findViewById(R.id.profile_pic);
-                profilePic.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                Log.e(TAG, "Error while converting profilePicCropped to bitmap", e);
-            }
+            GlideApp.with(ProfileActivity.this)
+                    .load(croppedImageFileUri)
+                    .placeholder(R.drawable.ic_directory)
+                    .centerCrop()
+                    .into(profilePic);
+
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
             Log.e(TAG, "Error cropping image", cropError);
