@@ -35,8 +35,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ProfileActivity extends AppCompatActivity {
     private final static int PICK_IMAGE = 1;
@@ -103,7 +105,8 @@ public class ProfileActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.profile_name);
 
         majorsMultiAutoCompleteTextView = findViewById(R.id.profile_majors);
-        final ArrayAdapter<CharSequence> majorsMultiAutoCompleteTextViewAdapter = ArrayAdapter.createFromResource(this, R.array.majors_array, android.R.layout.simple_dropdown_item_1line);
+        final List<CharSequence> majorsItems = new ArrayList<CharSequence>(Arrays.asList(getResources().getStringArray(R.array.majors_array)));
+        final ArrayAdapter<CharSequence> majorsMultiAutoCompleteTextViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, majorsItems);
         majorsMultiAutoCompleteTextView.setAdapter(majorsMultiAutoCompleteTextViewAdapter);
         majorsMultiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
@@ -114,7 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
         yearSpinner.setAdapter(yearNothingSelectedSpinnerAdapter);
 
         teamsMultiAutoCompleteTextView = findViewById(R.id.profile_teams);
-        List<CharSequence> teamsItems = new ArrayList<>();
+        final List<CharSequence> teamsItems = new ArrayList<>();
         final ArrayAdapter<CharSequence> teamsMultiAutoCompleteTextViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, teamsItems);
         teamsMultiAutoCompleteTextView.setAdapter(teamsMultiAutoCompleteTextViewAdapter);
         teamsMultiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
@@ -188,9 +191,17 @@ public class ProfileActivity extends AppCompatActivity {
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> teamNames = Arrays.asList(teamsMultiAutoCompleteTextView.getText().toString().split("\\s*\\,\\s*"));
+                List<String> teamNames = new ArrayList<>(Arrays.asList(teamsMultiAutoCompleteTextView.getText().toString().trim().split("\\s*\\,\\s*")));
+                // remove duplicates
+                Set<String> teamNamesSet = new HashSet<>(teamNames);
+                teamNames.clear();
+                teamNames.addAll(teamNamesSet);
                 String memberName = nameEditText.getText().toString().trim();
-                List<String> majors = Arrays.asList(majorsMultiAutoCompleteTextView.getText().toString().split("\\s*\\,\\s*"));
+                List<String> majors = new ArrayList<>(Arrays.asList(majorsMultiAutoCompleteTextView.getText().toString().trim().split("\\s*\\,\\s*")));
+                // remove duplicates
+                Set<String> majorsSet = new HashSet<>(majors);
+                majors.clear();
+                majors.addAll(majorsSet);
                 String year = yearSpinner.getSelectedItem().toString();
                 String title = titleSpinner.getSelectedItem().toString();
                 String bio = bioEditText.getText().toString().trim();
@@ -219,7 +230,7 @@ public class ProfileActivity extends AppCompatActivity {
                     warningShown = true;
                 }
                 for(String majorName: majors){
-                    if(majorsMultiAutoCompleteTextViewAdapter.getPosition(majorName) == -1){
+                    if(!majorsItems.contains(majorName)){
                         // Todo: automatically delete incorrect teams?
                         majorsMultiAutoCompleteTextView.setError("All majors must exist");
                         warningShown = true;
@@ -227,7 +238,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }
                 for(String teamName: teamNames){
-                    if(teamsMultiAutoCompleteTextViewAdapter.getPosition(teamName) == -1){
+                    if(!teamsItems.contains(teamName)){
                         // Todo: automatically delete incorrect teams?
                         teamsMultiAutoCompleteTextView.setError("All teams must exist");
                         warningShown = true;
