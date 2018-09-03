@@ -12,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.util.ExponentialBackOff;
 
@@ -37,12 +39,16 @@ public class MainActivity extends AppCompatActivity{
     private DirectoryFragment directoryFragment;
 
     public static CalenderAPI calAPI;
+    private ThemeHandler themeHan;
     public NotificationHandler notification;
     ViewPager mainPager;
+    private static final String TAG = "MainActivity";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        themeHan = new ThemeHandler(this);
+        themeHan.setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         calAPI = new CalenderAPI(this, this);
@@ -183,5 +189,8 @@ public class MainActivity extends AppCompatActivity{
             }
         }
         return super.onKeyDown(keyCode,event);
+    }
+    public void themeSelected(View view) {
+        themeHan.themeSelected(view);
     }
 }

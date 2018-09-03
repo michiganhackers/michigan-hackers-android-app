@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textAlignment="center"
+                android:background="@null"
                 style="@style/BaseEventNameText.V16EventNameText"/>
         </RelativeLayout>
 

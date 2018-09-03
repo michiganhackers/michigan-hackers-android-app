@@ -7,7 +7,10 @@ import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
 
+import org.michiganhackers.michiganhackers.MainActivity;
 import org.michiganhackers.michiganhackers.R;
+import org.michiganhackers.michiganhackers.ThemeHandler;
+
 
 public class EventActivity extends AppCompatActivity {
 
@@ -15,6 +18,8 @@ public class EventActivity extends AppCompatActivity {
     private static final String TAG = EventActivity.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeHandler themeHan = new ThemeHandler(this);
+        themeHan.setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         CalendarEvent calendarEvent = getIntent().getExtras().getParcelable(STATE_EVENT);

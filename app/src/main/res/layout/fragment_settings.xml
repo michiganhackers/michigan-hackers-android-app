@@ -6,26 +6,57 @@
     tools:context="org.michiganhackers.michiganhackers.SettingsFragment">
 
 
-    <Button
-        android:id="@+id/settings_editProfileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/directory_editProfileButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="69dp">
 
-    <Button
-        android:id="@+id/settings_accountButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/account"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_editProfileButton" />
+        <RadioGroup
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="122dp">
+
+            <RadioButton
+                android:id="@+id/lightTheme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Light Theme"
+                tools:layout_editor_absoluteX="25dp"
+                tools:layout_editor_absoluteY="201dp"
+                android:onClick="themeSelected"/>
+
+            <RadioButton
+                android:id="@+id/darkTheme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Dark Theme"
+                android:onClick="themeSelected"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/settings_accountButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/account"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_editProfileButton" />
+
+        <Button
+            android:id="@+id/settings_editProfileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="123dp"
+            android:text="@string/directory_editProfileButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
