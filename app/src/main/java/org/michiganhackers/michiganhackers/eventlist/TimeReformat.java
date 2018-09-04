@@ -2,39 +2,36 @@ package org.michiganhackers.michiganhackers.eventlist;
 
 import com.google.api.client.util.DateTime;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static java.text.DateFormat.getDateInstance;
-import static java.text.DateFormat.getTimeInstance;
+import java.util.Locale;
 
 public class TimeReformat{
     public static String getDate(DateTime dateTime){
-        DateFormat newDF = getDateInstance();
+        SimpleDateFormat newSDF = new SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault());
         if(dateTime.isDateOnly()){
-            DateFormat oldDF = getDateInstance();
+            SimpleDateFormat oldSDF = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             Date date = new Date();
             try{
-                date = oldDF.parse(dateTime.toString());
+                date = oldSDF.parse(dateTime.toString());
             }
             catch (Exception ex){
                 // Todo: exception handling
                 ex.printStackTrace();
             }
-            return newDF.format(date);
+            return newSDF.format(date);
         }
         else{
-            DateFormat oldDF = getDateInstance();
+            SimpleDateFormat oldSDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault());
             Date date = new Date();
             try{
-                date = oldDF.parse(dateTime.toString());
+                date = oldSDF.parse(dateTime.toString());
             }
             catch (Exception ex){
                 // Todo: exception handling
                 ex.printStackTrace();
             }
-            return newDF.format(date);
+            return newSDF.format(date);
         }
     }
     // Only valid if input has time
@@ -44,17 +41,17 @@ public class TimeReformat{
             return null;
         }
         else{
-            DateFormat oldDF = getDateInstance();
-            DateFormat newDF = getDateInstance();
+            SimpleDateFormat oldSDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault());
+            SimpleDateFormat newSDF = new SimpleDateFormat("hh:mm aaa", Locale.getDefault());
             Date date = new Date();
             try{
-                date = oldDF.parse(dateTime.toString());
+                date = oldSDF.parse(dateTime.toString());
             }
             catch (Exception ex){
                 // Todo: exception handling
                 ex.printStackTrace();
             }
-            return newDF.format(date);
+            return newSDF.format(date);
         }
     }
 }

@@ -45,7 +45,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             // the start date.
             start = dataSet.get(position).getStart().getDate();
         }
-        holder.eventTime.setText(start.toString());
+        //holder.eventTime.setText(start.toString());
     }
 
     @Override
