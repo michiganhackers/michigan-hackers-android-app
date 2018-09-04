@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.Directory;
+package org.michiganhackers.michiganhackers.directory;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.michiganhackers.michiganhackers.MainActivity;
 import org.michiganhackers.michiganhackers.R;
+import org.michiganhackers.michiganhackers.ThemeHandler;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -29,16 +30,18 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeHandler themeHan = new ThemeHandler(this);
+        themeHan.setTheme();
         setContentView(R.layout.activity_signup);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        btnSignIn = (Button) findViewById(R.id.sign_in_button);
-        btnSignUp = (Button) findViewById(R.id.sign_up_button);
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        btnSignIn = findViewById(R.id.sign_in_button);
+        btnSignUp = findViewById(R.id.sign_up_button);
+        inputEmail = findViewById(R.id.email);
+        inputPassword = findViewById(R.id.password);
+        progressBar = findViewById(R.id.progressBar);
 
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {

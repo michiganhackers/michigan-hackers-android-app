@@ -1,36 +1,40 @@
-package org.michiganhackers.michiganhackers.EventList;
+package org.michiganhackers.michiganhackers.eventlist;
 
 import com.google.api.client.util.DateTime;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static java.text.DateFormat.getDateInstance;
+import static java.text.DateFormat.getTimeInstance;
+
 public class TimeReformat{
     public static String getDate(DateTime dateTime){
-        SimpleDateFormat newSDF = new SimpleDateFormat("EEEE, MMMM dd");
+        DateFormat newDF = getDateInstance();
         if(dateTime.isDateOnly()){
-            SimpleDateFormat oldSDF = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat oldDF = getDateInstance();
             Date date = new Date();
             try{
-                date = oldSDF.parse(dateTime.toString());
+                date = oldDF.parse(dateTime.toString());
             }
             catch (Exception ex){
                 // Todo: exception handling
                 ex.printStackTrace();
             }
-            return newSDF.format(date);
+            return newDF.format(date);
         }
         else{
-            SimpleDateFormat oldSDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            DateFormat oldDF = getDateInstance();
             Date date = new Date();
             try{
-                date = oldSDF.parse(dateTime.toString());
+                date = oldDF.parse(dateTime.toString());
             }
             catch (Exception ex){
                 // Todo: exception handling
                 ex.printStackTrace();
             }
-            return newSDF.format(date);
+            return newDF.format(date);
         }
     }
     // Only valid if input has time
@@ -40,17 +44,17 @@ public class TimeReformat{
             return null;
         }
         else{
-            SimpleDateFormat oldSDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-            SimpleDateFormat newSDF = new SimpleDateFormat("hh:mm aaa");
+            DateFormat oldDF = getDateInstance();
+            DateFormat newDF = getDateInstance();
             Date date = new Date();
             try{
-                date = oldSDF.parse(dateTime.toString());
+                date = oldDF.parse(dateTime.toString());
             }
             catch (Exception ex){
                 // Todo: exception handling
                 ex.printStackTrace();
             }
-            return newSDF.format(date);
+            return newDF.format(date);
         }
     }
 }

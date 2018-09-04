@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.Directory;
+package org.michiganhackers.michiganhackers.directory;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.michiganhackers.michiganhackers.R;
+import org.michiganhackers.michiganhackers.ThemeHandler;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -26,12 +27,14 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeHandler themeHan = new ThemeHandler(this);
+        themeHan.setTheme();
         setContentView(R.layout.activity_reset_password);
 
-        inputEmail = (EditText) findViewById(R.id.email);
-        btnReset = (Button) findViewById(R.id.btn_reset_password);
-        btnBack = (Button) findViewById(R.id.btn_back);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        inputEmail = findViewById(R.id.email);
+        btnReset = findViewById(R.id.btn_reset_password);
+        btnBack = findViewById(R.id.btn_back);
+        progressBar = findViewById(R.id.progressBar);
 
         auth = FirebaseAuth.getInstance();
 

@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.EventList;
+package org.michiganhackers.michiganhackers.eventlist;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -23,7 +23,7 @@ public class CalendarEvent implements Parcelable{
     private End end;
     private OriginalStartTime originalStartTime;
 
-    public CalendarEvent(Event event) {
+    private CalendarEvent(Event event) {
         this.summary = event.getSummary();
         this.description = event.getDescription();
         this.location = event.getLocation();
@@ -93,7 +93,7 @@ public class CalendarEvent implements Parcelable{
         private DateTime date;
         private DateTime dateTime;
 
-        public Start(DateTime date, DateTime dateTime) {
+        Start(DateTime date, DateTime dateTime) {
             this.date = date;
             this.dateTime = dateTime;
         }
@@ -118,7 +118,7 @@ public class CalendarEvent implements Parcelable{
             dest.writeSerializable(this.dateTime);
         }
 
-        protected Start(Parcel in) {
+        Start(Parcel in) {
             this.date = (DateTime) in.readSerializable();
             this.dateTime = (DateTime) in.readSerializable();
         }
@@ -139,7 +139,7 @@ public class CalendarEvent implements Parcelable{
         private DateTime date;
         private DateTime dateTime;
 
-        public End(DateTime date, DateTime dateTime) {
+        End(DateTime date, DateTime dateTime) {
             this.date = date;
             this.dateTime = dateTime;
         }
@@ -164,7 +164,7 @@ public class CalendarEvent implements Parcelable{
             dest.writeSerializable(this.dateTime);
         }
 
-        protected End(Parcel in) {
+        End(Parcel in) {
             this.date = (DateTime) in.readSerializable();
             this.dateTime = (DateTime) in.readSerializable();
         }
@@ -185,7 +185,7 @@ public class CalendarEvent implements Parcelable{
         private DateTime date;
         private DateTime dateTime;
 
-        public OriginalStartTime(DateTime date, DateTime dateTime) {
+        OriginalStartTime(DateTime date, DateTime dateTime) {
             this.date = date;
             this.dateTime = dateTime;
         }
@@ -210,7 +210,7 @@ public class CalendarEvent implements Parcelable{
             dest.writeSerializable(this.dateTime);
         }
 
-        protected OriginalStartTime(Parcel in) {
+        OriginalStartTime(Parcel in) {
             this.date = (DateTime) in.readSerializable();
             this.dateTime = (DateTime) in.readSerializable();
         }
@@ -246,7 +246,7 @@ public class CalendarEvent implements Parcelable{
         dest.writeParcelable(this.originalStartTime, flags);
     }
 
-    protected CalendarEvent(Parcel in) {
+    private CalendarEvent(Parcel in) {
         this.summary = in.readString();
         this.description = in.readString();
         this.location = in.readString();

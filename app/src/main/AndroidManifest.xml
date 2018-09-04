@@ -20,15 +20,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EventList.EventActivity" />
-        <activity android:name=".Directory.ProfileActivity" />
+        <activity android:name=".eventlist.EventActivity" />
+        <activity android:name=".directory.ProfileActivity" />
 
         <service android:name=".FirebaseMessaging" />
 
-        <activity android:name=".Directory.SignupActivity" />
-        <activity android:name=".Directory.LoginActivity" />
-        <activity android:name=".Directory.ResetPasswordActivity" />
-        <activity android:name=".Directory.AccountActivity"></activity>
+        <activity android:name=".directory.SignupActivity" />
+        <activity android:name=".directory.LoginActivity" />
+        <activity android:name=".directory.ResetPasswordActivity" />
+        <activity android:name=".directory.AccountActivity"/>
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".eventlist.CalenderAPI"/>
     </application>
 
 </manifest>

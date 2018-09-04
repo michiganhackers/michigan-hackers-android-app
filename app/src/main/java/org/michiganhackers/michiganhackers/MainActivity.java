@@ -10,24 +10,26 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.util.ExponentialBackOff;
 
-import org.michiganhackers.michiganhackers.Directory.DirectoryFragment;
-import org.michiganhackers.michiganhackers.EventList.CalenderAPI;
-import org.michiganhackers.michiganhackers.EventList.ListFragment;
+import org.michiganhackers.michiganhackers.directory.DirectoryFragment;
+import org.michiganhackers.michiganhackers.eventlist.CalenderAPI;
+import org.michiganhackers.michiganhackers.eventlist.ListFragment;
 
 import java.util.Arrays;
 
-import static org.michiganhackers.michiganhackers.EventList.CalenderAPI.PREF_ACCOUNT_NAME;
-import static org.michiganhackers.michiganhackers.EventList.CalenderAPI.REQUEST_ACCOUNT_PICKER;
-import static org.michiganhackers.michiganhackers.EventList.CalenderAPI.REQUEST_AUTHORIZATION;
-import static org.michiganhackers.michiganhackers.EventList.CalenderAPI.REQUEST_GOOGLE_PLAY_SERVICES;
-import static org.michiganhackers.michiganhackers.EventList.CalenderAPI.SCOPES;
+import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.PREF_ACCOUNT_NAME;
+import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.REQUEST_ACCOUNT_PICKER;
+import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.REQUEST_AUTHORIZATION;
+import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.REQUEST_GOOGLE_PLAY_SERVICES;
+import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.SCOPES;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity{
     private SettingsFragment settingsFragment;
     private DirectoryFragment directoryFragment;
 
-    public static CalenderAPI calAPI;
+    public CalenderAPI calAPI;
     private ThemeHandler themeHan;
     public NotificationHandler notification;
     ViewPager mainPager;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
             calAPI.getResultsFromApi();
         }
 
-        mainPager = (ViewPager) findViewById(R.id.main_pager);
+        mainPager = findViewById(R.id.main_pager);
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         mainPager.setAdapter(mainPagerAdapter);
 
@@ -143,12 +145,8 @@ public class MainActivity extends AppCompatActivity{
         switch (requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    /*Todo:
-                    mOutputText.setText(
-                                    "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.);
-                    */
-                    //Log.e(TAG, "This app requires Google Play Services");
+                    Toast.makeText(this, "This app requires Google Play Services",Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "This app requires Google Play Services");
                 } else {
                     calAPI.getResultsFromApi();
                 }

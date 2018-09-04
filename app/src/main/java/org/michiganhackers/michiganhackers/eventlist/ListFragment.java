@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.EventList;
+package org.michiganhackers.michiganhackers.eventlist;
 
 
 import android.content.Intent;
@@ -24,8 +24,7 @@ import org.michiganhackers.michiganhackers.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.michiganhackers.michiganhackers.EventList.CalenderAPI.SCOPES;
-import static org.michiganhackers.michiganhackers.MainActivity.calAPI;
+import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.SCOPES;
 
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 // Todo: Implement google API in here?
@@ -51,7 +50,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_list, container, false);
@@ -101,7 +100,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        calAPI = new CalenderAPI(getContext(),getActivity());
+        CalenderAPI calAPI = new CalenderAPI(getContext(),getActivity());
         calAPI.mCredential = GoogleAccountCredential.usingOAuth2(
                 getContext().getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());

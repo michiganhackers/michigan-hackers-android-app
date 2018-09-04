@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.EventList;
+package org.michiganhackers.michiganhackers.eventlist;
 
 import android.Manifest;
 import android.app.Activity;
@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
@@ -23,14 +24,17 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Events;
 
-import org.michiganhackers.michiganhackers.EventList.CalendarEvent;
+import org.michiganhackers.michiganhackers.MainActivity;
+import org.michiganhackers.michiganhackers.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
-import static org.michiganhackers.michiganhackers.EventList.ListFragment.mSwipeRefreshLayout;
+
 import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
+import static org.michiganhackers.michiganhackers.eventlist.ListFragment.mSwipeRefreshLayout;
+
 
 
 public class CalenderAPI extends AppCompatActivity{
@@ -47,8 +51,11 @@ public class CalenderAPI extends AppCompatActivity{
     public static final String TAG = "CalendarAPI";
 
     private Context context;
-    private static Activity activity;
+    private Activity activity;
     public GoogleAccountCredential mCredential;
+
+    public CalenderAPI() {
+    }
 
     public CalenderAPI(Context context, Activity activity){
         this.context = context;
@@ -124,7 +131,7 @@ public class CalenderAPI extends AppCompatActivity{
         }
     }
 
-   static void showGooglePlayServicesAvailabilityErrorDialog(
+   void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
@@ -134,8 +141,8 @@ public class CalenderAPI extends AppCompatActivity{
         dialog.show();
     }
 
-    public static class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<CalendarEvent>> {
-        private com.google.api.services.calendar.Calendar mService = null;
+    public class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<CalendarEvent>> {
+        private com.google.api.services.calendar.Calendar mService;
         private Exception mLastError = null;
 
         MakeRequestTask(GoogleAccountCredential credential) {
@@ -204,17 +211,11 @@ public class CalenderAPI extends AppCompatActivity{
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             REQUEST_AUTHORIZATION);
                 } else {
-                    Todo:
-                    //mOutputText.setText("The following error occurred:\n" + mLastError.getMessage());
-
                     Log.e(TAG,"The following error occurred:\n"
                             + mLastError.getMessage());
-
                 }
             } else {
-                // Todo: mOutputText.setText("Request cancelled.");
                 Log.e(TAG,"Request cancelled");
-
             }
         }
     }

@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.EventList;
+package org.michiganhackers.michiganhackers.eventlist;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
 
-import org.michiganhackers.michiganhackers.MainActivity;
 import org.michiganhackers.michiganhackers.R;
 import org.michiganhackers.michiganhackers.ThemeHandler;
 
@@ -45,7 +44,7 @@ public class EventActivity extends AppCompatActivity {
         // Set end time
         //Todo: Change format for multi-day events
         DateTime endDateTime = calendarEvent.getEnd().getDateTime();
-        if (endDateTime != null) {
+        if (endDateTime != null && startDateTime != null) {
             if(!TimeReformat.getDate(endDateTime).equals(TimeReformat.getDate(startDateTime))){
                 eventDate.append(" - " + TimeReformat.getDate(endDateTime));
             }
@@ -60,7 +59,7 @@ public class EventActivity extends AppCompatActivity {
         }
 
         eventDescription.setText(calendarEvent.getDescription());
-        eventLocation.setText("Location: " + calendarEvent.getLocation());
+        eventLocation.setText(getString(R.string.location, calendarEvent.getLocation()));
     }
 
     @Override

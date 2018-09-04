@@ -1,161 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <ImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/ic_directory"
+                android:contentDescription="@string/profile_picture"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/profile_imageEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/profile_pic"
+                android:layout_alignRight="@id/profile_pic"
+                android:layout_alignTop="@+id/profile_pic"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:tint="@color/colorWhite"
+                app:srcCompat="@drawable/ic_add_image" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/profile_userInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="25dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <RelativeLayout
+
+            <EditText
+                android:id="@+id/profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp">
-
-                <ImageView
-                    android:id="@+id/profile_pic"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_centerInParent="true"
-                    app:srcCompat="@drawable/ic_directory" />
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/profile_imageEditButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/profile_pic"
-                    android:layout_alignRight="@id/profile_pic"
-                    android:layout_alignTop="@+id/profile_pic"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
-                    app:srcCompat="@drawable/ic_add_image"
-                    android:tint="@color/colorWhite"/>
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/profile_userInfo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="25dp"
-                android:orientation="vertical"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/name">
-
-                    <EditText
-                        android:id="@+id/profile_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/major">
-
-                    <EditText
-                        android:id="@+id/profile_major"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/year">
-
-                    <EditText
-                        android:id="@+id/profile_year"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/team">
-
-                    <EditText
-                        android:id="@+id/profile_team"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/title">
-
-                    <EditText
-                        android:id="@+id/profile_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:maxLines="1"
-                        android:inputType="text"/>
-
-                </android.support.design.widget.TextInputLayout>
+                android:hint="@string/name"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" />
 
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/black"
-                    android:hint="@string/bio">
-
-                    <EditText
-                        android:id="@+id/profile_bio"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textMultiLine"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/profile_submitChangesButton"
+            <MultiAutoCompleteTextView
+                android:id="@+id/profile_majors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_submitChangesButton" />
+                android:completionThreshold="1"
+                android:hint="@string/add_major" />
+
+            <Spinner
+                android:id="@+id/profile_year"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/profile_teams"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:hint="@string/add_team" />
+
+            <Spinner
+                android:id="@+id/profile_title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+            <EditText
+                android:id="@+id/profile_bio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/bio"
+                android:inputType="textMultiLine" />
+
+
         </LinearLayout>
 
-    </ScrollView>
+        <Button
+            android:id="@+id/profile_submitChangesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_submitChangesButton" />
+    </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

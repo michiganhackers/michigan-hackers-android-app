@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.EventList;
+package org.michiganhackers.michiganhackers.eventlist;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -18,7 +18,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     private LayoutInflater inflater;
     private ArrayList<CalendarEvent> dataSet;
     private onItemClickListener clickListener;
-    public ListRecyclerViewAdapter(Context context, ArrayList<CalendarEvent> dataSet){
+    ListRecyclerViewAdapter(Context context, ArrayList<CalendarEvent> dataSet){
         inflater = LayoutInflater.from(context);
         this.dataSet = dataSet;
     }
@@ -45,7 +45,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             // the start date.
             start = dataSet.get(position).getStart().getDate();
         }
-        //holder.eventTime.setText(start.toString());
+        holder.eventTime.setText(start.toString());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         TextView eventName;
         TextView eventTime;
 
-        public ViewHolder(final View itemView) {
+        ViewHolder(final View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.card_name);
             //eventTime = itemView.findViewById(R.id.event_time);

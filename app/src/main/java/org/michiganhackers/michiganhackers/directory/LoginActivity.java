@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.Directory;
+package org.michiganhackers.michiganhackers.directory;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.michiganhackers.michiganhackers.MainActivity;
 import org.michiganhackers.michiganhackers.R;
+import org.michiganhackers.michiganhackers.ThemeHandler;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,14 +40,16 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // set the view now
+        ThemeHandler themeHan = new ThemeHandler(this);
+        themeHan.setTheme();
         setContentView(R.layout.activity_login);
 
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignup = (Button) findViewById(R.id.btn_signup);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnReset = (Button) findViewById(R.id.btn_reset_password);
+        inputEmail = findViewById(R.id.email);
+        inputPassword = findViewById(R.id.password);
+        progressBar = findViewById(R.id.progressBar);
+        btnSignup = findViewById(R.id.btn_signup);
+        btnLogin = findViewById(R.id.btn_login);
+        btnReset = findViewById(R.id.btn_reset_password);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
