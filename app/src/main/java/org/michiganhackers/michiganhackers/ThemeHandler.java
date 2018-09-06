@@ -21,27 +21,7 @@ public class ThemeHandler {
         this.activity = activity;
     }
     public void themeSelected(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-        SharedPreferences.Editor editor = activity.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
 
-        switch(view.getId()) {
-            case R.id.lightTheme:
-                if (checked) {
-                    Log.i(TAG, "Light Theme Selected");
-                    editor.putString(PREF_THEME, "Light");
-                }
-                break;
-            case R.id.darkTheme:
-                if (checked) {
-                    Log.i(TAG, "Dark Theme Selected");
-                    editor.putString(PREF_THEME, "Dark");
-                }
-                break;
-
-
-        }
-        editor.apply();
-        activity.recreate();
     }
     public void setTheme() {
 

@@ -15,11 +15,10 @@
         android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
+            android:theme="@style/SplashTheme"
             android:configChanges="orientation|screenSize">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,12 +30,12 @@
         <activity android:name=".directory.SignupActivity" />
         <activity android:name=".directory.LoginActivity" />
         <activity android:name=".directory.ResetPasswordActivity" />
-        <activity android:name=".directory.AccountActivity"/>
+        <activity android:name=".directory.AccountActivity" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".eventlist.CalenderAPI"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".eventlist.CalenderAPI" />
     </application>
 
 </manifest>

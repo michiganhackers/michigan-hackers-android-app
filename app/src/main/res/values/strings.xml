@@ -204,5 +204,6 @@
         <item>Undecided</item>
         <item>Women’s Studies</item>
     </string-array>
+    <string name="title_activity_feature_request">FeatureRequestActivity</string>
 
 </resources>

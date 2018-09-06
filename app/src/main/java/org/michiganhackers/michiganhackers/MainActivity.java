@@ -187,7 +187,4 @@ public class MainActivity extends AppCompatActivity{
         }
         return super.onKeyDown(keyCode,event);
     }
-    public void themeSelected(View view) {
-        themeHan.themeSelected(view);
-    }
-}
+ }

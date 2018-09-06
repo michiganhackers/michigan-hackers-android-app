@@ -1,6 +1,7 @@
 package org.michiganhackers.michiganhackers.eventlist;
 
 import android.Manifest;
+import android.accounts.Account;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -49,6 +50,7 @@ public class CalenderAPI extends AppCompatActivity{
 
     private static final String STATE_EVENTS = "state_events";
     public static final String TAG = "CalendarAPI";
+    private String accountName;
 
     private Context context;
     private Activity activity;
@@ -83,10 +85,10 @@ public class CalenderAPI extends AppCompatActivity{
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 context, Manifest.permission.GET_ACCOUNTS)) {
-            String accountName = activity.getPreferences(MODE_PRIVATE)
+            accountName = activity.getPreferences(MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
-                mCredential.setSelectedAccountName(accountName);
+                mCredential.setSelectedAccount(new Account(accountName,"org.michiganhackers.michiganhackers"));
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account

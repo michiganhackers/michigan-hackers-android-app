@@ -60,6 +60,7 @@
             tools:layout_editor_absoluteX="0dp" />
 
         <RadioGroup
+            android:id="@+id/themeSelector"
             android:layout_width="155dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -71,19 +72,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="themeSelected"
+                android:saveEnabled="false"
                 android:text="@string/lightTheme"
                 tools:layout_editor_absoluteX="25dp"
                 tools:layout_editor_absoluteY="201dp" />
 
             <RadioButton
                 android:id="@+id/darkTheme"
+                android:saveEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="themeSelected"
                 android:text="@string/darkTheme" />
         </RadioGroup>
+
+        <Button
+            android:id="@+id/feedbackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:text="Feedback"
+            android:onClick=""/>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
