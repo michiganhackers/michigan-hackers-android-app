@@ -14,14 +14,14 @@ Implementation of Event class from google API. Needed to do this so that it coul
 Refer to the following if you want to implement more data from Event: https://developers.google.com/calendar/v3/reference/events
  */
 public class CalendarEvent implements Parcelable{
-    private String summary;
-    private String description;
-    private String location;
-    private Boolean endTimeUnspecified;
-    private String status;
-    private Start start;
-    private End end;
-    private OriginalStartTime originalStartTime;
+    private final String summary;
+    private final String description;
+    private final String location;
+    private final Boolean endTimeUnspecified;
+    private final String status;
+    private final Start start;
+    private final End end;
+    private final OriginalStartTime originalStartTime;
 
     private CalendarEvent(Event event) {
         this.summary = event.getSummary();
@@ -69,14 +69,6 @@ public class CalendarEvent implements Parcelable{
         return location;
     }
 
-    public boolean isEndTimeUnspecified() {
-        return endTimeUnspecified;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
     public Start getStart() {
         return start;
     }
@@ -85,13 +77,9 @@ public class CalendarEvent implements Parcelable{
         return end;
     }
 
-    public OriginalStartTime getOriginalStartTime() {
-        return originalStartTime;
-    }
-
     public static class Start implements Parcelable {
-        private DateTime date;
-        private DateTime dateTime;
+        private final DateTime date;
+        private final DateTime dateTime;
 
         Start(DateTime date, DateTime dateTime) {
             this.date = date;
@@ -136,8 +124,8 @@ public class CalendarEvent implements Parcelable{
         };
     }
     public static class End implements Parcelable {
-        private DateTime date;
-        private DateTime dateTime;
+        private final DateTime date;
+        private final DateTime dateTime;
 
         End(DateTime date, DateTime dateTime) {
             this.date = date;
@@ -182,20 +170,12 @@ public class CalendarEvent implements Parcelable{
         };
     }
     public static class OriginalStartTime implements Parcelable {
-        private DateTime date;
-        private DateTime dateTime;
+        private final DateTime date;
+        private final DateTime dateTime;
 
         OriginalStartTime(DateTime date, DateTime dateTime) {
             this.date = date;
             this.dateTime = dateTime;
-        }
-
-        public DateTime getDate() {
-            return date;
-        }
-
-        public DateTime getDateTime() {
-            return dateTime;
         }
 
 

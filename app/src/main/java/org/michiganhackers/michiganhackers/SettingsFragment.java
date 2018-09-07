@@ -18,8 +18,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import org.michiganhackers.michiganhackers.directory.AccountActivity;
 import org.michiganhackers.michiganhackers.directory.DirectoryViewModel;
 
@@ -30,7 +28,7 @@ import static org.michiganhackers.michiganhackers.ThemeHandler.PREF_THEME;
 public class SettingsFragment extends Fragment {
     private DirectoryViewModel directoryViewModel;
     private static final String TAG = "SettingsFragment";
-    RadioGroup themeSelector;
+    private RadioGroup themeSelector;
     public SettingsFragment() {
         // Required empty public constructor
     }

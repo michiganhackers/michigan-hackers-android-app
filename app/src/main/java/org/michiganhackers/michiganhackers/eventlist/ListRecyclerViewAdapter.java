@@ -15,8 +15,8 @@ import org.michiganhackers.michiganhackers.R;
 import java.util.ArrayList;
 
 public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerViewAdapter.ViewHolder>{
-    private LayoutInflater inflater;
-    private ArrayList<CalendarEvent> dataSet;
+    private final LayoutInflater inflater;
+    private final ArrayList<CalendarEvent> dataSet;
     private onItemClickListener clickListener;
     ListRecyclerViewAdapter(Context context, ArrayList<CalendarEvent> dataSet){
         inflater = LayoutInflater.from(context);
@@ -62,8 +62,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        TextView eventName;
-        TextView eventTime;
+        final TextView eventName;
 
         ViewHolder(final View itemView) {
             super(itemView);

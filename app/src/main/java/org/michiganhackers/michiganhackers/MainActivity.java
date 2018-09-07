@@ -36,13 +36,13 @@ public class MainActivity extends AppCompatActivity{
     private BottomNavigationView mainNav;
     private android.view.MenuItem prevMenuItem;
 
-    public ListFragment listFragment;
+    private ListFragment listFragment;
     private SettingsFragment settingsFragment;
     private DirectoryFragment directoryFragment;
 
-    public CalenderAPI calAPI;
-    public NotificationHandler notification;
-    ViewPager mainPager;
+    private CalenderAPI calAPI;
+    private NotificationHandler notification;
+    private ViewPager mainPager;
     private static final String TAG = "MainActivity";
 
     @Override

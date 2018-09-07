@@ -4,18 +4,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class MainPagerAdapter extends FragmentPagerAdapter {
-    private int NUM_ITEMS = 3;
-    private MainActivity mainActivity;
+class MainPagerAdapter extends FragmentPagerAdapter {
+    private final MainActivity mainActivity;
 
-    public MainPagerAdapter(FragmentManager fragmentManager, MainActivity mainActivity) {
+    MainPagerAdapter(FragmentManager fragmentManager, MainActivity mainActivity) {
         super(fragmentManager);
         this.mainActivity = mainActivity;
     }
 
     @Override
     public int getCount() {
-        return NUM_ITEMS;
+        return 3;
     }
 
     @Override

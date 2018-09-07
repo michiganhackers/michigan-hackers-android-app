@@ -14,7 +14,7 @@ import org.michiganhackers.michiganhackers.ThemeHandler;
 public class EventActivity extends AppCompatActivity {
 
     private static final String STATE_EVENT = "state_event";
-    private static final String TAG = EventActivity.class.getName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeHandler themeHan = new ThemeHandler(this);

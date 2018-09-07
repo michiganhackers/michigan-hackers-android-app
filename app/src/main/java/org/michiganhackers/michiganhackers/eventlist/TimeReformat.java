@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class TimeReformat{
+class TimeReformat{
     public static String getDate(DateTime dateTime){
         SimpleDateFormat newSDF = new SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault());
         if(dateTime.isDateOnly()){

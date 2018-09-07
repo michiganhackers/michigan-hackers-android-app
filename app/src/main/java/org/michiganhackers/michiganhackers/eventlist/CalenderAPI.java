@@ -43,21 +43,19 @@ public class CalenderAPI{
     public static final String[] SCOPES = {CalendarScopes.CALENDAR_READONLY};
 
     private static final String STATE_EVENTS = "state_events";
-    public static final String TAG = "CalendarAPI";
+    private static final String TAG = "CalendarAPI";
 
-    private Context context;
-    private Activity activity;
-    private  ListFragment listFragment;
+    private final Context context;
+    private final Activity activity;
+    private final ListFragment listFragment;
     public GoogleAccountCredential mCredential;
-
-    CalenderAPI() {
-    }
 
     public CalenderAPI(Context context, Activity activity, ListFragment listFrag){
         this.context = context;
         this.activity = activity;
-        listFragment = listFrag;
+        this.listFragment = listFrag;
     }
+
 
     public void getResultsFromApi() {
 
@@ -72,7 +70,7 @@ public class CalenderAPI{
             Log.e(TAG,"No network connection available");
         }
         else {
-            new MakeRequestTask(mCredential).execute();
+            new MakeRequestTask(mCredential, this).execute();
         }
     }
 
@@ -141,12 +139,13 @@ public class CalenderAPI{
         dialog.show();
     }
 
-    public static class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<CalendarEvent>> {
-        private com.google.api.services.calendar.Calendar mService;
-        private Exception mLastError = null;
+    static class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<CalendarEvent>> {
+        private final com.google.api.services.calendar.Calendar mService;
+        final CalenderAPI calAPI;
 
-        MakeRequestTask(GoogleAccountCredential credential) {
+        MakeRequestTask(GoogleAccountCredential credential, CalenderAPI ca) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
+            this.calAPI = ca;
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
@@ -159,7 +158,6 @@ public class CalenderAPI{
             try {
                 return getDataFromApi();
             } catch (Exception e) {
-                mLastError = e;
                 cancel(true);
                 return null;
             }
@@ -186,7 +184,7 @@ public class CalenderAPI{
             if (output == null || output.size() == 0) {
                 Log.e(TAG, "No results returned");
             }
-            CalenderAPI calAPI = new CalenderAPI();
+
             calAPI.updateCalendar(output);
         }
         /*
@@ -212,7 +210,7 @@ public class CalenderAPI{
         }
         */
     }
-    public void updateCalendar(ArrayList<CalendarEvent> output) {
+    private void updateCalendar(ArrayList<CalendarEvent> output) {
 
         // Send bundle of calendar events
         Bundle bundle = new Bundle();

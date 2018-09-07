@@ -5,27 +5,15 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
 
-public class NotificationHandler{
-    private Activity activity;
-    private Context context;
-    private NotificationManager mNotificationManager;
-    private String CHANNEL_ID = "Hacker Notification Channel";
+class NotificationHandler{
+    private final Activity activity;
+    private final String CHANNEL_ID = "Hacker Notification Channel";
 
     NotificationHandler(Activity activity, Context context) {
         this.activity = activity;
-        this.context = context;
     }
 
-    public void sendNotification() {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_stat_name)
-                .setContentTitle("Title")
-                .setContentText("Text");
-        mNotificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE );
-        mNotificationManager.notify(001,mBuilder.build());
-    }
     public void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library

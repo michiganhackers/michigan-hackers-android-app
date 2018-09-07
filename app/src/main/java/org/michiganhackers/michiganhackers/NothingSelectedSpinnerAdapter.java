@@ -2,7 +2,6 @@ package org.michiganhackers.michiganhackers;
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-
-import java.util.List;
 
 /**
  * Decorator Adapter to allow a Spinner to show a 'Nothing Selected...' initially
@@ -25,12 +22,12 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
     // NOTE: I changed adapter from SpinnerAdapter to ArrayAdapter<CharSequence>, but I do not fully know the implications of this.
     // This was done to implement getPostition(). If this breaks NothingSelectedSpinnerAdapter, a
     // workaround could be to just do arraylist.getPosition(item) + EXTRA outside of this class wherever getPosition is needed (and account for -1)
-    private ArrayAdapter<CharSequence> adapter;
-    protected Context context;
-    private int nothingSelectedLayout;
-    private int nothingSelectedDropdownLayout;
-    private LayoutInflater layoutInflater;
-    private String hint;
+    private final ArrayAdapter<CharSequence> adapter;
+    private final Context context;
+    private final int nothingSelectedLayout;
+    private final int nothingSelectedDropdownLayout;
+    private final LayoutInflater layoutInflater;
+    private final String hint;
 
     // Use this constructor to not have the hint in the list of items
     public NothingSelectedSpinnerAdapter(ArrayAdapter<CharSequence> spinnerAdapter,

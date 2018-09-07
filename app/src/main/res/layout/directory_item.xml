@@ -47,7 +47,8 @@ android:orientation="vertical">
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/ic_directory"/>
+            app:srcCompat="@drawable/ic_directory"
+            android:contentDescription="@string/member_profile_picture" />
 
     </RelativeLayout>
 
