@@ -205,5 +205,6 @@
         <item>Women’s Studies</item>
     </string-array>
     <string name="title_activity_feature_request">FeatureRequestActivity</string>
+    <string name="feedback">Feedback</string>
 
 </resources>

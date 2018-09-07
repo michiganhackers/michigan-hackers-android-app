@@ -35,7 +35,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private static final String STATE_EVENT = "state_event";
     private ListRecyclerViewAdapter listRecyclerViewAdapter;
     private ArrayList<CalendarEvent> calendarEvents;
-    public static SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public ListFragment() {
         // Required empty public constructor
@@ -71,13 +71,13 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 intent.putExtra(STATE_EVENT,calendarEvents.get(position));
                 if (Build.VERSION.SDK_INT >= 16){
                     ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation(getActivity(),
+                            makeSceneTransitionAnimation(requireActivity(),
                                     imageView,
                                     ViewCompat.getTransitionName(imageView));
-                    getActivity().startActivity(intent, options.toBundle());
+                    requireActivity().startActivity(intent, options.toBundle());
                 }
                 else{
-                    getActivity().startActivity(intent);
+                    requireActivity().startActivity(intent);
                 }
             }
         });
@@ -100,11 +100,15 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        CalenderAPI calAPI = new CalenderAPI(getContext(),getActivity());
+        CalenderAPI calAPI = new CalenderAPI(requireContext(),requireActivity(), this);
         calAPI.mCredential = GoogleAccountCredential.usingOAuth2(
-                getContext().getApplicationContext(), Arrays.asList(SCOPES))
+                requireContext().getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         calAPI.getResultsFromApi();
 
+    }
+
+    public SwipeRefreshLayout getmSwipeRefreshLayout() {
+        return mSwipeRefreshLayout;
     }
 }

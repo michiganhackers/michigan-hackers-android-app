@@ -3,6 +3,7 @@
     <style name="DarkTheme.V21AppTheme">
         <!-- Customize your theme here. -->
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:statusBarColor">@color/colorBlack</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
@@ -10,5 +11,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+
     </style>
 </resources>

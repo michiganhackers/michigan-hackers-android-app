@@ -9,9 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -25,20 +24,17 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Events;
 
-import org.michiganhackers.michiganhackers.MainActivity;
-import org.michiganhackers.michiganhackers.R;
-
 import java.io.IOException;
 import java.util.ArrayList;
+
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static org.michiganhackers.michiganhackers.MainActivity.listFragment;
-import static org.michiganhackers.michiganhackers.eventlist.ListFragment.mSwipeRefreshLayout;
+import static android.content.Context.MODE_PRIVATE;
 
 
 
-public class CalenderAPI extends AppCompatActivity{
+public class CalenderAPI{
 
     public static final int REQUEST_ACCOUNT_PICKER = 1000;
     public static final int REQUEST_AUTHORIZATION = 1001;
@@ -50,18 +46,19 @@ public class CalenderAPI extends AppCompatActivity{
 
     private static final String STATE_EVENTS = "state_events";
     public static final String TAG = "CalendarAPI";
-    private String accountName;
 
     private Context context;
     private Activity activity;
+    private ListFragment listFragment;
     public GoogleAccountCredential mCredential;
 
     public CalenderAPI() {
     }
 
-    public CalenderAPI(Context context, Activity activity){
+    public CalenderAPI(Context context, Activity activity, ListFragment listFrag){
         this.context = context;
         this.activity = activity;
+        listFragment = listFrag;
     }
 
     public void getResultsFromApi() {
@@ -85,7 +82,7 @@ public class CalenderAPI extends AppCompatActivity{
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 context, Manifest.permission.GET_ACCOUNTS)) {
-            accountName = activity.getPreferences(MODE_PRIVATE)
+            String accountName = activity.getPreferences(MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 mCredential.setSelectedAccount(new Account(accountName,"org.michiganhackers.michiganhackers"));
@@ -133,7 +130,7 @@ public class CalenderAPI extends AppCompatActivity{
         }
     }
 
-   void showGooglePlayServicesAvailabilityErrorDialog(
+   private void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
@@ -198,7 +195,7 @@ public class CalenderAPI extends AppCompatActivity{
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(STATE_EVENTS, output);
             listFragment.updateListFragmentData(bundle);
-            mSwipeRefreshLayout.setRefreshing(false);
+            listFragment.getmSwipeRefreshLayout().setRefreshing(false);
         }
         @Override
         protected void onCancelled() {

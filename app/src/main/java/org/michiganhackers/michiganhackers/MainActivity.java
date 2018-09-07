@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -37,23 +36,27 @@ public class MainActivity extends AppCompatActivity{
     private BottomNavigationView mainNav;
     private android.view.MenuItem prevMenuItem;
 
-    public static ListFragment listFragment;
+    public ListFragment listFragment;
     private SettingsFragment settingsFragment;
     private DirectoryFragment directoryFragment;
 
     public CalenderAPI calAPI;
-    private ThemeHandler themeHan;
     public NotificationHandler notification;
     ViewPager mainPager;
     private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        themeHan = new ThemeHandler(this);
+        ThemeHandler themeHan = new ThemeHandler(this);
         themeHan.setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        calAPI = new CalenderAPI(this, this);
+
+        listFragment = new ListFragment();
+        settingsFragment = new SettingsFragment();
+        directoryFragment = new DirectoryFragment();
+
+        calAPI = new CalenderAPI(this, this, listFragment);
         notification = new NotificationHandler(this, this);
         notification.createNotificationChannel();
 
@@ -71,9 +74,6 @@ public class MainActivity extends AppCompatActivity{
 
         mainNav = findViewById(R.id.main_nav);
 
-        listFragment = new ListFragment();
-        settingsFragment = new SettingsFragment();
-        directoryFragment = new DirectoryFragment();
 
         // Replace current fragment with one corresponding to which navigation item is selected
         mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
