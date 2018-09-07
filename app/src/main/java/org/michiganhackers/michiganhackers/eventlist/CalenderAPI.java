@@ -15,8 +15,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -49,10 +47,10 @@ public class CalenderAPI{
 
     private Context context;
     private Activity activity;
-    private ListFragment listFragment;
+    private  ListFragment listFragment;
     public GoogleAccountCredential mCredential;
 
-    public CalenderAPI() {
+    CalenderAPI() {
     }
 
     public CalenderAPI(Context context, Activity activity, ListFragment listFrag){
@@ -106,9 +104,12 @@ public class CalenderAPI{
 
 
     private boolean isDeviceOnline() {
+        NetworkInfo networkInfo = null;
         ConnectivityManager connMgr =
                 (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (connMgr != null) {
+            networkInfo = connMgr.getActiveNetworkInfo();
+        }
         return (networkInfo != null && networkInfo.isConnected());
     }
 
@@ -130,7 +131,7 @@ public class CalenderAPI{
         }
     }
 
-   private void showGooglePlayServicesAvailabilityErrorDialog(
+    private void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
@@ -140,7 +141,7 @@ public class CalenderAPI{
         dialog.show();
     }
 
-    public class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<CalendarEvent>> {
+    public static class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<CalendarEvent>> {
         private com.google.api.services.calendar.Calendar mService;
         private Exception mLastError = null;
 
@@ -182,21 +183,13 @@ public class CalenderAPI{
 
         @Override
         protected void onPostExecute(ArrayList<CalendarEvent> output) {
-            /* Todo:
-            if (output == null || output.size() == 0) {
-            mOutputText.setText("No results returned.");
-            }
-            */
             if (output == null || output.size() == 0) {
                 Log.e(TAG, "No results returned");
             }
-
-            // Send bundle of calendar events
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(STATE_EVENTS, output);
-            listFragment.updateListFragmentData(bundle);
-            listFragment.getmSwipeRefreshLayout().setRefreshing(false);
+            CalenderAPI calAPI = new CalenderAPI();
+            calAPI.updateCalendar(output);
         }
+        /*
         @Override
         protected void onCancelled() {
             if (mLastError != null) {
@@ -217,5 +210,14 @@ public class CalenderAPI{
                 Log.e(TAG,"Request cancelled");
             }
         }
+        */
+    }
+    public void updateCalendar(ArrayList<CalendarEvent> output) {
+
+        // Send bundle of calendar events
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(STATE_EVENTS, output);
+        listFragment.updateListFragmentData(bundle);
+        listFragment.getmSwipeRefreshLayout().setRefreshing(false);
     }
 }
