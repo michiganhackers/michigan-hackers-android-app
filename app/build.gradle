@@ -1,7 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    
+    signingConfigs {
+        config {
+            keyAlias 'android-debug'
+            keyPassword 'hackers_android'
+            storeFile file('C:/Users/vnage/AndroidStudioProjects/androidapp/MichiganHackersKey.jks')
+            storePassword 'hackers_android'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "michiganhackers.michiganhackers"
@@ -32,9 +39,9 @@ android {
 
 dependencies {
     // ViewModel and LiveData
-    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
     // Support library depends on this lightweight import
-    implementation "android.arch.lifecycle:runtime:1.1.1"
+    implementation 'android.arch.lifecycle:runtime:1.1.1'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
