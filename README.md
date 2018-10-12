@@ -41,7 +41,7 @@ Create a Github account to interact with the remote repository.
     }
 ```
 # Deployment
-The app currently has a bug that makes it so that you can't see the calendar events in the debug version. The current workaround is to install the app from the playstore and sign in with your Google account. This allows fixes the bug in the debug version if you sign in with the same google account.
+The app currently has a bug that makes it so that you can't see the calendar events in the debug version. The current workaround is to install the app from the playstore and sign in with your Google account. This allows you to see the calendar events in the debug version if you sign in with the same google account.
 
 # Contributing
 Join the team
