@@ -1,21 +1,11 @@
 apply plugin: 'com.android.application'
 
-def keystorePropertiesFile = rootProject.file('keystore.properties')
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 android {
     signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-        }
         debug {
             keyAlias "android-debug"
             keyPassword "hackersandroid"
-            storeFile file("C:\\Users\\Owain\\MichiganHackersKey.jks")
+            storeFile file("PATH TO MichiganHackersKey.jks FILE ON YOUR COMPUTER")
             storePassword "hackersandroid"
         }
     }
@@ -30,12 +20,6 @@ android {
         multiDexEnabled true
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-            debuggable false
-        }
         debug {
             signingConfig signingConfigs.debug
         }
