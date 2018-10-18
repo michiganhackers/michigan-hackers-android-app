@@ -41,3 +41,4 @@ obj/
 
 # keystore
 keystore.properties
+*.jks
