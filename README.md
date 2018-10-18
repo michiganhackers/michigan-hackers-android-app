@@ -33,10 +33,10 @@ Create a Github account to interact with the remote repository.
 7. Open to the AndroidStudioProjects\androidapp\app\build.gradle file and change the storeFile location to the location you used in step 6.
 ```
     debug {
-        keyAlias 'android-debug'
-        keyPassword 'ASK ANDROID EXEC'
-        storeFile file('THE LOCATION YOU PLACED THE FILE/MichiganHackersKey.jks')
-        storePassword 'ASK ANDROID EXEC'
+        keyAlias "*****"
+        keyPassword "*****"
+        storeFile file("PATH TO MichiganHackersKey.jks FILE ON YOUR COMPUTER")
+        storePassword "*****"
     }
 ```
 # Deployment
