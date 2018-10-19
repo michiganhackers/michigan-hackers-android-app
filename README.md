@@ -22,7 +22,7 @@ Install git, the software our team uses for version control.
 [Download](https://git-scm.com/downloads)
 
 #### Github Account
-Create a Github account to interact with the remote repository.
+Create a Github account to interact with the remote repository.  
 [Join](https://github.com/join)
 
 ## Installing
