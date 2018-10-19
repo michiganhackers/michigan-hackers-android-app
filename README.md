@@ -30,8 +30,8 @@ Create a Github account to interact with the remote repository.
 2. Select "Check out project from Version Control"
 3. Select "Github"
 4. Paste the link to this Github repository (https://github.com/michiganhackers/androidapp) and select "Clone"
-5. Download the [google-services.json](https://drive.google.com/file/d/1wmWAXLQxmu5Pm5NGRm7ZJhZzjoRCR3h7/view?usp=sharing) file and place it in the androidapp/app directory.  
-6. Download the [MichiganHackersKey.jks](https://drive.google.com/file/d/1uKgIpgh-Sc7dIIddBrX-a2qy3qof_Chv/view?usp=sharing) file and place it anywhere you want.  
+5. Get the google-services.json file from an Android team leader and place it in the androidapp/app directory.  
+6. Get the MichiganHackers.jks file from an Android team leader  file and place it anywhere you want.  
 7. Open to the AndroidStudioProjects\androidapp\app\build.gradle file and change the storeFile location to the location you used in step 6.
 ```
     debug {
