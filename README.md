@@ -45,7 +45,7 @@ Create a Github account to interact with the remote repository.
 The app currently has a bug that makes it so that you can't see the calendar events in the debug version. The current work-around is to install the app from the playstore and sign in with your Google account. This allows you to see the calendar events in the debug version if you sign in with the same google account.
 
 # Contributing
-Join the team
+You will be working in master branch by default after cloning the repository. To contribute, you will need to checkout the develop branch and work from there. You can read about the Git workflow we use [here](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) and [here](https://nvie.com/posts/a-successful-git-branching-model/).
 
 # Authors
 * Vincent Nagel - Team Leader
