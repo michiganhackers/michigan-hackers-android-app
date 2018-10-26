@@ -5,7 +5,7 @@ android {
         debug {
             keyAlias "android-debug"
             keyPassword "hackersandroid"
-            storeFile file("PATH TO MichiganHackersKey.jks FILE ON YOUR COMPUTER")
+            storeFile file("MichiganHackersKey.jks")
             storePassword "hackersandroid"
         }
     }

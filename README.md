@@ -31,16 +31,8 @@ Create a Github account to interact with the remote repository.
 3. Select "Github"
 4. Paste the link to this Github repository (https://github.com/michiganhackers/androidapp) and select "Clone"
 5. Get the google-services.json file from an Android team leader and place it in the androidapp/app directory.  
-6. Get the MichiganHackers.jks file from an Android team leader  file and place it anywhere you want.  
-7. Open to the AndroidStudioProjects\androidapp\app\build.gradle file and change the storeFile location to the location you used in step 6.
-```
-    debug {
-        keyAlias "*****"
-        keyPassword "*****"
-        storeFile file("PATH TO MichiganHackersKey.jks FILE ON YOUR COMPUTER")
-        storePassword "*****"
-    }
-```
+6. Get the MichiganHackers.jks file from an Android team leader and place it in the androidapp/app directory.  
+
 # Deployment
 The app currently has a bug that makes it so that you can't see the calendar events in the debug version. The current work-around is to install the app from the playstore and sign in with your Google account. This allows you to see the calendar events in the debug version if you sign in with the same google account.
 
