@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.directory;
+package org.michiganhackers.michiganhackers.account;
 
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
@@ -31,6 +31,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.michiganhackers.michiganhackers.directory.Member;
 import org.w3c.dom.Document;
 
 import java.util.ArrayList;

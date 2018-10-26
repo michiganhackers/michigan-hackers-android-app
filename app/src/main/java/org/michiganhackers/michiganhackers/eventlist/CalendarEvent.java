@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.eventlist;
+package org.michiganhackers.michiganhackers.eventList;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.directory;
+package org.michiganhackers.michiganhackers.login;
 
 import android.content.Intent;
 import android.os.Bundle;

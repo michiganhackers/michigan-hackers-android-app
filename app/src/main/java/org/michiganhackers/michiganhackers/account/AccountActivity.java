@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.directory;
+package org.michiganhackers.michiganhackers.account;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
@@ -21,6 +21,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.michiganhackers.michiganhackers.R;
 import org.michiganhackers.michiganhackers.ThemeHandler;
+import org.michiganhackers.michiganhackers.login.LoginActivity;
+import org.michiganhackers.michiganhackers.profile.ProfileViewModel;
+import org.michiganhackers.michiganhackers.profile.ProfileViewModelFactory;
+import org.michiganhackers.michiganhackers.login.SignupActivity;
 
 
 public class AccountActivity extends AppCompatActivity {

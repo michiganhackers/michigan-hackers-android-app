@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.eventlist;
+package org.michiganhackers.michiganhackers.eventList;
 
 import android.Manifest;
 import android.accounts.Account;

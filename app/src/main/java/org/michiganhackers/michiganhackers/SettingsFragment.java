@@ -18,8 +18,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import org.michiganhackers.michiganhackers.directory.AccountActivity;
+import org.michiganhackers.michiganhackers.account.AccountActivity;
 import org.michiganhackers.michiganhackers.directory.DirectoryViewModel;
+import org.michiganhackers.michiganhackers.profile.ProfileActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 import static org.michiganhackers.michiganhackers.ThemeHandler.PREFS_NAME;
@@ -50,7 +51,7 @@ public class SettingsFragment extends Fragment {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), org.michiganhackers.michiganhackers.directory.ProfileActivity.class);
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 getActivity().startActivity(intent);
             }
         });

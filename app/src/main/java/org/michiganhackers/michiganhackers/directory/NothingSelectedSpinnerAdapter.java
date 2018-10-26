@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.directory;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+
+import org.michiganhackers.michiganhackers.R;
 
 /**
  * Decorator Adapter to allow a Spinner to show a 'Nothing Selected...' initially

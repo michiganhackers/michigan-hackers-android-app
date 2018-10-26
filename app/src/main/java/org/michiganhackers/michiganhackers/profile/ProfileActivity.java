@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.directory;
+package org.michiganhackers.michiganhackers.profile;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -24,11 +24,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.yalantis.ucrop.UCrop;
 
 import org.michiganhackers.michiganhackers.GlideApp;
-import org.michiganhackers.michiganhackers.NothingSelectedSpinnerAdapter;
+import org.michiganhackers.michiganhackers.directory.NothingSelectedSpinnerAdapter;
 import org.michiganhackers.michiganhackers.R;
 import org.michiganhackers.michiganhackers.ThemeHandler;
-import org.michiganhackers.michiganhackers.directory.ProfileViewModel;
-import org.michiganhackers.michiganhackers.directory.ProfileViewModelFactory;
+import org.michiganhackers.michiganhackers.login.LoginActivity;
+import org.michiganhackers.michiganhackers.directory.Member;
 
 import java.io.File;
 import java.io.IOException;

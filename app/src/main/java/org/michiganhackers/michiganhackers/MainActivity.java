@@ -20,16 +20,16 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.util.ExponentialBackOff;
 
 import org.michiganhackers.michiganhackers.directory.DirectoryFragment;
-import org.michiganhackers.michiganhackers.eventlist.CalenderAPI;
-import org.michiganhackers.michiganhackers.eventlist.ListFragment;
+import org.michiganhackers.michiganhackers.eventList.CalenderAPI;
+import org.michiganhackers.michiganhackers.eventList.ListFragment;
 
 import java.util.Arrays;
 
-import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.PREF_ACCOUNT_NAME;
-import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.REQUEST_ACCOUNT_PICKER;
-import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.REQUEST_AUTHORIZATION;
-import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.REQUEST_GOOGLE_PLAY_SERVICES;
-import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.SCOPES;
+import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.PREF_ACCOUNT_NAME;
+import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.REQUEST_ACCOUNT_PICKER;
+import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.REQUEST_AUTHORIZATION;
+import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.REQUEST_GOOGLE_PLAY_SERVICES;
+import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.SCOPES;
 
 public class MainActivity extends AppCompatActivity{
 

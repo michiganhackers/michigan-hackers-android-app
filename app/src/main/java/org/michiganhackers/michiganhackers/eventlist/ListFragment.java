@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.eventlist;
+package org.michiganhackers.michiganhackers.eventList;
 
 
 import android.content.Intent;
@@ -24,7 +24,7 @@ import org.michiganhackers.michiganhackers.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.michiganhackers.michiganhackers.eventlist.CalenderAPI.SCOPES;
+import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.SCOPES;
 
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 // Todo: Implement google API in here?

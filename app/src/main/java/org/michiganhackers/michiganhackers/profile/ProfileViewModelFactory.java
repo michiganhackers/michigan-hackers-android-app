@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.directory;
+package org.michiganhackers.michiganhackers.profile;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 public class ProfileViewModelFactory implements ViewModelProvider.Factory{
     private String uid;
-    ProfileViewModelFactory(String uid){
+    public ProfileViewModelFactory(String uid){
         this.uid = uid;
     }
 

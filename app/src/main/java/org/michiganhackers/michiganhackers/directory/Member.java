@@ -13,7 +13,7 @@ public class Member {
     private String uid;
     private String photoUrl;
 
-    Member() {
+    public Member() {
         teams = new ArrayList<>();
         majors = new ArrayList<>();
     }
@@ -24,7 +24,7 @@ public class Member {
         this.uid = uid;
     }
 
-    Member(String name, String uid, String bio, List<String> teams, String year, List<String> majors, String title) {
+    public Member(String name, String uid, String bio, List<String> teams, String year, List<String> majors, String title) {
         this.name = name;
         this.uid = uid;
         this.bio = bio;
