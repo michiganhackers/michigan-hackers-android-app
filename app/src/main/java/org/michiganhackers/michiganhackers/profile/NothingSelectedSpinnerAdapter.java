@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers.directory;
+package org.michiganhackers.michiganhackers.profile;
 
 import android.content.Context;
 import android.database.DataSetObserver;

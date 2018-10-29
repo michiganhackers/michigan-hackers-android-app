@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.yalantis.ucrop.UCrop;
 
 import org.michiganhackers.michiganhackers.GlideApp;
-import org.michiganhackers.michiganhackers.directory.NothingSelectedSpinnerAdapter;
 import org.michiganhackers.michiganhackers.R;
 import org.michiganhackers.michiganhackers.ThemeHandler;
 import org.michiganhackers.michiganhackers.login.LoginActivity;
