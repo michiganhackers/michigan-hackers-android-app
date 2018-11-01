@@ -40,7 +40,8 @@ The app currently has a bug that makes it so that you can't see the calendar eve
 You will be working in master branch by default after cloning the repository. To contribute, you will need to do the following:  
 1. Checkout the develop branch
 2. Create a new branch from the develop branch. This is the branch you will be working in.
-3. Whenever you finish the feature you are working on, merge it back into the develop branch.
+3. Whenever you finish the feature you are working on, merge it back into the develop branch.  
+
 You can read about the Git workflow we use [here](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) and [here](https://nvie.com/posts/a-successful-git-branching-model/).
 
 # Authors
