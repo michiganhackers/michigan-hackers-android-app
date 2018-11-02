@@ -20,16 +20,16 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.util.ExponentialBackOff;
 
 import org.michiganhackers.michiganhackers.directory.DirectoryFragment;
-import org.michiganhackers.michiganhackers.eventList.CalenderAPI;
+import org.michiganhackers.michiganhackers.eventList.CalendarAPI;
 import org.michiganhackers.michiganhackers.eventList.ListFragment;
 
 import java.util.Arrays;
 
-import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.PREF_ACCOUNT_NAME;
-import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.REQUEST_ACCOUNT_PICKER;
-import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.REQUEST_AUTHORIZATION;
-import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.REQUEST_GOOGLE_PLAY_SERVICES;
-import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.SCOPES;
+import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.PREF_ACCOUNT_NAME;
+import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.REQUEST_ACCOUNT_PICKER;
+import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.REQUEST_AUTHORIZATION;
+import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.REQUEST_GOOGLE_PLAY_SERVICES;
+import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.SCOPES;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity{
     private SettingsFragment settingsFragment;
     private DirectoryFragment directoryFragment;
 
-    private CalenderAPI calAPI;
+    private CalendarAPI calAPI;
     private NotificationHandler notification;
     private ViewPager mainPager;
     private static final String TAG = "MainActivity";
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity{
         settingsFragment = new SettingsFragment();
         directoryFragment = new DirectoryFragment();
 
-        calAPI = new CalenderAPI(this, this, listFragment);
+        calAPI = new CalendarAPI(this, this, listFragment);
         notification = new NotificationHandler(this, this);
         notification.createNotificationChannel();
 

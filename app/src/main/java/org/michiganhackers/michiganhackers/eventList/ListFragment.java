@@ -24,7 +24,7 @@ import org.michiganhackers.michiganhackers.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.michiganhackers.michiganhackers.eventList.CalenderAPI.SCOPES;
+import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.SCOPES;
 
 // Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 // Todo: Implement google API in here?
@@ -100,7 +100,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        CalenderAPI calAPI = new CalenderAPI(requireContext(),requireActivity(), this);
+        CalendarAPI calAPI = new CalendarAPI(requireContext(),requireActivity(), this);
         calAPI.mCredential = GoogleAccountCredential.usingOAuth2(
                 requireContext().getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());

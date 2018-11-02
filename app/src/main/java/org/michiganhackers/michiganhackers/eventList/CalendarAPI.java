@@ -32,7 +32,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 
-public class CalenderAPI{
+public class CalendarAPI{
 
     public static final int REQUEST_ACCOUNT_PICKER = 1000;
     public static final int REQUEST_AUTHORIZATION = 1001;
@@ -50,7 +50,7 @@ public class CalenderAPI{
     private final ListFragment listFragment;
     public GoogleAccountCredential mCredential;
 
-    public CalenderAPI(Context context, Activity activity, ListFragment listFrag){
+    public CalendarAPI(Context context, Activity activity, ListFragment listFrag){
         this.context = context;
         this.activity = activity;
         this.listFragment = listFrag;
@@ -141,9 +141,9 @@ public class CalenderAPI{
 
     static class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<CalendarEvent>> {
         private final com.google.api.services.calendar.Calendar mService;
-        final CalenderAPI calAPI;
+        final CalendarAPI calAPI;
 
-        MakeRequestTask(GoogleAccountCredential credential, CalenderAPI ca) {
+        MakeRequestTask(GoogleAccountCredential credential, CalendarAPI ca) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             this.calAPI = ca;
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
