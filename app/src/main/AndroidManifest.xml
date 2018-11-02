@@ -17,10 +17,6 @@
             android:name=".MainActivity"
             android:theme="@style/SplashTheme"
             android:configChanges="orientation|screenSize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".eventList.EventActivity" />
         <activity android:name=".profile.ProfileActivity" />
@@ -28,7 +24,12 @@
         <service android:name=".FirebaseMessaging" />
 
         <activity android:name=".login.SignupActivity" />
-        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.LoginActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity android:name=".login.ResetPasswordActivity" />
         <activity android:name=".account.AccountActivity" />
         <activity
