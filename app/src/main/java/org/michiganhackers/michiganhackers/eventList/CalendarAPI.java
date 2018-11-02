@@ -15,6 +15,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -157,7 +158,12 @@ public class CalendarAPI{
         protected ArrayList<CalendarEvent> doInBackground(Void... params) {
             try {
                 return getDataFromApi();
-            } catch (Exception e) {
+            }
+            catch (UserRecoverableAuthIOException e) {
+                calAPI.activity.startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
+                return null;
+            }
+            catch (Exception e) {
                 cancel(true);
                 return null;
             }

@@ -34,9 +34,6 @@ Create a Github account to interact with the remote repository.
 6. Get the MichiganHackers.jks file from an Android team leader and place it in the androidapp/app directory.  
 7. Get the keystore.properties file from an Android team leader and place it in the androidapp directory.  
 
-# Deployment
-The app currently has a bug that makes it so that you can't see the calendar events in the debug version. The current work-around is to install the app from the playstore and sign in with your Google account. This allows you to see the calendar events in the debug version if you sign in with the same google account.
-
 # Contributing
 You will be working in master branch by default after cloning the repository. To contribute, you will need to do the following:  
 1. Checkout the develop branch
