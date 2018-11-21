@@ -86,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        profilePic = findViewById(R.id.profile_pic);
+        profilePic = findViewById(R.id.image_profile_pic);
         if (savedInstanceState != null) {
             croppedImageFileUri = savedInstanceState.getParcelable("croppedImageFileUri");
             if(croppedImageFileUri != null){
@@ -109,21 +109,21 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
 
-        nameEditText = findViewById(R.id.profile_name);
+        nameEditText = findViewById(R.id.et_profile_name);
 
-        majorsMultiAutoCompleteTextView = findViewById(R.id.profile_majors);
+        majorsMultiAutoCompleteTextView = findViewById(R.id.tv_majors);
         final List<CharSequence> majorsItems = new ArrayList<CharSequence>(Arrays.asList(getResources().getStringArray(R.array.majors_array)));
         final ArrayAdapter<CharSequence> majorsMultiAutoCompleteTextViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, majorsItems);
         majorsMultiAutoCompleteTextView.setAdapter(majorsMultiAutoCompleteTextViewAdapter);
         majorsMultiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        yearSpinner = findViewById(R.id.profile_year);
+        yearSpinner = findViewById(R.id.spinner_year);
         ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
         yearSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final NothingSelectedSpinnerAdapter yearNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint), this);
         yearSpinner.setAdapter(yearNothingSelectedSpinnerAdapter);
 
-        teamsMultiAutoCompleteTextView = findViewById(R.id.profile_teams);
+        teamsMultiAutoCompleteTextView = findViewById(R.id.tv_teams);
         final List<CharSequence> teamsItems = new ArrayList<>();
         final ArrayAdapter<CharSequence> teamsMultiAutoCompleteTextViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, teamsItems);
         teamsMultiAutoCompleteTextView.setAdapter(teamsMultiAutoCompleteTextViewAdapter);
@@ -147,13 +147,13 @@ public class ProfileActivity extends AppCompatActivity {
         };
         profileViewModel.getTeamNames().observe(this, teamNamesObserver);
 
-        titleSpinner = findViewById(R.id.profile_title);
+        titleSpinner = findViewById(R.id.spinner_title);
         ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
         titleSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final NothingSelectedSpinnerAdapter titleNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(titleSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_title_hint), this);
         titleSpinner.setAdapter(titleNothingSelectedSpinnerAdapter);
 
-        bioEditText = findViewById(R.id.profile_bio);
+        bioEditText = findViewById(R.id.et_bio);
 
         final Observer<Member> memberObserver = new Observer<Member>() {
             @Override
@@ -193,7 +193,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             profileViewModel.getMember().observe(this, memberObserver);
         }
-        Button submitChangesButton = findViewById(R.id.profile_submitChangesButton);
+        Button submitChangesButton = findViewById(R.id.btn_submit_changes);
         submitChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,7 +268,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton imageEditButton = findViewById(R.id.profile_imageEditButton);
+        FloatingActionButton imageEditButton = findViewById(R.id.btn_edit_profile_pic);
         imageEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

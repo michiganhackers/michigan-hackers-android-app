@@ -44,9 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         themeHan.setTheme();
         setContentView(R.layout.activity_login);
 
-        inputEmail = findViewById(R.id.email);
-        inputPassword = findViewById(R.id.password);
-        progressBar = findViewById(R.id.progressBar);
+        inputEmail = findViewById(R.id.et_email);
+        inputPassword = findViewById(R.id.et_pwd);
+        progressBar = findViewById(R.id.progress_bar);
         btnSignup = findViewById(R.id.btn_signup);
         btnLogin = findViewById(R.id.btn_login);
         btnReset = findViewById(R.id.btn_reset_password);
@@ -98,9 +98,9 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!task.isSuccessful()) {
                                     // there was an error
                                     if (password.length() < 6) {
-                                        inputPassword.setError(getString(R.string.minimum_password));
+                                        inputPassword.setError(getString(R.string.pwd_too_short_msg));
                                     } else {
-                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed_msg), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);

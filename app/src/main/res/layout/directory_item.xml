@@ -26,16 +26,16 @@ android:orientation="vertical">
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_toRightOf="@id/item_memberPhoto">
+            android:layout_toRightOf="@id/image_member_profile_pic">
 
             <TextView
-                android:id="@+id/item_memberName"
+                android:id="@+id/tv_member_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/item_memberTitle"
+                android:id="@+id/tv_member_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center" />
@@ -43,7 +43,7 @@ android:orientation="vertical">
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/item_memberPhoto"
+            android:id="@+id/image_member_profile_pic"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"

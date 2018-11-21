@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/colorWhite">
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <EditText
-            android:id="@+id/password_reset_email"
+            android:id="@+id/et_pwd_reset_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_email"
@@ -26,7 +26,7 @@
             android:singleLine="true" />
 
         <EditText
-            android:id="@+id/new_email"
+            android:id="@+id/et_new_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_new_email"
@@ -35,7 +35,7 @@
             android:singleLine="true" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/et_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
@@ -45,7 +45,7 @@
             android:singleLine="true" />
 
         <EditText
-            android:id="@+id/confirm_password"
+            android:id="@+id/et_confirm_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
@@ -55,57 +55,57 @@
             android:singleLine="true" />
 
         <Button
-            android:id="@+id/changeEmail"
+            android:id="@+id/btn_confirm_change_email"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/primary_dark"
             android:text="@string/btn_change"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/changePass"
+            android:id="@+id/btn_confirm_change_pwd"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/primary_dark"
             android:text="@string/btn_change"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/send"
+            android:id="@+id/btn_confirm_send_pwd_reset_email"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/primary_dark"
             android:text="@string/btn_send"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/progress_bar"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/remove"
+            android:id="@+id/btn_confirm_remove_user"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/primary_dark"
             android:text="@string/btn_remove"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/change_email_button"
+            android:id="@+id/btn_change_email"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/change_password_button"
+            android:id="@+id/btn_change_pwd"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/sending_pass_reset_button"
+            android:id="@+id/btn_send_pwd_reset_email"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/remove_user_button"
+            android:id="@+id/btn_remove_user"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -141,12 +141,12 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/sign_out"
+            android:id="@+id/btn_sign_out"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/primary"
             android:text="@string/btn_sign_out"
             android:textColor="@android:color/white"
             android:textStyle="bold" />

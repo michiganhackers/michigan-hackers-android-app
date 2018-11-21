@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity{
             calAPI.getResultsFromApi();
         }
 
-        mainPager = findViewById(R.id.main_pager);
+        mainPager = findViewById(R.id.view_pager);
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         mainPager.setAdapter(mainPagerAdapter);
 
-        mainNav = findViewById(R.id.main_nav);
+        mainNav = findViewById(R.id.bottom_nav);
 
 
         // Replace current fragment with one corresponding to which navigation item is selected
@@ -81,13 +81,13 @@ public class MainActivity extends AppCompatActivity{
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()) {
-                    case R.id.nav_list:
+                    case R.id.menu_list:
                         mainPager.setCurrentItem(0);
                         return true;
-                    case R.id.nav_directory:
+                    case R.id.menu_directory:
                         mainPager.setCurrentItem(1);
                         return true;
-                    case R.id.nav_settings:
+                    case R.id.menu_settings:
                         mainPager.setCurrentItem(2);
                         return true;
                     default:

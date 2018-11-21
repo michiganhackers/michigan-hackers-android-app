@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_list"
+        android:id="@+id/menu_list"
         android:icon="@drawable/ic_action_list"
         android:title="@string/nav_list" />
     <item
-        android:id="@+id/nav_directory"
+        android:id="@+id/menu_directory"
         android:icon="@drawable/ic_directory"
         android:title="@string/nav_directory" />
 
     <item
-        android:id="@+id/nav_settings"
+        android:id="@+id/menu_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/nav_settings" />
 

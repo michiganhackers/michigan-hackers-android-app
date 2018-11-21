@@ -58,9 +58,9 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.directory_item, parent, false);
         }
-        TextView memberName = convertView.findViewById(R.id.item_memberName);
-        TextView memberTitle = convertView.findViewById(R.id.item_memberTitle);
-        ImageView memberPhoto = convertView.findViewById(R.id.item_memberPhoto);
+        TextView memberName = convertView.findViewById(R.id.tv_member_name);
+        TextView memberTitle = convertView.findViewById(R.id.tv_member_title);
+        ImageView memberPhoto = convertView.findViewById(R.id.image_member_profile_pic);
 
         memberName.setText(getChild(groupPosition, childPosition).getName());
         memberTitle.setText(getChild(groupPosition, childPosition).getTitle());
@@ -107,7 +107,7 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.directory_group, parent, false);
         }
 
-        TextView lblListHeader = convertView.findViewById(R.id.group_name);
+        TextView lblListHeader = convertView.findViewById(R.id.tv_team_name);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 

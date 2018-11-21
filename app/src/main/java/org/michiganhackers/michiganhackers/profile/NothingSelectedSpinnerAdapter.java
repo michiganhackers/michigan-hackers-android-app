@@ -66,7 +66,7 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
      */
     private View getNothingSelectedView(ViewGroup parent) {
         View layout =  layoutInflater.inflate(nothingSelectedLayout, parent, false);
-        TextView textView = layout.findViewById(R.id.profile_spinner_row_nothing_selected_hint);
+        TextView textView = layout.findViewById(R.id.tv_hint);
         textView.setText(hint);
         return layout;
     }

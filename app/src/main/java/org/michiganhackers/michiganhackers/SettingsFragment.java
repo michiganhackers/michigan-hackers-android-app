@@ -47,7 +47,7 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        Button editProfileButton = layout.findViewById(R.id.settings_editProfileButton);
+        Button editProfileButton = layout.findViewById(R.id.btn_edit_profile);
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +56,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        Button editAccountButton = layout.findViewById(R.id.settings_accountButton);
+        Button editAccountButton = layout.findViewById(R.id.btn_goto_acct);
         editAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +66,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        Button feedbackButton = layout.findViewById(R.id.feedbackButton);
+        Button feedbackButton = layout.findViewById(R.id.btn_send_feedback);
         feedbackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +75,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        themeSelector = layout.findViewById(R.id.themeSelector);
+        themeSelector = layout.findViewById(R.id.radio_group_select_theme);
         themeSelector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -83,13 +83,13 @@ public class SettingsFragment extends Fragment {
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
 
                 switch(checkedId) {
-                    case R.id.lightTheme:
+                    case R.id.btn_light_theme:
                         if (checked) {
                             Log.i(TAG, "Light Theme Selected");
                             editor.putString(PREF_THEME, "Light");
                         }
                         break;
-                    case R.id.darkTheme:
+                    case R.id.btn_dark_theme:
                         if (checked) {
                             Log.i(TAG, "Dark Theme Selected");
                             editor.putString(PREF_THEME, "Dark");
@@ -101,8 +101,8 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        final EditText addTeamEditText = layout.findViewById(R.id.settings_addTeamEditText);
-        Button addTeamButton = layout.findViewById(R.id.settings_addTeamButton);
+        final EditText addTeamEditText = layout.findViewById(R.id.et_add_team);
+        Button addTeamButton = layout.findViewById(R.id.btn_add_team);
         addTeamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

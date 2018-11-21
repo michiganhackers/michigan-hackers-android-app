@@ -15,7 +15,7 @@ import org.michiganhackers.michiganhackers.R;
 
 import java.util.Map;
 
-// Todo: it is a good practice when using fragments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
+// Todo: it is a good practice when using fra3gments to check isAdded before getActivity() is called. This helps avoid a null pointer exception when the fragment is detached from the activity. OR getActivity() == null
 public class DirectoryFragment extends Fragment {
     private DirectoryViewModel directoryViewModel;
 
@@ -34,7 +34,7 @@ public class DirectoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_directory, container, false);
 
-        ExpandableListView expandableListView = layout.findViewById(R.id.directory_expandableListView);
+        ExpandableListView expandableListView = layout.findViewById(R.id.list_view_directory);
         final DirectoryExpandableListAdapter directoryExpandableListAdapter = new DirectoryExpandableListAdapter(getContext());
         expandableListView.setAdapter(directoryExpandableListAdapter);
 

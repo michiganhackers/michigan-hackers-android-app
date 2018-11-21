@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/profile_spinner_row_nothing_selected_hint"
+    android:id="@+id/tv_hint"
     style="?android:attr/spinnerItemStyle"
     android:singleLine="true"
     android:layout_width="match_parent"

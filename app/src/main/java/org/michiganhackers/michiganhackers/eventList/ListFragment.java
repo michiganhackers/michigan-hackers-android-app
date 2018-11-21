@@ -54,7 +54,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_list, container, false);
-        RecyclerView recyclerView = layout.findViewById(R.id.list_recycler);
+        RecyclerView recyclerView = layout.findViewById(R.id.recycler_view_list);
         // Improves recyclerView performance
         //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -81,7 +81,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 }
             }
         });
-        mSwipeRefreshLayout = layout.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout = layout.findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         return layout;

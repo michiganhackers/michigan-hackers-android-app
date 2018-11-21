@@ -25,7 +25,7 @@
                 app:srcCompat="@drawable/orange_particles" />
 
             <TextView
-                android:id="@+id/event_name"
+                android:id="@+id/tv_event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -35,22 +35,22 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/event_date"
+            android:id="@+id/tv_event_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/event_time"
+            android:id="@+id/tv_event_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/event_location"
+            android:id="@+id/tv_event_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/event_description"
+            android:id="@+id/tv_event_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         

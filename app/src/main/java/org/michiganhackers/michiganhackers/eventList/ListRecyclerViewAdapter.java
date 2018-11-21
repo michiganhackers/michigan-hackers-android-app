@@ -66,7 +66,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
 
         ViewHolder(final View itemView) {
             super(itemView);
-            eventName = itemView.findViewById(R.id.card_name);
+            eventName = itemView.findViewById(R.id.tv_event_name);
             //eventTime = itemView.findViewById(R.id.event_time);
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -74,7 +74,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                     if(clickListener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            clickListener.onItemClick(position, v.findViewById(R.id.card_imageView));
+                            clickListener.onItemClick(position, v.findViewById(R.id.image_event_bkgnd));
                         }
                     }
                 }

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#f15d24</color>
+    <color name="primary">#f15d24</color>
     <!-- TODO Determine primary shades and accent. Use https://material.io/tools/color -->
-    <color name="colorPrimaryDark">#b72900</color>
-    <color name="colorAccent">#000000</color>
-    <color name="colorBlack">#000000</color>
-    <color name="colorWhite">#FFFFFF</color>
-    <color name="colorWhiteTransparent">#80FFFFFF</color>
+    <color name="primary_dark">#b72900</color>
+    <color name="accent">#000000</color>
+    <color name="white_transparent">#80FFFFFF</color>
 
 </resources>

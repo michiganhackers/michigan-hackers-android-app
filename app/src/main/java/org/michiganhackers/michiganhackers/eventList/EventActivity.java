@@ -23,11 +23,11 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
         CalendarEvent calendarEvent = getIntent().getExtras().getParcelable(STATE_EVENT);
 
-        TextView eventName = findViewById(R.id.event_name);
-        TextView eventDate = findViewById(R.id.event_date);
-        TextView eventTime = findViewById(R.id.event_time);
-        TextView eventLocation = findViewById(R.id.event_location);
-        TextView eventDescription = findViewById(R.id.event_description);
+        TextView eventName = findViewById(R.id.tv_event_name);
+        TextView eventDate = findViewById(R.id.tv_event_date);
+        TextView eventTime = findViewById(R.id.tv_event_time);
+        TextView eventLocation = findViewById(R.id.tv_event_location);
+        TextView eventDescription = findViewById(R.id.tv_event_description);
 
         eventName.setText(calendarEvent.getSummary());
         // Set start time

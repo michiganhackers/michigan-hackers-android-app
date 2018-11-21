@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/settings_editProfileButton"
+            android:id="@+id/btn_edit_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -18,12 +18,12 @@
             android:layout_marginLeft="36dp"
             android:layout_marginStart="36dp"
             android:layout_marginTop="184dp"
-            android:text="@string/directory_editProfileButton"
+            android:text="@string/directory_edit_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/settings_addTeamButton"
+            android:id="@+id/btn_add_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -31,10 +31,10 @@
             android:layout_marginBottom="101dp"
             android:text="@string/add_team"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_addTeamEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/et_add_team" />
 
         <Button
-            android:id="@+id/settings_accountButton"
+            android:id="@+id/btn_goto_acct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -43,24 +43,24 @@
             android:layout_marginTop="80dp"
             android:text="@string/account"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_editProfileButton" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_edit_profile" />
 
         <EditText
-            android:id="@+id/settings_addTeamEditText"
+            android:id="@+id/et_add_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="161dp"
-            android:background="@color/colorWhite"
+            android:background="@android:color/white"
             android:ems="10"
             android:hint="@string/team"
             android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/settings_accountButton"
+            app:layout_constraintTop_toBottomOf="@+id/btn_goto_acct"
             tools:layout_editor_absoluteX="0dp" />
 
         <RadioGroup
-            android:id="@+id/themeSelector"
+            android:id="@+id/radio_group_select_theme"
             android:layout_width="155dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -68,26 +68,26 @@
             tools:layout_editor_absoluteY="333dp">
 
             <RadioButton
-                android:id="@+id/lightTheme"
+                android:id="@+id/btn_light_theme"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:saveEnabled="false"
-                android:text="@string/lightTheme"
+                android:text="@string/light_theme"
                 tools:layout_editor_absoluteX="25dp"
                 tools:layout_editor_absoluteY="201dp" />
 
             <RadioButton
-                android:id="@+id/darkTheme"
+                android:id="@+id/btn_dark_theme"
                 android:saveEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/darkTheme" />
+                android:text="@string/dark_theme" />
         </RadioGroup>
 
         <Button
-            android:id="@+id/feedbackButton"
+            android:id="@+id/btn_send_feedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

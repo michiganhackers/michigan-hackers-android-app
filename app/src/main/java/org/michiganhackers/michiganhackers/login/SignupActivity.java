@@ -37,11 +37,11 @@ public class SignupActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        btnSignIn = findViewById(R.id.sign_in_button);
-        btnSignUp = findViewById(R.id.sign_up_button);
-        inputEmail = findViewById(R.id.email);
-        inputPassword = findViewById(R.id.password);
-        progressBar = findViewById(R.id.progressBar);
+        btnSignIn = findViewById(R.id.btn_log_in);
+        btnSignUp = findViewById(R.id.btn_sign_up);
+        inputEmail = findViewById(R.id.et_email);
+        inputPassword = findViewById(R.id.et_pwd);
+        progressBar = findViewById(R.id.progress_bar);
 
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
