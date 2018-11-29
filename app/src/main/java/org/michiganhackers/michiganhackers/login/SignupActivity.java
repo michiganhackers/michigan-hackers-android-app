@@ -22,8 +22,8 @@ import org.michiganhackers.michiganhackers.ThemeHandler;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword;
-    private Button btnSignIn, btnSignUp;
+    private EditText etEmail, etPassword;
+    private Button btnLogin, btnSignUp;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
@@ -37,14 +37,14 @@ public class SignupActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        btnSignIn = findViewById(R.id.btn_log_in);
+        btnLogin = findViewById(R.id.btn_log_in);
         btnSignUp = findViewById(R.id.btn_sign_up);
-        inputEmail = findViewById(R.id.et_email);
-        inputPassword = findViewById(R.id.et_pwd);
+        etEmail = findViewById(R.id.et_email);
+        etPassword = findViewById(R.id.et_pwd);
         progressBar = findViewById(R.id.progress_bar);
 
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -55,8 +55,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
+                String email = etEmail.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();

@@ -38,7 +38,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.eventName.setText(dataSet.get(position).getSummary());
+        holder.tvEventName.setText(dataSet.get(position).getSummary());
         DateTime start = dataSet.get(position).getStart().getDateTime();
         if (start == null) {
             // All-day events don't have start times, so just use
@@ -62,11 +62,11 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        final TextView eventName;
+        final TextView tvEventName;
 
         ViewHolder(final View itemView) {
             super(itemView);
-            eventName = itemView.findViewById(R.id.tv_event_name);
+            tvEventName = itemView.findViewById(R.id.tv_event_name);
             //eventTime = itemView.findViewById(R.id.event_time);
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override

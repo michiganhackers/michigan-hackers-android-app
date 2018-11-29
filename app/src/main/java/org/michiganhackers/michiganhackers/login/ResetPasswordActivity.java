@@ -19,8 +19,8 @@ import org.michiganhackers.michiganhackers.ThemeHandler;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    private EditText inputEmail;
-    private Button btnReset, btnBack;
+    private EditText etEmail;
+    private Button btnResetPassword, btnBack;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
 
@@ -31,8 +31,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
         themeHan.setTheme();
         setContentView(R.layout.activity_reset_password);
 
-        inputEmail = findViewById(R.id.et_email);
-        btnReset = findViewById(R.id.btn_reset_password);
+        etEmail = findViewById(R.id.et_email);
+        btnResetPassword = findViewById(R.id.btn_reset_password);
         btnBack = findViewById(R.id.btn_back);
         progressBar = findViewById(R.id.progress_bar);
 
@@ -45,11 +45,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
             }
         });
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
+        btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
+                String email = etEmail.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();

@@ -33,7 +33,7 @@ import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.SCOPES;
 
 public class MainActivity extends AppCompatActivity{
 
-    private BottomNavigationView mainNav;
+    private BottomNavigationView bottomNav;
     private android.view.MenuItem prevMenuItem;
 
     private ListFragment listFragment;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
 
     private CalendarAPI calAPI;
     private NotificationHandler notification;
-    private ViewPager mainPager;
+    private ViewPager viewPager;
     private static final String TAG = "MainActivity";
 
     @Override
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity{
         notification = new NotificationHandler(this, this);
         notification.createNotificationChannel();
 
-
         if(savedInstanceState == null) {
             calAPI.mCredential = GoogleAccountCredential.usingOAuth2(
                     getApplicationContext(), Arrays.asList(SCOPES))
@@ -68,34 +67,34 @@ public class MainActivity extends AppCompatActivity{
             calAPI.getResultsFromApi();
         }
 
-        mainPager = findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.view_pager);
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
-        mainPager.setAdapter(mainPagerAdapter);
+        viewPager.setAdapter(mainPagerAdapter);
 
-        mainNav = findViewById(R.id.bottom_nav);
+        bottomNav = findViewById(R.id.bottom_nav);
 
 
         // Replace current fragment with one corresponding to which navigation item is selected
-        mainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()) {
                     case R.id.menu_list:
-                        mainPager.setCurrentItem(0);
+                        viewPager.setCurrentItem(0);
                         return true;
                     case R.id.menu_directory:
-                        mainPager.setCurrentItem(1);
+                        viewPager.setCurrentItem(1);
                         return true;
                     case R.id.menu_settings:
-                        mainPager.setCurrentItem(2);
+                        viewPager.setCurrentItem(2);
                         return true;
                     default:
                         return false;
                 }
             }
         });
-        mainPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
 
@@ -106,10 +105,10 @@ public class MainActivity extends AppCompatActivity{
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
                 } else {
-                    mainNav.getMenu().getItem(0).setChecked(false);
+                    bottomNav.getMenu().getItem(0).setChecked(false);
                 }
-                mainNav.getMenu().getItem(position).setChecked(true);
-                prevMenuItem = mainNav.getMenu().getItem(position);
+                bottomNav.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = bottomNav.getMenu().getItem(position);
             }
 
             @Override
@@ -177,8 +176,8 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mainPager.getCurrentItem() != 0) {
-                mainPager.setCurrentItem(0);
+            if (viewPager.getCurrentItem() != 0) {
+                viewPager.setCurrentItem(0);
                 return false;
             }
             else {

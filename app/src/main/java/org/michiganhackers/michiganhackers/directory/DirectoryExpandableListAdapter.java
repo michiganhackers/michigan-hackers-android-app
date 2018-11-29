@@ -58,17 +58,17 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.directory_item, parent, false);
         }
-        TextView memberName = convertView.findViewById(R.id.tv_member_name);
-        TextView memberTitle = convertView.findViewById(R.id.tv_member_title);
-        ImageView memberPhoto = convertView.findViewById(R.id.image_member_profile_pic);
+        TextView tvMemberName = convertView.findViewById(R.id.tv_member_name);
+        TextView tvMemberTitle = convertView.findViewById(R.id.tv_member_title);
+        ImageView imgMemberPhoto = convertView.findViewById(R.id.image_member_profile_pic);
 
-        memberName.setText(getChild(groupPosition, childPosition).getName());
-        memberTitle.setText(getChild(groupPosition, childPosition).getTitle());
+        tvMemberName.setText(getChild(groupPosition, childPosition).getName());
+        tvMemberTitle.setText(getChild(groupPosition, childPosition).getTitle());
         GlideApp.with(context)
                 .load(getChild(groupPosition, childPosition).getPhotoUrl())
                 .placeholder(R.drawable.ic_directory)
                 .centerCrop()
-                .into(memberPhoto);
+                .into(imgMemberPhoto);
 
         return convertView;
     }
@@ -107,9 +107,9 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.directory_group, parent, false);
         }
 
-        TextView lblListHeader = convertView.findViewById(R.id.tv_team_name);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+        TextView tvTeamName = convertView.findViewById(R.id.tv_team_name);
+        tvTeamName.setTypeface(null, Typeface.BOLD);
+        tvTeamName.setText(headerTitle);
 
         return convertView;
     }

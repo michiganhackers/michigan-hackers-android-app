@@ -35,7 +35,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private static final String STATE_EVENT = "state_event";
     private ListRecyclerViewAdapter listRecyclerViewAdapter;
     private ArrayList<CalendarEvent> calendarEvents;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public ListFragment() {
         // Required empty public constructor
@@ -81,8 +81,8 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 }
             }
         });
-        mSwipeRefreshLayout = layout.findViewById(R.id.swipe_refresh);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout = layout.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         return layout;
     }
@@ -109,6 +109,6 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     public SwipeRefreshLayout getmSwipeRefreshLayout() {
-        return mSwipeRefreshLayout;
+        return swipeRefreshLayout;
     }
 }

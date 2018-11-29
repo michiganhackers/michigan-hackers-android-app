@@ -47,8 +47,8 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        Button editProfileButton = layout.findViewById(R.id.btn_edit_profile);
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
+        Button btnEditProfile = layout.findViewById(R.id.btn_edit_profile);
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
@@ -66,8 +66,8 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        Button feedbackButton = layout.findViewById(R.id.btn_send_feedback);
-        feedbackButton.setOnClickListener(new View.OnClickListener() {
+        Button btnSendFeedback = layout.findViewById(R.id.btn_send_feedback);
+        btnSendFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://goo.gl/forms/DYHVcfx12jJJgrAu1"));
@@ -101,13 +101,13 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        final EditText addTeamEditText = layout.findViewById(R.id.et_add_team);
-        Button addTeamButton = layout.findViewById(R.id.btn_add_team);
-        addTeamButton.setOnClickListener(new View.OnClickListener() {
+        final EditText etAddTeam = layout.findViewById(R.id.et_add_team);
+        Button btnAddTeam = layout.findViewById(R.id.btn_add_team);
+        btnAddTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!addTeamEditText.getText().toString().equals("")){
-                    directoryViewModel.addTeam(addTeamEditText.getText().toString());
+                if(!etAddTeam.getText().toString().equals("")){
+                    directoryViewModel.addTeam(etAddTeam.getText().toString());
                 }
             }
         });

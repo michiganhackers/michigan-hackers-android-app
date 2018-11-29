@@ -48,13 +48,11 @@ public class ProfileActivity extends AppCompatActivity {
     private Boolean teamsSelectedSet = false;
     private ProfileViewModel profileViewModel;
 
-    private EditText nameEditText;
-    private Spinner yearSpinner;
-    private MultiAutoCompleteTextView teamsMultiAutoCompleteTextView;
-    MultiAutoCompleteTextView majorsMultiAutoCompleteTextView;
-    private Spinner titleSpinner;
-    private EditText bioEditText;
-    private ImageView profilePic;
+    private EditText etProfileName, etBio;
+    private Spinner spinnerYear, spinnerTitle;
+    private MultiAutoCompleteTextView autoCompleteTvTeams;
+    MultiAutoCompleteTextView autoCompleteTvMajors;
+    private ImageView imgProfilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        profilePic = findViewById(R.id.image_profile_pic);
+        imgProfilePic = findViewById(R.id.image_profile_pic);
         if (savedInstanceState != null) {
             croppedImageFileUri = savedInstanceState.getParcelable("croppedImageFileUri");
             if(croppedImageFileUri != null){
@@ -94,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
                         .load(croppedImageFileUri)
                         .placeholder(R.drawable.ic_directory)
                         .centerCrop()
-                        .into(profilePic);
+                        .into(imgProfilePic);
             }else{
                 Member member = profileViewModel.getMember().getValue();
                 if (member != null) {
@@ -102,32 +100,32 @@ public class ProfileActivity extends AppCompatActivity {
                             .load(member.getPhotoUrl())
                             .placeholder(R.drawable.ic_directory)
                             .centerCrop()
-                            .into(profilePic);
+                            .into(imgProfilePic);
                 }
             }
             teamsSelectedSet = savedInstanceState.getBoolean("teamsSelectedSet");
         }
 
 
-        nameEditText = findViewById(R.id.et_profile_name);
+        etProfileName = findViewById(R.id.et_profile_name);
 
-        majorsMultiAutoCompleteTextView = findViewById(R.id.tv_majors);
+        autoCompleteTvMajors = findViewById(R.id.tv_majors);
         final List<CharSequence> majorsItems = new ArrayList<CharSequence>(Arrays.asList(getResources().getStringArray(R.array.majors_array)));
         final ArrayAdapter<CharSequence> majorsMultiAutoCompleteTextViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, majorsItems);
-        majorsMultiAutoCompleteTextView.setAdapter(majorsMultiAutoCompleteTextViewAdapter);
-        majorsMultiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        autoCompleteTvMajors.setAdapter(majorsMultiAutoCompleteTextViewAdapter);
+        autoCompleteTvMajors.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        yearSpinner = findViewById(R.id.spinner_year);
+        spinnerYear = findViewById(R.id.spinner_year);
         ArrayAdapter<CharSequence> yearSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.year_array, android.R.layout.simple_spinner_item);
         yearSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final NothingSelectedSpinnerAdapter yearNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(yearSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_year_hint), this);
-        yearSpinner.setAdapter(yearNothingSelectedSpinnerAdapter);
+        spinnerYear.setAdapter(yearNothingSelectedSpinnerAdapter);
 
-        teamsMultiAutoCompleteTextView = findViewById(R.id.tv_teams);
+        autoCompleteTvTeams = findViewById(R.id.tv_teams);
         final List<CharSequence> teamsItems = new ArrayList<>();
         final ArrayAdapter<CharSequence> teamsMultiAutoCompleteTextViewAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, teamsItems);
-        teamsMultiAutoCompleteTextView.setAdapter(teamsMultiAutoCompleteTextViewAdapter);
-        teamsMultiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        autoCompleteTvTeams.setAdapter(teamsMultiAutoCompleteTextViewAdapter);
+        autoCompleteTvTeams.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         final Observer<List<String>> teamNamesObserver = new Observer<List<String>>() {
             @Override
@@ -147,13 +145,13 @@ public class ProfileActivity extends AppCompatActivity {
         };
         profileViewModel.getTeamNames().observe(this, teamNamesObserver);
 
-        titleSpinner = findViewById(R.id.spinner_title);
+        spinnerTitle = findViewById(R.id.spinner_title);
         ArrayAdapter<CharSequence> titleSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.title_array, android.R.layout.simple_spinner_item);
         titleSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final NothingSelectedSpinnerAdapter titleNothingSelectedSpinnerAdapter = new NothingSelectedSpinnerAdapter(titleSpinnerAdapter, R.layout.profile_spinner_row_nothing_selected, getString(R.string.select_title_hint), this);
-        titleSpinner.setAdapter(titleNothingSelectedSpinnerAdapter);
+        spinnerTitle.setAdapter(titleNothingSelectedSpinnerAdapter);
 
-        bioEditText = findViewById(R.id.et_bio);
+        etBio = findViewById(R.id.et_bio);
 
         final Observer<Member> memberObserver = new Observer<Member>() {
             @Override
@@ -164,25 +162,25 @@ public class ProfileActivity extends AppCompatActivity {
                             .load(member.getPhotoUrl())
                             .placeholder(R.drawable.ic_directory)
                             .centerCrop()
-                            .into(profilePic);
-                    nameEditText.setText(member.getName());
+                            .into(imgProfilePic);
+                    etProfileName.setText(member.getName());
                     // Display the user's previous team selection if it hasn't been yet
                     if (!teamsSelectedSet) {
                         setTeamsSelection(teamsMultiAutoCompleteTextViewAdapter);
                     }
                     for (String major : member.getMajors()) {
                         if (majorsMultiAutoCompleteTextViewAdapter.getPosition(major) != -1) {
-                            String newText = majorsMultiAutoCompleteTextView.getText().toString() + major + ", ";
-                            majorsMultiAutoCompleteTextView.setText(newText);
+                            String newText = autoCompleteTvMajors.getText().toString() + major + ", ";
+                            autoCompleteTvMajors.setText(newText);
                         }
                     }
                     if (yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()) != -1) {
-                        yearSpinner.setSelection(yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()));
+                        spinnerYear.setSelection(yearNothingSelectedSpinnerAdapter.getPosition(member.getYear()));
                     }
                     if (titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()) != -1) {
-                        titleSpinner.setSelection(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()));
+                        spinnerTitle.setSelection(titleNothingSelectedSpinnerAdapter.getPosition(member.getTitle()));
                     }
-                    bioEditText.setText(member.getBio());
+                    etBio.setText(member.getBio());
                     // Note that the observer is removed after the team with the current user is found and his/her info is added
                     // This is one reason why the team spinner is not populated with this observer
                     profileViewModel.getMember().removeObserver(this);
@@ -193,24 +191,24 @@ public class ProfileActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             profileViewModel.getMember().observe(this, memberObserver);
         }
-        Button submitChangesButton = findViewById(R.id.btn_submit_changes);
-        submitChangesButton.setOnClickListener(new View.OnClickListener() {
+        Button btnSubmitChanges = findViewById(R.id.btn_submit_changes);
+        btnSubmitChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> teamNames = new ArrayList<>(Arrays.asList(teamsMultiAutoCompleteTextView.getText().toString().trim().split("\\s*,\\s*")));
+                List<String> teamNames = new ArrayList<>(Arrays.asList(autoCompleteTvTeams.getText().toString().trim().split("\\s*,\\s*")));
                 // remove duplicates
                 Set<String> teamNamesSet = new HashSet<>(teamNames);
                 teamNames.clear();
                 teamNames.addAll(teamNamesSet);
-                String memberName = nameEditText.getText().toString().trim();
-                List<String> majors = new ArrayList<>(Arrays.asList(majorsMultiAutoCompleteTextView.getText().toString().trim().split("\\s*,\\s*")));
+                String memberName = etProfileName.getText().toString().trim();
+                List<String> majors = new ArrayList<>(Arrays.asList(autoCompleteTvMajors.getText().toString().trim().split("\\s*,\\s*")));
                 // remove duplicates
                 Set<String> majorsSet = new HashSet<>(majors);
                 majors.clear();
                 majors.addAll(majorsSet);
-                String year = yearSpinner.getSelectedItem().toString();
-                String title = titleSpinner.getSelectedItem().toString();
-                String bio = bioEditText.getText().toString().trim();
+                String year = spinnerYear.getSelectedItem().toString();
+                String title = spinnerTitle.getSelectedItem().toString();
+                String bio = etBio.getText().toString().trim();
 
                 // Check user input and show warnings accordingly
                 // Todo: Make errors for spinners?
@@ -229,13 +227,13 @@ public class ProfileActivity extends AppCompatActivity {
                     warningShown = true;
                 }
                 if (memberName.equals("")) {
-                    nameEditText.setError("Enter name");
+                    etProfileName.setError("Enter name");
                     warningShown = true;
                 }
                 for (String majorName : majors) {
                     if (!majorsItems.contains(majorName)) {
                         // Todo: automatically delete incorrect teams?
-                        majorsMultiAutoCompleteTextView.setError("All majors must exist");
+                        autoCompleteTvMajors.setError("All majors must exist");
                         warningShown = true;
                         break;
                     }
@@ -243,13 +241,13 @@ public class ProfileActivity extends AppCompatActivity {
                 for (String teamName : teamNames) {
                     if (!teamsItems.contains(teamName)) {
                         // Todo: automatically delete incorrect teams?
-                        teamsMultiAutoCompleteTextView.setError("All teams must exist");
+                        autoCompleteTvTeams.setError("All teams must exist");
                         warningShown = true;
                         break;
                     }
                 }
                 if (bio.equals("")) {
-                    bioEditText.setError("Enter bio");
+                    etBio.setError("Enter bio");
                     warningShown = true;
                 }
 
@@ -268,8 +266,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton imageEditButton = findViewById(R.id.btn_edit_profile_pic);
-        imageEditButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton btnEditProfilePic = findViewById(R.id.btn_edit_profile_pic);
+        btnEditProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -296,7 +294,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Uri destinationImageFileUri = Uri.fromFile(croppedImageFile);
                 UCrop.of(sourceImageFileUri, destinationImageFileUri).withAspectRatio(1, 1).start(ProfileActivity.this);
             } catch (IOException e) {
-                Log.e(TAG, "Error while creating profilePic temp file", e);
+                Log.e(TAG, "Error while creating imgProfilePic temp file", e);
             }
         } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             croppedImageFileUri = UCrop.getOutput(data);
@@ -304,7 +302,7 @@ public class ProfileActivity extends AppCompatActivity {
                     .load(croppedImageFileUri)
                     .placeholder(R.drawable.ic_directory)
                     .centerCrop()
-                    .into(profilePic);
+                    .into(imgProfilePic);
 
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
@@ -358,8 +356,8 @@ public class ProfileActivity extends AppCompatActivity {
                 teamsSelectedSet = true;
                 for (String team : member.getTeams()) {
                     if (teamsMultiAutoCompleteTextViewAdapter.getPosition(team) != -1) {
-                        String newText = teamsMultiAutoCompleteTextView.getText().toString() + team + ", ";
-                        teamsMultiAutoCompleteTextView.setText(newText);
+                        String newText = autoCompleteTvTeams.getText().toString() + team + ", ";
+                        autoCompleteTvTeams.setText(newText);
                     } else {
                         teamsSelectedSet = false;
                     }
