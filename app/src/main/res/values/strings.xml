@@ -66,6 +66,7 @@
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="add_team">Add Team</string>
+    <string name="testing">testing</string>
 
     <!--String Arrays-->
     <string-array name="year_array">

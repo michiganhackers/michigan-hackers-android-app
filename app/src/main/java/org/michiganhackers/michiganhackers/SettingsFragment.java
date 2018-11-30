@@ -56,6 +56,16 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        Button testButton = layout.findViewById(R.id.testButton);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), TEST_ACTIVITY.class);
+                getActivity().startActivity(intent);
+
+            }
+        });
+
         Button editAccountButton = layout.findViewById(R.id.btn_goto_acct);
         editAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override

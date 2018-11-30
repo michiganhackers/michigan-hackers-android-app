@@ -15,10 +15,11 @@
         android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/SplashTheme"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,6 +36,7 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".TEST_ACTIVITY"></activity>
     </application>
 
 </manifest>

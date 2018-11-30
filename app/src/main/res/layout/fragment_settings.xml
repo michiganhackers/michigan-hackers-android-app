@@ -44,7 +44,12 @@
             android:text="@string/account"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_edit_profile" />
-
+        <Button
+            android:id="@+id/testButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/testing" />
         <EditText
             android:id="@+id/et_add_team"
             android:layout_width="wrap_content"
