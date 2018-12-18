@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.michiganhackers.michiganhackers.MainActivity;
 import org.michiganhackers.michiganhackers.R;
-import org.michiganhackers.michiganhackers.ThemeHandler;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -30,8 +29,6 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHandler themeHan = new ThemeHandler(this);
-        themeHan.setTheme();
         setContentView(R.layout.activity_signup);
 
         //Get Firebase auth instance

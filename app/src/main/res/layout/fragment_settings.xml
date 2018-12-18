@@ -9,6 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Switch
+            android:id="@+id/switch_theme_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="333dp"/>
+
         <Button
             android:id="@+id/btn_edit_profile"
             android:layout_width="wrap_content"
@@ -52,39 +60,11 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="161dp"
-            android:background="@android:color/white"
             android:ems="10"
             android:hint="@string/team"
             android:inputType="textPersonName"
             app:layout_constraintTop_toBottomOf="@+id/btn_goto_acct"
             tools:layout_editor_absoluteX="0dp" />
-
-        <RadioGroup
-            android:id="@+id/radio_group_select_theme"
-            android:layout_width="155dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="333dp">
-
-            <RadioButton
-                android:id="@+id/btn_light_theme"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:saveEnabled="false"
-                android:text="@string/light_theme"
-                tools:layout_editor_absoluteX="25dp"
-                tools:layout_editor_absoluteY="201dp" />
-
-            <RadioButton
-                android:id="@+id/btn_dark_theme"
-                android:saveEnabled="false"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/dark_theme" />
-        </RadioGroup>
 
         <Button
             android:id="@+id/btn_send_feedback"

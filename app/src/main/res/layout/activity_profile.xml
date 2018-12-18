@@ -33,7 +33,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:tint="@android:color/white"
+                android:tint="@color/white_transparent"
                 app:srcCompat="@drawable/ic_add_image" />
 
         </RelativeLayout>

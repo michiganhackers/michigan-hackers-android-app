@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/primary"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
@@ -32,9 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_email"
-                android:inputType="textEmailAddress"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -47,9 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_password"
-                android:inputType="textPassword"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -57,9 +52,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:background="@color/accent"
-            android:text="@string/btn_login"
-            android:textColor="@android:color/white" />
+            android:text="@string/btn_login"/>
 
         <Button
             android:id="@+id/btn_reset_password"
@@ -68,8 +61,7 @@
             android:layout_marginTop="20dip"
             android:background="@null"
             android:text="@string/btn_forgot_password"
-            android:textAllCaps="false"
-            android:textColor="@color/accent" />
+            android:textAllCaps="false"/>
 
         <Button
             android:id="@+id/btn_signup"
@@ -79,7 +71,6 @@
             android:background="@null"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
             android:textSize="15sp" />
     </LinearLayout>
 

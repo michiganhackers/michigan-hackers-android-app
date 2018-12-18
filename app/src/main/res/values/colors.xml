@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#f15d24</color>
-    <!-- TODO Determine primary shades and accent. Use https://material.io/tools/color -->
+    <color name="primary_light">#ff8f52</color>
     <color name="primary_dark">#b72900</color>
-    <color name="accent">#000000</color>
+
+    <color name="secondary">@android:color/white</color>
+    <color name="secondary_light">@android:color/white</color>
+    <color name="secondary_dark">#cccccc</color>
+
+    <color name="accent">@android:color/black</color>
     <color name="white_transparent">#80FFFFFF</color>
 
 </resources>

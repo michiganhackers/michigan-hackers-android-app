@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.michiganhackers.michiganhackers.MainActivity;
 import org.michiganhackers.michiganhackers.R;
-import org.michiganhackers.michiganhackers.ThemeHandler;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,8 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // set the view now
-        ThemeHandler themeHan = new ThemeHandler(this);
-        themeHan.setTheme();
         setContentView(R.layout.activity_login);
 
         etEmail = findViewById(R.id.et_email);

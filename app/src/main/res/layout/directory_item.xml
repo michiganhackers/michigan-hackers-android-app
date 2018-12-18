@@ -8,7 +8,6 @@ android:orientation="vertical">
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="10dp"
     app:cardElevation="3dp"
     app:cardPreventCornerOverlap="true"

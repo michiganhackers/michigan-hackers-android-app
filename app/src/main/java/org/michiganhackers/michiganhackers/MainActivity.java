@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -24,6 +26,7 @@ import org.michiganhackers.michiganhackers.eventList.CalendarAPI;
 import org.michiganhackers.michiganhackers.eventList.ListFragment;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.PREF_ACCOUNT_NAME;
 import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.REQUEST_ACCOUNT_PICKER;
@@ -44,11 +47,14 @@ public class MainActivity extends AppCompatActivity{
     private NotificationHandler notification;
     private ViewPager viewPager;
     private static final String TAG = "MainActivity";
+    static final String THEME = "THEME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeHandler themeHan = new ThemeHandler(this);
-        themeHan.setTheme();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int theme = sharedPreferences.getInt(THEME, AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(theme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

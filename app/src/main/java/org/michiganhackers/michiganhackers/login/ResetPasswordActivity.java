@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.michiganhackers.michiganhackers.R;
-import org.michiganhackers.michiganhackers.ThemeHandler;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -27,23 +26,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHandler themeHan = new ThemeHandler(this);
-        themeHan.setTheme();
         setContentView(R.layout.activity_reset_password);
 
         etEmail = findViewById(R.id.et_email);
         btnResetPassword = findViewById(R.id.btn_reset_password);
-        btnBack = findViewById(R.id.btn_back);
         progressBar = findViewById(R.id.progress_bar);
 
         auth = FirebaseAuth.getInstance();
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,14 +1,23 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="BaseTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="BaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+
+        <item name="ic_arrow_down">@drawable/ic_arrow_down_light</item>
+        <item name="ic_arrow_up">@drawable/ic_arrow_up_light</item>
+
+    </style>
+
+    <attr name="ic_arrow_down" format="reference"/>
+    <attr name="ic_arrow_up" format="reference"/>
+
+    <style name="BaseTheme.SplashTheme">
         <item name="android:background">@color/primary</item>
     </style>
 
-    <!-- Dark Theme -->
-    <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:background">@android:color/black</item>
-    </style>
+
     <style name="BaseEventNameText">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">36sp</item>
@@ -17,10 +26,6 @@
         <item name="android:shadowDx">2</item>
         <item name="android:shadowDy">2</item>
         <item name="android:shadowRadius">0.01</item>
-    </style>
-
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splashscreen</item>
     </style>
 
 </resources>

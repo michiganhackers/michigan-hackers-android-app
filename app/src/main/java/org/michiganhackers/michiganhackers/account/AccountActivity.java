@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.michiganhackers.michiganhackers.R;
-import org.michiganhackers.michiganhackers.ThemeHandler;
 import org.michiganhackers.michiganhackers.login.LoginActivity;
 import org.michiganhackers.michiganhackers.profile.ProfileViewModel;
 import org.michiganhackers.michiganhackers.profile.ProfileViewModelFactory;
@@ -40,8 +39,6 @@ public class AccountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHandler themeHan = new ThemeHandler(this);
-        themeHan.setTheme();
         setContentView(R.layout.activity_account);
 
         auth = FirebaseAuth.getInstance();

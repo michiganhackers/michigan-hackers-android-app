@@ -25,7 +25,6 @@ import com.yalantis.ucrop.UCrop;
 
 import org.michiganhackers.michiganhackers.GlideApp;
 import org.michiganhackers.michiganhackers.R;
-import org.michiganhackers.michiganhackers.ThemeHandler;
 import org.michiganhackers.michiganhackers.login.LoginActivity;
 import org.michiganhackers.michiganhackers.directory.Member;
 
@@ -57,8 +56,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ThemeHandler themeHan = new ThemeHandler(this);
-        themeHan.setTheme();
         setContentView(R.layout.activity_profile);
 
         auth = FirebaseAuth.getInstance();

@@ -9,7 +9,6 @@
         android:id="@+id/list_view_directory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@android:color/white"
         android:dividerHeight="0.5dp"
         android:groupIndicator="@drawable/directory_group_indicator"
         tools:layout_editor_absoluteX="304dp"
