@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="BaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_light</item>
+        <item name="colorPrimaryDark">@color/primary</item>
+        <item name="colorAccent">@color/primary_light</item>
+
         <item name="ic_arrow_down">@drawable/ic_arrow_down_dark</item>
         <item name="ic_arrow_up">@drawable/ic_arrow_up_dark</item>
     </style>

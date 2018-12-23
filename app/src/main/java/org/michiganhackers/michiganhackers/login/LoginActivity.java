@@ -1,15 +1,20 @@
 package org.michiganhackers.michiganhackers.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,16 +26,20 @@ import org.michiganhackers.michiganhackers.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etEmail, etPassword;
+    private TextInputEditText etEmail, etPassword;
+    private TextInputLayout textInputEmail, textInputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnResetPassword;
+    private CoordinatorLayout coordinatorLayout;
+    public static int RESET_PASSWORD_REQUEST_CODE = 1;
+    public static int SIGNUP_REQUEST_CODE = 2;
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
@@ -38,30 +47,33 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
-        // set the view now
         setContentView(R.layout.activity_login);
 
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_pwd);
-        progressBar = findViewById(R.id.progress_bar);
+        textInputEmail = findViewById(R.id.text_input_email);
+        textInputPassword = findViewById(R.id.text_input_password);
+
         btnSignup = findViewById(R.id.btn_signup);
         btnLogin = findViewById(R.id.btn_login);
         btnResetPassword = findViewById(R.id.btn_reset_password);
 
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.progress_bar);
+        coordinatorLayout = findViewById(R.id.coordinator_layout);
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivityForResult(intent, SIGNUP_REQUEST_CODE);
             }
         });
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                startActivityForResult(intent, RESET_PASSWORD_REQUEST_CODE);
             }
         });
 
@@ -71,13 +83,22 @@ public class LoginActivity extends AppCompatActivity {
                 String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 
+                Boolean warningShown = false;
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
+                    textInputEmail.setError(getString(R.string.enter_email));
+                    warningShown = true;
+                } else {
+                    textInputEmail.setError(null);
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    textInputPassword.setError(getString(R.string.enter_password));
+                    warningShown = true;
+                } else {
+                    textInputPassword.setError(null);
+                }
+
+                if (warningShown) {
                     return;
                 }
 
@@ -93,12 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // signed in user can be handled in the listener.
                                 progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
-                                    // there was an error
-                                    if (password.length() < 6) {
-                                        etPassword.setError(getString(R.string.pwd_too_short_msg));
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed_msg), Toast.LENGTH_LONG).show();
-                                    }
+                                    Snackbar.make(coordinatorLayout, R.string.auth_failed_login, Snackbar.LENGTH_LONG).show();
                                 } else {
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
@@ -108,5 +124,24 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESET_PASSWORD_REQUEST_CODE) {
+
+            if (resultCode == Activity.RESULT_OK) {
+                Snackbar.make(coordinatorLayout, R.string.pwd_reset_confirmation, Snackbar.LENGTH_LONG).show();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.e(TAG, "Reset password returned cancelled result");
+            }
+        } else if (requestCode == SIGNUP_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                finish();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.e(TAG, "Signup returned cancelled result");
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@
     <string name="nav_list">List</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_directory">Directory</string>
+    <string name="require_play_services">This app requires Google Play Services</string>
 
     <!--Event Activity-->
     <string name="hacknight_image_description">Hack Night Fractal</string>
@@ -18,10 +19,21 @@
     <string name="profile_submit_changes">Submit Changes</string>
     <string name="name">Name</string>
     <string name="bio">Bio</string>
-    <string name="select_year_hint">Select year</string>
-    <string name="select_title_hint">Select title</string>
-    <string name="add_major">Add Major</string>
+    <string name="year">Year</string>
+    <string name="title">Title</string>
+    <string name="major_s">Major(s)</string>
     <string name="profile_picture">Profile picture</string>
+    <string name="empty_teams_input">Please complete teams field</string>
+    <string name="invalid_team_input">is an invalid team</string>
+    <string name="empty_majors_input">Please complete majors field</string>
+    <string name="invalid_major_input">is an invalid major</string>
+    <string name="empty_year_input">Please complete year field</string>
+    <string name="empty_title_input">Please complete title field</string>
+    <string name="empty_name_input">Please complete name field</string>
+    <string name="empty_bio_input">Please complete bio field</string>
+    <string name="profile_update_failed">Failed to update profile</string>
+    <string name="select_picture">Select Picture</string>
+    <string name="team_s">Team(s)</string>
 
     <!--Account Activity-->
     <string name="change_email">Change Email</string>
@@ -30,25 +42,31 @@
     <string name="remove_user">Remove user</string>
     <string name="confirm_pass">Confirm Password</string>
     <string name="hint_new_email">New Email</string>
-    <string name="btn_change">Change</string>
-    <string name="btn_send">Send</string>
-    <string name="btn_remove">Remove</string>
-    <string name="btn_sign_out">Sign Out</string>
+    <string name="change">Change</string>
+    <string name="send">Send</string>
+    <string name="remove">Remove</string>
+    <string name="sign_out">Sign Out</string>
 
     <!--Login Pages-->
     <string name="hackers_H_description">Michigan Hackers H</string>
     <string name="register">Register</string>
     <string name="email">Email</string>
-    <string name="pwd_too_short_msg">Password too short. Enter minimum 6 characters!</string>
-    <string name="auth_failed_msg">Authentication failed. Check your email and password or sign up</string>
-    <string name="btn_login">LOGIN</string>
-    <string name="btn_link_to_register">Not a member? Get registered now!</string>
-    <string name="btn_link_to_login">Already registered? Login me in!</string>
-    <string name="btn_forgot_password">Forgot your password?</string>
-    <string name="btn_reset_password">Reset Password</string>
+    <string name="pwd_too_short">Password too short. Enter minimum 8 characters!</string>
+    <string name="auth_failed_login">Authentication failed. Check your email and password or sign up</string>
+    <string name="login">Login</string>
+    <string name="link_to_register">Not a member? Get registered now!</string>
+    <string name="link_to_login">Already registered? Login me in!</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="reset_password">Reset Password</string>
     <string name="btn_back"><![CDATA[<< Back]]></string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">"Enter your registered email and we'll send you instructions to reset your password".</string>
+    <string name="pwd_reset_confirmation">We have sent you instructions to reset your password!</string>
+    <string name="enter_email">Enter email address!</string>
+    <string name="enter_password">Enter password!</string>
+    <string name="auth_failed_signup">Authentication failed.</string>
+    <string name="pwd_reset_email_failed">Failed to send reset email!</string>
+    <string name="enter_registered_email">Enter your registered email id</string>
 
     <!--Notifications-->
     <string name="channel_description">Default Michigan Hackers Notification Channel</string>
@@ -60,12 +78,18 @@
     <string name="light_theme">Light Theme</string>
     <string name="account">Account</string>
     <string name="feedback">Feedback</string>
+    <string name="add_team">Add Team</string>
     <string name="team">Team</string>
 
     <!--Mixed-->
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
-    <string name="add_team">Add Team</string>
+
+    <!--Auto-generated strings placed here i.e. "alt+enter" shortcut.
+     Please move to correct category when finished-->
+    <string name="generated_strings_placed_after_this_automatically">.</string>
+
+
 
     <!--String Arrays-->
     <string-array name="year_array">

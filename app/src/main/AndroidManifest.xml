@@ -16,18 +16,27 @@
         android:theme="@style/BaseTheme">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize"></activity>
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".eventList.EventActivity" />
         <activity android:name=".profile.ProfileActivity" />
 
         <service android:name=".FirebaseMessaging" />
 
-        <activity android:name=".login.SignupActivity" />
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".login.ResetPasswordActivity" />
+        <activity
+            android:name=".login.SignupActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".login.ResetPasswordActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".account.AccountActivity" />
         <activity android:name="com.yalantis.ucrop.UCropActivity" />
-        <activity android:name=".SplashActivity" android:theme="@style/BaseTheme.SplashTheme">
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/BaseTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

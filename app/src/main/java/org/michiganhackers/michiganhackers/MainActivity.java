@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -34,8 +36,9 @@ import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.REQUEST_
 import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.REQUEST_GOOGLE_PLAY_SERVICES;
 import static org.michiganhackers.michiganhackers.eventList.CalendarAPI.SCOPES;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
+    private CoordinatorLayout coordinatorLayout;
     private BottomNavigationView bottomNav;
     private android.view.MenuItem prevMenuItem;
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity{
     private NotificationHandler notification;
     private ViewPager viewPager;
     private static final String TAG = "MainActivity";
-    static final String THEME = "THEME";
+    static final String THEME = "Theme";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity{
         notification = new NotificationHandler(this, this);
         notification.createNotificationChannel();
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             calAPI.mCredential = GoogleAccountCredential.usingOAuth2(
                     getApplicationContext(), Arrays.asList(SCOPES))
                     .setBackOff(new ExponentialBackOff());
@@ -77,8 +80,8 @@ public class MainActivity extends AppCompatActivity{
         FragmentPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(mainPagerAdapter);
 
+        coordinatorLayout = findViewById(R.id.coordinator_layout);
         bottomNav = findViewById(R.id.bottom_nav);
-
 
         // Replace current fragment with one corresponding to which navigation item is selected
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity{
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
 
@@ -118,7 +121,7 @@ public class MainActivity extends AppCompatActivity{
             }
 
             @Override
-            public void onPageScrollStateChanged(int state){
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
@@ -135,9 +138,11 @@ public class MainActivity extends AppCompatActivity{
     public ListFragment getListFragment() {
         return listFragment;
     }
+
     public SettingsFragment getSettingsFragment() {
         return settingsFragment;
     }
+
     public DirectoryFragment getDirectoryFragment() {
         return directoryFragment;
     }
@@ -149,7 +154,7 @@ public class MainActivity extends AppCompatActivity{
         switch (requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    Toast.makeText(this, "This app requires Google Play Services",Toast.LENGTH_SHORT).show();
+                    Snackbar.make(coordinatorLayout, R.string.require_play_services, Snackbar.LENGTH_LONG).show();
                     Log.e(TAG, "This app requires Google Play Services");
                 } else {
                     calAPI.getResultsFromApi();
@@ -166,7 +171,7 @@ public class MainActivity extends AppCompatActivity{
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
-                        calAPI.mCredential.setSelectedAccount(new Account (accountName, "org.michiganhackers.michiganhackers"));
+                        calAPI.mCredential.setSelectedAccount(new Account(accountName, "org.michiganhackers.michiganhackers"));
                         calAPI.getResultsFromApi();
                     }
                 }
@@ -185,11 +190,10 @@ public class MainActivity extends AppCompatActivity{
             if (viewPager.getCurrentItem() != 0) {
                 viewPager.setCurrentItem(0);
                 return false;
-            }
-            else {
-                return super.onKeyDown(keyCode,event);
+            } else {
+                return super.onKeyDown(keyCode, event);
             }
         }
-        return super.onKeyDown(keyCode,event);
+        return super.onKeyDown(keyCode, event);
     }
- }
+}
