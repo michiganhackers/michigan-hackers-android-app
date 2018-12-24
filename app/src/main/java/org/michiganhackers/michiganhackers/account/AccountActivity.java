@@ -171,11 +171,11 @@ public class AccountActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(AccountActivity.this, "Password is updated, sign in with new etPassword!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(AccountActivity.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
                                             auth.signOut();
                                             progressBar.setVisibility(View.GONE);
                                         } else {
-                                            Toast.makeText(AccountActivity.this, "Failed to update etPassword!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(AccountActivity.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
                                             progressBar.setVisibility(View.GONE);
                                         }
                                     }
@@ -183,11 +183,11 @@ public class AccountActivity extends AppCompatActivity {
                     }
                 }
                 if (etPassword.getText().toString().trim().equals("")) {
-                    etPassword.setError("Enter etPassword");
+                    etPassword.setError("Enter password");
                     progressBar.setVisibility(View.GONE);
                 }
                 if (etConfirmPassword.getText().toString().trim().equals("")) {
-                    etConfirmPassword.setError("Enter etPassword");
+                    etConfirmPassword.setError("Enter password");
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -217,7 +217,7 @@ public class AccountActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(AccountActivity.this, "Reset etPassword email is sent!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AccountActivity.this, "Reset password email is sent!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
                                         Toast.makeText(AccountActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
