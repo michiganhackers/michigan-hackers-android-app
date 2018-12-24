@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
                     Snackbar.make(coordinatorLayout, R.string.require_play_services, Snackbar.LENGTH_LONG).show();
-                    Log.e(TAG, "This app requires Google Play Services");
+                    Log.w(TAG, "REQUEST_GOOGLE_PLAY_SERVICES cancelled");
                 } else {
                     calAPI.getResultsFromApi();
                 }

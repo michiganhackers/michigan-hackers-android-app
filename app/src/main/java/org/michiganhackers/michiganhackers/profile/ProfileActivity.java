@@ -279,7 +279,7 @@ public class ProfileActivity extends AppCompatActivity {
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setKeyListener(null);
 
-        final GestureDetector gestureDetector = new GestureDetector(ProfileActivity.this, new GestureDetector.SimpleOnGestureListener(){
+        final GestureDetector gestureDetector = new GestureDetector(ProfileActivity.this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
                 autoCompleteTextView.showDropDown();
@@ -344,28 +344,36 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri sourceImageFileUri = data.getData();
-            try {
-                // Create temporary file to store results of crop
-                String imageFileName = "profilePicCropped.jpeg";
-                File croppedImageFile = File.createTempFile(imageFileName, null, getCacheDir());
-                Uri destinationImageFileUri = Uri.fromFile(croppedImageFile);
-                UCrop.of(sourceImageFileUri, destinationImageFileUri).withAspectRatio(1, 1).start(ProfileActivity.this);
-            } catch (IOException e) {
-                Log.e(TAG, "Error while creating imgProfilePic temp file", e);
+        if (requestCode == PICK_IMAGE) {
+            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                Uri sourceImageFileUri = data.getData();
+                try {
+                    // Create temporary file to store results of crop
+                    String imageFileName = "profilePicCropped.jpeg";
+                    File croppedImageFile = File.createTempFile(imageFileName, null, getCacheDir());
+                    Uri destinationImageFileUri = Uri.fromFile(croppedImageFile);
+                    UCrop.of(sourceImageFileUri, destinationImageFileUri).withAspectRatio(1, 1).start(ProfileActivity.this);
+                } catch (IOException e) {
+                    Log.e(TAG, "Error while creating imgProfilePic temp file", e);
+                }
+            } else {
+                Log.w(TAG, "PICK_IMAGE cancelled");
             }
-        } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            croppedImageFileUri = UCrop.getOutput(data);
-            GlideApp.with(ProfileActivity.this)
-                    .load(croppedImageFileUri)
-                    .placeholder(R.drawable.ic_directory)
-                    .centerCrop()
-                    .into(imgProfilePic);
-
-        } else if (resultCode == UCrop.RESULT_ERROR) {
-            final Throwable cropError = UCrop.getError(data);
-            Log.e(TAG, "Error cropping image", cropError);
+        } else if (requestCode == UCrop.REQUEST_CROP) {
+            if (resultCode == RESULT_OK) {
+                croppedImageFileUri = UCrop.getOutput(data);
+                GlideApp.with(ProfileActivity.this)
+                        .load(croppedImageFileUri)
+                        .placeholder(R.drawable.ic_directory)
+                        .centerCrop()
+                        .into(imgProfilePic);
+            } else {
+                if (data != null) {
+                    Log.w(TAG, "REQUEST_CROP cancelled", UCrop.getError(data));
+                } else {
+                    Log.w(TAG, "REQUEST_CROP cancelled");
+                }
+            }
         }
     }
 

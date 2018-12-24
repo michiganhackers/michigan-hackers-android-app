@@ -130,17 +130,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESET_PASSWORD_REQUEST_CODE) {
-
             if (resultCode == Activity.RESULT_OK) {
                 Snackbar.make(coordinatorLayout, R.string.pwd_reset_confirmation, Snackbar.LENGTH_LONG).show();
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.e(TAG, "Reset password returned cancelled result");
+            } else {
+                Log.w(TAG, "RESET_PASSWORD_REQUEST_CODE cancelled");
             }
         } else if (requestCode == SIGNUP_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 finish();
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.e(TAG, "Signup returned cancelled result");
+            } else {
+                Log.w(TAG, "SIGNUP_REQUEST_CODE cancelled");
             }
         }
     }

@@ -42,7 +42,7 @@ public class DirectoryViewModel extends ViewModel {
                         public void onEvent(@Nullable QuerySnapshot snapshots,
                                             @Nullable FirebaseFirestoreException e) {
                             if (e != null) {
-                                Log.w(TAG, "teamsRef snapshot listen error", e);
+                                Log.e(TAG, "teamsRef snapshot listen error", e);
                                 return;
                             }
 
@@ -78,7 +78,7 @@ public class DirectoryViewModel extends ViewModel {
                         public void onEvent(@Nullable QuerySnapshot snapshots,
                                             @Nullable FirebaseFirestoreException e) {
                             if (e != null) {
-                                Log.w(TAG, "membersRef snapshot listen error", e);
+                                Log.e(TAG, "membersRef snapshot listen error", e);
                                 return;
                             }
 
