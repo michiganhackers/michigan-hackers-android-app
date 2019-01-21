@@ -38,24 +38,24 @@
             android:id="@+id/tv_event_date_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_calendar_date"
-            android:drawableLeft="@drawable/ic_calendar_date"
+            android:drawableStart="?ic_calendar_date"
+            android:drawableLeft="?ic_calendar_date"
             style="@style/EventItem"/>
 
         <TextView
             android:id="@+id/tv_event_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_location"
-            android:drawableLeft="@drawable/ic_location"
+            android:drawableStart="?ic_location"
+            android:drawableLeft="?ic_location"
             style="@style/EventItem"/>
 
         <TextView
             android:id="@+id/tv_event_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_description"
-            android:drawableLeft="@drawable/ic_description"
+            android:drawableStart="?ic_description"
+            android:drawableLeft="?ic_description"
             style="@style/EventItem" />
 
     </LinearLayout>

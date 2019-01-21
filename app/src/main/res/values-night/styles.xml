@@ -7,5 +7,9 @@
 
         <item name="ic_arrow_down">@drawable/ic_arrow_down_dark</item>
         <item name="ic_arrow_up">@drawable/ic_arrow_up_dark</item>
+
+        <item name="ic_calendar_date">@drawable/ic_calendar_date_dark</item>
+        <item name="ic_description">@drawable/ic_description_dark</item>
+        <item name="ic_location">@drawable/ic_location_dark</item>
     </style>
 </resources>

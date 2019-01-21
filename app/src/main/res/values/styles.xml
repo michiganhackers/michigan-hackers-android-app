@@ -8,10 +8,18 @@
         <item name="ic_arrow_down">@drawable/ic_arrow_down_light</item>
         <item name="ic_arrow_up">@drawable/ic_arrow_up_light</item>
 
+        <item name="ic_calendar_date">@drawable/ic_calendar_date_light</item>
+        <item name="ic_description">@drawable/ic_description_light</item>
+        <item name="ic_location">@drawable/ic_location_light</item>
+
     </style>
 
     <attr name="ic_arrow_down" format="reference"/>
     <attr name="ic_arrow_up" format="reference"/>
+
+    <attr name="ic_calendar_date" format="reference"/>
+    <attr name="ic_description" format="reference"/>
+    <attr name="ic_location" format="reference"/>
 
     <style name="BaseTheme.SplashTheme">
         <item name="android:background">@color/primary</item>
