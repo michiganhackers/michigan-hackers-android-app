@@ -18,6 +18,8 @@
     </style>
 
 
+    <style name="BaseEventNameText.EventNameText"/>
+
     <style name="BaseEventNameText">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">36sp</item>
@@ -26,6 +28,15 @@
         <item name="android:shadowDx">2</item>
         <item name="android:shadowDy">2</item>
         <item name="android:shadowRadius">0.01</item>
+    </style>
+
+    <style name="EventItem">
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+
     </style>
 
 </resources>

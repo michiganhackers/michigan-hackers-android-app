@@ -21,7 +21,6 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/hacknight_image_description"
                 android:scaleType="centerCrop"
-                android:transitionName="card_to_event"
                 app:srcCompat="@drawable/orange_particles" />
 
             <TextView
@@ -31,28 +30,33 @@
                 android:layout_centerVertical="true"
                 android:textAlignment="center"
                 android:background="@null"
-                style="@style/BaseEventNameText.V16EventNameText"/>
+                style="@style/BaseEventNameText.EventNameText"/>
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_event_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/tv_event_time"
+            android:id="@+id/tv_event_date_time"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_calendar_date"
+            android:drawableLeft="@drawable/ic_calendar_date"
+            style="@style/EventItem"/>
 
         <TextView
             android:id="@+id/tv_event_location"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_location"
+            android:drawableLeft="@drawable/ic_location"
+            style="@style/EventItem"/>
 
         <TextView
             android:id="@+id/tv_event_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_description"
+            android:drawableLeft="@drawable/ic_description"
+            style="@style/EventItem" />
 
     </LinearLayout>
 

@@ -8,6 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/primary_dark"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp"
         app:cardPreventCornerOverlap="true"
@@ -23,8 +24,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/hacknight_image_description"
-                app:srcCompat="@drawable/orange_particles"
-                android:transitionName="card_to_event"/>
+                app:srcCompat="@drawable/orange_particles"/>
 
             <TextView
                 android:id="@+id/tv_event_name"
@@ -33,7 +33,7 @@
                 android:layout_centerVertical="true"
                 android:textAlignment="center"
                 android:background="@null"
-                style="@style/BaseEventNameText.V16EventNameText"/>
+                style="@style/BaseEventNameText.EventNameText"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

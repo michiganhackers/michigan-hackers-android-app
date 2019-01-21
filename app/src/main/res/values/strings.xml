@@ -10,7 +10,6 @@
 
     <!--Event Activity-->
     <string name="hacknight_image_description">Hack Night Fractal</string>
-    <string name="location">Location: %1$s</string>
 
     <!--Directory Activity-->
     <string name="member_profile_picture">Member Profile Picture</string>

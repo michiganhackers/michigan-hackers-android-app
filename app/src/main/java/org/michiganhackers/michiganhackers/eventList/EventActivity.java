@@ -3,6 +3,7 @@ package org.michiganhackers.michiganhackers.eventList;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.api.client.util.DateTime;
@@ -21,42 +22,35 @@ public class EventActivity extends AppCompatActivity {
         CalendarEvent calendarEvent = getIntent().getExtras().getParcelable(STATE_EVENT);
 
         TextView tvEventName = findViewById(R.id.tv_event_name);
-        TextView tvEventDate = findViewById(R.id.tv_event_date);
-        TextView tvEventTime = findViewById(R.id.tv_event_time);
+        TextView tvEventDateTime = findViewById(R.id.tv_event_date_time);
         TextView tvEventLocation = findViewById(R.id.tv_event_location);
         TextView tvEventDescription = findViewById(R.id.tv_event_description);
 
+        String eventDateTime = TimeReformat.getDateTime(calendarEvent);
+        String eventDescription = calendarEvent.getDescription();
+        String eventLocation = calendarEvent.getLocation();
+
         tvEventName.setText(calendarEvent.getSummary());
-        // Set start time
-        DateTime startDateTime = calendarEvent.getStart().getDateTime();
-        if (startDateTime != null) {
-            tvEventDate.setText(TimeReformat.getDate(startDateTime));
-            tvEventTime.setText(TimeReformat.getTime(startDateTime));
+        if(!eventDateTime.isEmpty()){
+            tvEventDateTime.setText(eventDateTime);
         }
-        // All-day events don't have start times, so just use
-        // the start date.
         else{
-            tvEventDate.setText(TimeReformat.getDate(calendarEvent.getStart().getDate()));
-        }
-        // Set end time
-        //Todo: Change format for multi-day events
-        DateTime endDateTime = calendarEvent.getEnd().getDateTime();
-        if (endDateTime != null && startDateTime != null) {
-            if(!TimeReformat.getDate(endDateTime).equals(TimeReformat.getDate(startDateTime))){
-                tvEventDate.append(" - " + TimeReformat.getDate(endDateTime));
-            }
-            tvEventTime.append(" - " + TimeReformat.getTime(endDateTime));
-        }
-        // All-day events don't have start times, so just use
-        // the start date.
-        else{
-            if(!TimeReformat.getDate(calendarEvent.getEnd().getDate()).equals(TimeReformat.getDate(calendarEvent.getStart().getDate()))){
-                tvEventDate.append(" - " + TimeReformat.getDate(calendarEvent.getEnd().getDate()));
-            }
+            tvEventDateTime.setVisibility(View.GONE);
         }
 
-        tvEventDescription.setText(calendarEvent.getDescription());
-        tvEventLocation.setText(getString(R.string.location, calendarEvent.getLocation()));
+        if(eventDescription != null && !eventDescription.isEmpty()){
+            tvEventDescription.setText(eventDescription);
+        }
+        else{
+            tvEventDescription.setVisibility(View.GONE);
+        }
+
+        if(eventLocation != null && !eventLocation.isEmpty()){
+            tvEventLocation.setText(eventLocation);
+        }
+        else{
+            tvEventLocation.setVisibility(View.GONE);
+        }
     }
 
     @Override

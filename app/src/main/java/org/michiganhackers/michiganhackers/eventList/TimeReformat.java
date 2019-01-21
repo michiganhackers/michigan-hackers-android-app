@@ -54,4 +54,39 @@ public final class TimeReformat {
             return newSDF.format(date);
         }
     }
+
+    public static String getDateTime(CalendarEvent calendarEvent) {
+        String eventDate = "";
+        String eventTime = "";
+        // Set start time
+        DateTime startDateTime = calendarEvent.getStart().getDateTime();
+        if (startDateTime != null) {
+            eventDate += getDate(startDateTime);
+            eventTime += getTime(startDateTime);
+        }
+        // All-day events don't have start times, so just use
+        // the start date.
+        else{
+            eventDate += getDate(calendarEvent.getStart().getDate());
+        }
+        // Set end time
+        //Todo: Change format for multi-day events
+        DateTime endDateTime = calendarEvent.getEnd().getDateTime();
+        if (endDateTime != null && startDateTime != null) {
+            if(!getDate(endDateTime).equals(getDate(startDateTime))){
+                eventDate += " - " + getDate(endDateTime);
+            }
+            eventTime += " - " + getTime(endDateTime);
+        }
+        // All-day events don't have start times, so just use
+        // the start date.
+        else{
+            if(!getDate(calendarEvent.getEnd().getDate()).equals(getDate(calendarEvent.getStart().getDate()))){
+                eventDate += " - " + getDate(calendarEvent.getEnd().getDate());
+            }
+        }
+
+        return eventDate + '\n' + eventTime;
+    }
+
 }

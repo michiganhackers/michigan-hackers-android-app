@@ -34,7 +34,7 @@
                 android:layout_centerVertical="true"
                 android:textAlignment="center"
                 android:background="@null"
-                style="@style/BaseEventNameText.V16EventNameText"/>
+                style="@style/BaseEventNameText.EventNameText"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
