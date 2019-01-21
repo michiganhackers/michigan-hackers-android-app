@@ -85,6 +85,9 @@
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
 
+    <!--Preferences-->
+    <string name="pref_is_dark_theme_set_key">isDarkThemeSetKey</string>
+
     <!--Auto-generated strings placed here i.e. "alt+enter" shortcut.
      Please move to correct category when finished-->
     <string name="generated_strings_placed_after_this_automatically">.</string>

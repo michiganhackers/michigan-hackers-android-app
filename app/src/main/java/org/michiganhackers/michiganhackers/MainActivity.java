@@ -48,13 +48,10 @@ public class MainActivity extends AppCompatActivity {
     private NotificationHandler notification;
     private ViewPager viewPager;
     private static final String TAG = "MainActivity";
-    static final String THEME = "Theme";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int theme = sharedPreferences.getInt(THEME, AppCompatDelegate.MODE_NIGHT_NO);
-        AppCompatDelegate.setDefaultNightMode(theme);
+        setTheme();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -125,6 +122,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void setTheme() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isDarkThemeSet = sharedPreferences.getBoolean(getString(R.string.pref_is_dark_theme_set_key), false);
+        if(isDarkThemeSet){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     // Todo: Bundles should only hold a small amount of data. Change to viewmodel

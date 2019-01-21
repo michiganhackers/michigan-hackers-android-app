@@ -19,7 +19,12 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".eventList.EventActivity" />
-        <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".profile.ProfileActivity">
+            <intent-filter>
+                <action android:name="org.michiganhackers.michiganhackers.profile.ProfileActivity"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <service android:name=".FirebaseMessaging" />
 
@@ -32,14 +37,19 @@
         <activity
             android:name=".login.ResetPasswordActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".account.AccountActivity" />
+        <activity android:name=".account.AccountActivity" >
+            <intent-filter>
+                <action android:name="org.michiganhackers.michiganhackers.account.AccountActivity"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="com.yalantis.ucrop.UCropActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/BaseTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
