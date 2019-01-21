@@ -43,6 +43,9 @@ obj/
 keystore.properties
 *.jks
 
-# plugin-generated files
+# auto-generated eclipse files
 .project
 app/.project
+.settings/
+app/.classpath
+app/.settings/
