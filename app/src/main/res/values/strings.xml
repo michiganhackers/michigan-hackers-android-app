@@ -42,7 +42,6 @@
     <string name="hint_new_email">New Email</string>
     <string name="change">Change</string>
     <string name="send">Send</string>
-    <string name="remove">Remove</string>
     <string name="sign_out">Sign Out</string>
 
     <!--Login Pages-->
@@ -70,7 +69,7 @@
     <string name="channel_description">Default Michigan Hackers Notification Channel</string>
     <string name="channel_name">Notification Channel</string>
 
-    <!--Settings Fragment-->
+    <!--Settings-->
     <string name="directory_edit_profile">Edit Profile</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="light_theme">Light Theme</string>
@@ -79,6 +78,7 @@
     <string name="add_team">Add Team</string>
     <string name="team">Team</string>
     <string name="profile">Profile</string>
+    <string name="submit">Submit</string>
 
     <!--Mixed-->
     <string name="hint_email">Email</string>
@@ -91,6 +91,10 @@
     <!--Auto-generated strings placed here i.e. "alt+enter" shortcut.
      Please move to correct category when finished-->
     <string name="generated_strings_placed_after_this_automatically">.</string>
+    <string name="confirm_new_email">Confirm New Email</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="delete">Delete</string>
 
 
     <!--String Arrays-->
