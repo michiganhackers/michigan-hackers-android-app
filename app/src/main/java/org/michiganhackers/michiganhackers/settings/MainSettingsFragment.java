@@ -1,4 +1,4 @@
-package org.michiganhackers.michiganhackers;
+package org.michiganhackers.michiganhackers.settings;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import org.michiganhackers.michiganhackers.R;
+
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceFragmentCompat;
 
-public class SettingsFragment extends PreferenceFragmentCompat {
+public class MainSettingsFragment extends PreferenceFragmentCompat {
 
     // Used to store a strong reference to the listener so it doesn't get garbage collected as long
     // as the fragment is alive

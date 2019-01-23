@@ -11,7 +11,11 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -25,6 +29,7 @@ import com.google.api.client.util.ExponentialBackOff;
 import org.michiganhackers.michiganhackers.directory.DirectoryFragment;
 import org.michiganhackers.michiganhackers.eventList.CalendarAPI;
 import org.michiganhackers.michiganhackers.eventList.ListFragment;
+import org.michiganhackers.michiganhackers.settings.MainSettingsFragment;
 
 import java.util.Arrays;
 
@@ -41,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private android.view.MenuItem prevMenuItem;
 
     private ListFragment listFragment;
-    private SettingsFragment settingsFragment;
+    private MainSettingsFragment mainSettingsFragment;
     private DirectoryFragment directoryFragment;
 
     private CalendarAPI calAPI;
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listFragment = new ListFragment();
-        settingsFragment = new SettingsFragment();
+        mainSettingsFragment = new MainSettingsFragment();
         directoryFragment = new DirectoryFragment();
 
         calAPI = new CalendarAPI(this, this, listFragment);
@@ -145,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
         return listFragment;
     }
 
-    public SettingsFragment getSettingsFragment() {
-        return settingsFragment;
+    public MainSettingsFragment getMainSettingsFragment() {
+        return mainSettingsFragment;
     }
 
     public DirectoryFragment getDirectoryFragment() {

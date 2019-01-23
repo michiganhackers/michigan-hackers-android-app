@@ -4,7 +4,6 @@
 
     <!--Main Activity-->
     <string name="nav_events">Events</string>
-    <string name="nav_settings">Settings</string>
     <string name="nav_directory">Members</string>
     <string name="require_play_services">This app requires Google Play Services</string>
 
@@ -38,7 +37,7 @@
     <string name="change_email">Change Email</string>
     <string name="change_password">Change Password</string>
     <string name="send_password_reset_email">Send Password reset email</string>
-    <string name="remove_user">Remove user</string>
+    <string name="delete_account">Delete Account</string>
     <string name="confirm_pass">Confirm Password</string>
     <string name="hint_new_email">New Email</string>
     <string name="change">Change</string>
@@ -79,10 +78,12 @@
     <string name="feedback">Feedback</string>
     <string name="add_team">Add Team</string>
     <string name="team">Team</string>
+    <string name="profile">Profile</string>
 
     <!--Mixed-->
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+    <string name="settings">Settings</string>
 
     <!--Preferences-->
     <string name="pref_is_dark_theme_set_key">isDarkThemeSetKey</string>

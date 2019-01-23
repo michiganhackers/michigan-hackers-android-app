@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="pref_main_settings_key"
-    android:title="Settings">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_main_settings"
+    android:title="@string/settings">
 
     <Preference
-        android:title="Profile"
+        android:title="@string/profile"
         android:icon="?ic_profile">
         <intent
             android:action="org.michiganhackers.michiganhackers.profile.ProfileActivity"/>
     </Preference>
 
     <Preference
-        android:title="Account"
+        android:title="@string/account"
         android:icon="?ic_account">
         <intent
-            android:action="org.michiganhackers.michiganhackers.account.AccountActivity"/>
+            android:action="org.michiganhackers.michiganhackers.settings.SettingsActivity">
+            <extra
+                android:name="start_fragment"
+                android:value="org.michiganhackers.michiganhackers.settings.AccountSettingsFragment"/>
+        </intent>
     </Preference>
 
     <SwitchPreference
@@ -23,7 +26,5 @@
         android:title="@string/dark_theme"
         android:defaultValue="false"
         android:icon="?ic_moon"/>
-
-
 
 </PreferenceScreen>

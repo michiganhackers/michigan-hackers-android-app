@@ -25,7 +25,7 @@ class MainPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return mainActivity.getDirectoryFragment();
             case 2:
-                return mainActivity.getSettingsFragment();
+                return mainActivity.getMainSettingsFragment();
             default:
                 return null;
         }
