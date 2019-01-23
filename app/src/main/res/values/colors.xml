@@ -9,6 +9,4 @@
     <color name="secondary_dark">#cccccc</color>
 
     <color name="accent">@android:color/black</color>
-    <color name="white_transparent">#80FFFFFF</color>
-
 </resources>

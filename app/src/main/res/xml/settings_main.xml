@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="pref_main_settings"
+    android:key="@string/pref_main_settings_key"
     android:title="@string/settings">
 
     <Preference

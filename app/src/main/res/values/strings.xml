@@ -10,7 +10,7 @@
     <!--Event Activity-->
     <string name="hacknight_image_description">Hack Night Fractal</string>
 
-    <!--Directory Activity-->
+    <!--Directory-->
     <string name="member_profile_picture">Member Profile Picture</string>
 
     <!--Profile Activity-->
@@ -32,17 +32,6 @@
     <string name="profile_update_failed">Failed to update profile</string>
     <string name="select_picture">Select Picture</string>
     <string name="team_s">Team(s)</string>
-
-    <!--Account Activity-->
-    <string name="change_email">Change Email</string>
-    <string name="change_password">Change Password</string>
-    <string name="send_password_reset_email">Send Password reset email</string>
-    <string name="delete_account">Delete Account</string>
-    <string name="confirm_pass">Confirm Password</string>
-    <string name="hint_new_email">New Email</string>
-    <string name="change">Change</string>
-    <string name="send">Send</string>
-    <string name="sign_out">Sign Out</string>
 
     <!--Login Pages-->
     <string name="hackers_H_description">Michigan Hackers H</string>
@@ -70,15 +59,22 @@
     <string name="channel_name">Notification Channel</string>
 
     <!--Settings-->
-    <string name="directory_edit_profile">Edit Profile</string>
     <string name="dark_theme">Dark Theme</string>
-    <string name="light_theme">Light Theme</string>
     <string name="account">Account</string>
-    <string name="feedback">Feedback</string>
-    <string name="add_team">Add Team</string>
-    <string name="team">Team</string>
     <string name="profile">Profile</string>
     <string name="submit">Submit</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="delete">Delete</string>
+    <string name="change_email">Change Email</string>
+    <string name="change_password">Change Password</string>
+    <string name="send_password_reset_email">Send Password reset email</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="confirm_pass">Confirm Password</string>
+    <string name="hint_new_email">New Email</string>
+    <string name="change">Change</string>
+    <string name="send">Send</string>
+    <string name="sign_out">Sign Out</string>
 
     <!--Mixed-->
     <string name="hint_email">Email</string>
@@ -87,15 +83,12 @@
 
     <!--Preferences-->
     <string name="pref_is_dark_theme_set_key">isDarkThemeSetKey</string>
+    <string name="pref_main_settings_key">mainSettingsKey</string>
+    <string name="pref_account_settings_key">accountSettingsKey</string>
 
     <!--Auto-generated strings placed here i.e. "alt+enter" shortcut.
      Please move to correct category when finished-->
     <string name="generated_strings_placed_after_this_automatically">.</string>
-    <string name="confirm_new_email">Confirm New Email</string>
-    <string name="new_password">New Password</string>
-    <string name="confirm_new_password">Confirm New Password</string>
-    <string name="delete">Delete</string>
-
 
     <!--String Arrays-->
     <string-array name="year_array">
