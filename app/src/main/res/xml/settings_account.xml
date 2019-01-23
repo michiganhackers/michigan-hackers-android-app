@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="pref_account_settings_key"
     android:title="@string/account">
 
     <Preference
         android:title="@string/change_email"
-        android:icon="?ic_email">
-        <intent
-            android:action="org.michiganhackers.michiganhackers.profile.ChangeEmailActivity"/>
+        android:icon="?ic_email"
+        app:fragment="org.michiganhackers.michiganhackers.settings.ChangeEmailFragment">
     </Preference>
 
     <Preference
         android:title="@string/change_password"
-        android:icon="?ic_key">
-        <intent
-            android:action="org.michiganhackers.michiganhackers.account.ChangePasswordActivity"/>
+        android:icon="?ic_key"
+        app:fragment="org.michiganhackers.michiganhackers.settings.ChangePasswordFragment">
     </Preference>
 
     <Preference
         android:title="@string/delete_account"
-        android:icon="?ic_delete_forever">
-        <intent
-            android:action="org.michiganhackers.michiganhackers.account.DeleteAccountActivity"/>
+        android:icon="?ic_delete_forever"
+        app:fragment="org.michiganhackers.michiganhackers.settings.DeleteAccountFragment">
     </Preference>
 
 

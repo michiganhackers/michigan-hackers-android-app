@@ -1,10 +1,6 @@
 package org.michiganhackers.michiganhackers.settings;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,25 +8,22 @@ import android.view.ViewGroup;
 import org.michiganhackers.michiganhackers.R;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
 
-public class AccountSettingsFragment extends PreferenceFragmentCompat {
-    public AccountSettingsFragment() {
+public class DeleteAccountFragment extends Fragment {
+    public DeleteAccountFragment() {
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final String actionBarTitle = "Account";
+        View layout = inflater.inflate(R.layout.fragment_delete_account, container, false);
+        final String actionBarTitle = "Delete Account";
         if (getActivity() != null && getActivity().getActionBar() != null) {
             getActivity().getActionBar().setTitle(actionBarTitle);
         }
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return layout;
     }
 
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.settings_account, rootKey);
-    }
 }
 
