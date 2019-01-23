@@ -5,19 +5,22 @@
     android:title="@string/account">
 
     <Preference
-        android:title="@string/change_email">
+        android:title="@string/change_email"
+        android:icon="?ic_email">
         <intent
             android:action="org.michiganhackers.michiganhackers.profile.ChangeEmailActivity"/>
     </Preference>
 
     <Preference
-        android:title="@string/change_password">
+        android:title="@string/change_password"
+        android:icon="?ic_key">
         <intent
             android:action="org.michiganhackers.michiganhackers.account.ChangePasswordActivity"/>
     </Preference>
 
     <Preference
-        android:title="@string/delete_account">
+        android:title="@string/delete_account"
+        android:icon="?ic_delete_forever">
         <intent
             android:action="org.michiganhackers.michiganhackers.account.DeleteAccountActivity"/>
     </Preference>
