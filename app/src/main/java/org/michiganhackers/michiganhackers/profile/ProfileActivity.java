@@ -30,6 +30,7 @@ import com.yalantis.ucrop.UCrop;
 import org.michiganhackers.michiganhackers.GlideApp;
 import org.michiganhackers.michiganhackers.R;
 import org.michiganhackers.michiganhackers.SemicolonTokenizer;
+import org.michiganhackers.michiganhackers.Util;
 import org.michiganhackers.michiganhackers.login.LoginActivity;
 import org.michiganhackers.michiganhackers.directory.Member;
 
@@ -93,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (croppedImageFileUri != null) {
                 GlideApp.with(ProfileActivity.this)
                         .load(croppedImageFileUri)
-                        .placeholder(R.drawable.ic_directory)
+                        .placeholder(Util.getThemedDrawable(R.attr.ic_profile, this))
                         .centerCrop()
                         .into(imgProfilePic);
             } else {
@@ -101,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if (member != null) {
                     GlideApp.with(ProfileActivity.this)
                             .load(member.getPhotoUrl())
-                            .placeholder(R.drawable.ic_directory)
+                            .placeholder(Util.getThemedDrawable(R.attr.ic_profile, this))
                             .centerCrop()
                             .into(imgProfilePic);
                 }
@@ -150,7 +151,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if (member != null) {
                     GlideApp.with(ProfileActivity.this)
                             .load(member.getPhotoUrl())
-                            .placeholder(R.drawable.ic_directory)
+                            .placeholder(Util.getThemedDrawable(R.attr.ic_profile, ProfileActivity.this))
                             .centerCrop()
                             .into(imgProfilePic);
                     etProfileName.setText(member.getName());
@@ -359,7 +360,7 @@ public class ProfileActivity extends AppCompatActivity {
                 croppedImageFileUri = UCrop.getOutput(data);
                 GlideApp.with(ProfileActivity.this)
                         .load(croppedImageFileUri)
-                        .placeholder(R.drawable.ic_directory)
+                        .placeholder(Util.getThemedDrawable(R.attr.ic_profile, this))
                         .centerCrop()
                         .into(imgProfilePic);
             } else {

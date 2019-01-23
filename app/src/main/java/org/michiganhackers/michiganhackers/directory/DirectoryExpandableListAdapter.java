@@ -1,7 +1,9 @@
 package org.michiganhackers.michiganhackers.directory;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import org.michiganhackers.michiganhackers.GlideApp;
 import org.michiganhackers.michiganhackers.R;
+import org.michiganhackers.michiganhackers.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,14 +67,17 @@ public class DirectoryExpandableListAdapter extends BaseExpandableListAdapter {
 
         tvMemberName.setText(getChild(groupPosition, childPosition).getName());
         tvMemberTitle.setText(getChild(groupPosition, childPosition).getTitle());
+
         GlideApp.with(context)
                 .load(getChild(groupPosition, childPosition).getPhotoUrl())
-                .placeholder(R.drawable.ic_directory)
+                .placeholder(Util.getThemedDrawable(R.attr.ic_profile, context))
                 .centerCrop()
                 .into(imgMemberPhoto);
 
         return convertView;
     }
+
+
 
     @Override
     public int getChildrenCount(int groupPosition) {

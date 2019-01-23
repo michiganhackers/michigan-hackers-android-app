@@ -3,7 +3,7 @@
     <string name="app_name">Michigan Hackers</string>
 
     <!--Main Activity-->
-    <string name="nav_list">List</string>
+    <string name="nav_events">Events</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_directory">Directory</string>
     <string name="require_play_services">This app requires Google Play Services</string>
@@ -90,7 +90,6 @@
     <!--Auto-generated strings placed here i.e. "alt+enter" shortcut.
      Please move to correct category when finished-->
     <string name="generated_strings_placed_after_this_automatically">.</string>
-
 
 
     <!--String Arrays-->

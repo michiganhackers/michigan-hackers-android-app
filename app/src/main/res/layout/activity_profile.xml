@@ -25,7 +25,7 @@
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/profile_picture"
-                    app:srcCompat="@drawable/ic_directory" />
+                    app:srcCompat="?ic_profile" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btn_edit_profile_pic"
@@ -37,8 +37,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
-                    android:tint="@color/white_transparent"
-                    app:srcCompat="@drawable/ic_add_image" />
+                    app:srcCompat="?ic_add_photo" />
 
             </RelativeLayout>
 

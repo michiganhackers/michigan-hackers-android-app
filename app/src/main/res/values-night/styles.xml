@@ -11,5 +11,11 @@
         <item name="ic_calendar_date">@drawable/ic_calendar_date_dark</item>
         <item name="ic_description">@drawable/ic_description_dark</item>
         <item name="ic_location">@drawable/ic_location_dark</item>
+        <item name="ic_profile">@drawable/ic_profile_dark</item>
+        <item name="ic_account">@drawable/ic_account_dark</item>
+        <item name="ic_moon">@drawable/ic_moon_dark</item>
+
+        <item name="ic_add_photo">@drawable/ic_add_photo_light</item>
+
     </style>
 </resources>
