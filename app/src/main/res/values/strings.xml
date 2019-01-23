@@ -5,7 +5,7 @@
     <!--Main Activity-->
     <string name="nav_events">Events</string>
     <string name="nav_settings">Settings</string>
-    <string name="nav_directory">Directory</string>
+    <string name="nav_directory">Members</string>
     <string name="require_play_services">This app requires Google Play Services</string>
 
     <!--Event Activity-->
