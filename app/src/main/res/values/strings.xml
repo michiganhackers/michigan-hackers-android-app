@@ -54,6 +54,10 @@
     <string name="pwd_reset_email_failed">Failed to send reset email!</string>
     <string name="enter_registered_email">Enter your registered email id</string>
 
+    <string name="updated_email_address_message">Email address has been updated</string>
+    <string name="updated_pwd_message">Password has been updated</string>
+    <string name="account_deleted_message">Your profile has been deleted :( Create an account now!</string>
+
     <!--Notifications-->
     <string name="channel_description">Default Michigan Hackers Notification Channel</string>
     <string name="channel_name">Notification Channel</string>
@@ -75,16 +79,16 @@
     <string name="change">Change</string>
     <string name="send">Send</string>
     <string name="sign_out">Sign Out</string>
+    <string name="pref_is_dark_theme_set_key">isDarkThemeSetKey</string>
+    <string name="pref_main_settings_key">mainSettingsKey</string>
+    <string name="pref_account_settings_key">accountSettingsKey</string>
+    <string name="pref_account_sign_out_key">accountSignOutKey</string>
+    <string name="failed_to_update_email">Failed to update email</string>
 
     <!--Mixed-->
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="settings">Settings</string>
-
-    <!--Preferences-->
-    <string name="pref_is_dark_theme_set_key">isDarkThemeSetKey</string>
-    <string name="pref_main_settings_key">mainSettingsKey</string>
-    <string name="pref_account_settings_key">accountSettingsKey</string>
 
     <!--Auto-generated strings placed here i.e. "alt+enter" shortcut.
      Please move to correct category when finished-->

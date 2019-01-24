@@ -22,5 +22,11 @@
         app:fragment="org.michiganhackers.michiganhackers.settings.DeleteAccountFragment">
     </Preference>
 
+    <Preference
+        android:key="@string/pref_account_sign_out_key"
+        android:title="@string/sign_out"
+        android:icon="?ic_sign_out">
+    </Preference>
+
 
 </PreferenceScreen>

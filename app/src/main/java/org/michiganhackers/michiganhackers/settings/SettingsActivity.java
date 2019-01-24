@@ -9,16 +9,17 @@ import androidx.preference.PreferenceFragmentCompat;
 import android.app.ActionBar;
 import android.os.Bundle;
 
+import org.michiganhackers.michiganhackers.FirebaseAuthActivity;
 import org.michiganhackers.michiganhackers.R;
 import org.michiganhackers.michiganhackers.eventList.CalendarEvent;
 
-public class SettingsActivity extends AppCompatActivity implements
+public class SettingsActivity extends FirebaseAuthActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
     public static String START_FRAGMENT = "start_fragment";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 

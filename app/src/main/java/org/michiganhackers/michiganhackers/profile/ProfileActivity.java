@@ -1,18 +1,20 @@
 package org.michiganhackers.michiganhackers.profile;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+
 import android.content.Intent;
 import android.net.Uri;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -23,15 +25,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.yalantis.ucrop.UCrop;
 
+import org.michiganhackers.michiganhackers.FirebaseAuthActivity;
 import org.michiganhackers.michiganhackers.GlideApp;
 import org.michiganhackers.michiganhackers.R;
 import org.michiganhackers.michiganhackers.SemicolonTokenizer;
 import org.michiganhackers.michiganhackers.Util;
-import org.michiganhackers.michiganhackers.login.LoginActivity;
 import org.michiganhackers.michiganhackers.directory.Member;
 
 import java.io.File;
@@ -42,16 +43,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends FirebaseAuthActivity {
     private static final int PICK_IMAGE = 1;
     private static final String TAG = ProfileActivity.class.getName();
     private Uri croppedImageFileUri;
 
-    private FirebaseAuth auth;
-    private FirebaseAuth.AuthStateListener authListener;
-
     private Boolean teamsSelectedSet = false;
-    private ProfileViewModel profileViewModel;
+
+    protected ProfileViewModel profileViewModel;
 
     private TextInputEditText etProfileName, etBio;
     private AutoCompleteTextView autoCompleteTvYear, autoCompleteTvTitle;
@@ -61,30 +60,15 @@ public class ProfileActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        auth = FirebaseAuth.getInstance();
-        authListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-        };
-
-        FirebaseUser user = auth.getCurrentUser();
-        if (user != null) {
-            String uid = user.getUid();
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
             ProfileViewModelFactory profileViewModelFactory = new ProfileViewModelFactory(uid);
             profileViewModel = ViewModelProviders.of(this, profileViewModelFactory).get(ProfileViewModel.class);
-        } else {
-            startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-            finish();
+        } else{
             return;
         }
 
@@ -382,17 +366,4 @@ public class ProfileActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        auth.addAuthStateListener(authListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (authListener != null) {
-            auth.removeAuthStateListener(authListener);
-        }
-    }
 }

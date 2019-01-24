@@ -3,12 +3,16 @@ package org.michiganhackers.michiganhackers.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -31,8 +35,13 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnResetPassword;
     private CoordinatorLayout coordinatorLayout;
-    public static int RESET_PASSWORD_REQUEST_CODE = 1;
-    public static int SIGNUP_REQUEST_CODE = 2;
+
+    public static final int RESET_PASSWORD_REQUEST_CODE = 1;
+    public static final int SIGNUP_REQUEST_CODE = 2;
+    public static final String FROM_EMAIL_CHANGE = "From email change";
+    public static final String FROM_PASSWORD_CHANGE = "From password change";
+    public static final String FROM_ACCOUNT_DELETE = "From account delete";
+    public static final String INTENT_FROM = "Intent from";
     private static final String TAG = "LoginActivity";
 
     @Override
@@ -123,23 +132,44 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
+
+
+        showIntentFromSnackbar();
+    }
+
+    private void showIntentFromSnackbar() {
+        if (getIntent() != null && getIntent().getStringExtra(INTENT_FROM) != null) {
+            switch (getIntent().getStringExtra(INTENT_FROM)) {
+                case FROM_EMAIL_CHANGE:
+                    Snackbar.make(coordinatorLayout, R.string.updated_email_address_message, Snackbar.LENGTH_LONG).show();
+                    break;
+                case FROM_PASSWORD_CHANGE:
+                    Snackbar.make(coordinatorLayout, R.string.updated_pwd_message, Snackbar.LENGTH_LONG).show();
+                    break;
+                case FROM_ACCOUNT_DELETE:
+                    Snackbar.make(coordinatorLayout, R.string.account_deleted_message, Snackbar.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESET_PASSWORD_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Snackbar.make(coordinatorLayout, R.string.pwd_reset_confirmation, Snackbar.LENGTH_LONG).show();
-            } else {
-                Log.w(TAG, "RESET_PASSWORD_REQUEST_CODE cancelled");
-            }
-        } else if (requestCode == SIGNUP_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                finish();
-            } else {
-                Log.w(TAG, "SIGNUP_REQUEST_CODE cancelled");
-            }
+
+        switch (requestCode) {
+            case RESET_PASSWORD_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Snackbar.make(coordinatorLayout, R.string.pwd_reset_confirmation, Snackbar.LENGTH_LONG).show();
+                } else {
+                    Log.w(TAG, "RESET_PASSWORD_REQUEST_CODE cancelled");
+                }
+                break;
+            case SIGNUP_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    finish();
+                } else {
+                    Log.w(TAG, "SIGNUP_REQUEST_CODE cancelled");
+                }
         }
     }
 }

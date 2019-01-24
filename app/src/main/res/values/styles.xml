@@ -23,6 +23,7 @@
         <item name="ic_email">@drawable/ic_email_light</item>
         <item name="ic_key">@drawable/ic_key_light</item>
         <item name="ic_delete_forever">@drawable/ic_delete_forever_light</item>
+        <item name="ic_sign_out">@drawable/ic_sign_out_light</item>
 
 
     </style>
@@ -74,5 +75,6 @@
     <attr name="ic_email" format="reference"/>
     <attr name="ic_key" format="reference"/>
     <attr name="ic_delete_forever" format="reference"/>
+    <attr name="ic_sign_out" format="reference"/>
 
 </resources>

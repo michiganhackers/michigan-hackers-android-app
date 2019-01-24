@@ -12,17 +12,22 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class ChangePasswordFragment extends Fragment {
+    private static final String actionBarTitle = "Change Password";
+
     public ChangePasswordFragment() {
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_change_password, container, false);
-        final String actionBarTitle = "Change Password";
+        setActionBarTitle();
+        return layout;
+    }
+
+    private void setActionBarTitle() {
         if (getActivity() != null && getActivity().getActionBar() != null) {
             getActivity().getActionBar().setTitle(actionBarTitle);
         }
-        return layout;
     }
 
 }

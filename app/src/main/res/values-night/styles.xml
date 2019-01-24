@@ -23,6 +23,7 @@
         <item name="ic_email">@drawable/ic_email_dark</item>
         <item name="ic_key">@drawable/ic_key_dark</item>
         <item name="ic_delete_forever">@drawable/ic_delete_forever_dark</item>
+        <item name="ic_sign_out">@drawable/ic_sign_out_dark</item>
 
     </style>
 </resources>
