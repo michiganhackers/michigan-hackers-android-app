@@ -34,5 +34,7 @@ You will be working in master branch by default after cloning the repository. To
 2. Create a new branch from the develop branch. This is the branch you will be working in.
 3. Whenever you finish the feature you are working on, merge it back into the develop branch.  
 
+If you are looking for resources to learn Android or Java, visit the [Michigan Hackers knowledge base](https://github.com/michiganhackers/knowledgebase/blob/master/Technologies/Android.md).
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE](/LICENSE) file for details
