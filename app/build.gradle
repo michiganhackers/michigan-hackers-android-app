@@ -7,14 +7,14 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
     signingConfigs {
         debug {
-            keyAlias keystoreProperties['keyAliasDebug']
-            keyPassword keystoreProperties['keyPasswordDebug']
+            keyAlias keystoreProperties['michiganHackersKeyAliasDebug']
+            keyPassword keystoreProperties['michiganHackersKeyPasswordDebug']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
         release {
-            keyAlias keystoreProperties['keyAliasRelease']
-            keyPassword keystoreProperties['keyPasswordRelease']
+            keyAlias keystoreProperties['michiganHackersKeyAliasRelease']
+            keyPassword keystoreProperties['michiganHackersKeyPasswordRelease']
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
@@ -24,7 +24,7 @@ android {
         applicationId "michiganhackers.michiganhackers"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 10
+        versionCode 11
         versionName "2.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
