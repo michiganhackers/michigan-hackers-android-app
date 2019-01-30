@@ -20,15 +20,12 @@ public class ChangePasswordFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_change_password, container, false);
-        setActionBarTitle();
-        return layout;
-    }
 
-    private void setActionBarTitle() {
         if (getActivity() != null && getActivity().getActionBar() != null) {
             getActivity().getActionBar().setTitle(actionBarTitle);
         }
-    }
 
+        return layout;
+    }
 }
 

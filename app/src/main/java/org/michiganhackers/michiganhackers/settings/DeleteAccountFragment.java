@@ -20,14 +20,12 @@ public class DeleteAccountFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_delete_account, container, false);
-        setActionBarTitle();
-        return layout;
-    }
 
-    private void setActionBarTitle() {
         if (getActivity() != null && getActivity().getActionBar() != null) {
             getActivity().getActionBar().setTitle(actionBarTitle);
         }
+
+        return layout;
     }
 
 }

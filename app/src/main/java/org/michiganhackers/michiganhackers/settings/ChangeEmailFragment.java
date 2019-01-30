@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.michiganhackers.michiganhackers.FirebaseAuthActivity;
 import org.michiganhackers.michiganhackers.R;
+import org.michiganhackers.michiganhackers.Util;
 import org.michiganhackers.michiganhackers.login.LoginActivity;
 import org.michiganhackers.michiganhackers.login.SignupActivity;
 
@@ -54,7 +55,9 @@ public class ChangeEmailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_change_email, container, false);
 
-        setActionBarTitle();
+        if (getActivity() != null && getActivity().getActionBar() != null) {
+            getActivity().getActionBar().setTitle(actionBarTitle);
+        }
 
         textInputPassword = layout.findViewById(R.id.text_input_pwd);
         textInputEmail = layout.findViewById(R.id.text_input_email);
@@ -97,12 +100,5 @@ public class ChangeEmailFragment extends Fragment {
 
         return layout;
     }
-
-    private void setActionBarTitle() {
-        if (getActivity() != null && getActivity().getActionBar() != null) {
-            getActivity().getActionBar().setTitle(actionBarTitle);
-        }
-    }
-
 }
 
