@@ -23,7 +23,7 @@ Create a Github account to interact with the remote repository.
 3. Skip to step 6
 4. Select "Check out project from Version Control"
 5. Select "Github"
-6. Paste the link to this Github repository (https://github.com/michiganhackers/androidapp) and select "Clone"
+6. Paste the link to this Github repository (https://github.com/michiganhackers/michigan-hackers-android-app) and select "Clone"
 7. Get the google-services.json file from an Android team leader and place it in the "app" directory.  
 8. Get the MichiganHackers.jks file from an Android team leader and place it in the "app" directory.  
 9. Get the keystore.properties file from an Android team leader and place it in the root project directory.  
