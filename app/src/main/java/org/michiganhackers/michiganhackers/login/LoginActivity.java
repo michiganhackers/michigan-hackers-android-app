@@ -38,11 +38,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final int RESET_PASSWORD_REQUEST_CODE = 1;
     public static final int SIGNUP_REQUEST_CODE = 2;
-    public static final String FROM_EMAIL_CHANGE = "From email change";
-    public static final String FROM_PASSWORD_CHANGE = "From password change";
-    public static final String FROM_ACCOUNT_DELETE = "From account delete";
+    public static final String USER_NOT_SIGNED_IN = "User not signed in";
     public static final String INTENT_FROM = "Intent from";
-    private static final String TAG = "LoginActivity";
+    public static final String FROM_ACCOUNT_DELETE = "From account delete";
+    private final String TAG = getClass().getCanonicalName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,22 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 
-                Boolean warningShown = false;
-                if (TextUtils.isEmpty(email)) {
-                    textInputEmail.setError(getString(R.string.enter_email));
-                    warningShown = true;
-                } else {
-                    textInputEmail.setError(null);
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    textInputPassword.setError(getString(R.string.enter_password));
-                    warningShown = true;
-                } else {
-                    textInputPassword.setError(null);
-                }
-
-                if (warningShown) {
+                if (isAnyInputFieldEmpty(email, password)) {
                     return;
                 }
 
@@ -124,8 +108,13 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!task.isSuccessful()) {
                                     Snackbar.make(coordinatorLayout, R.string.auth_failed_login, Snackbar.LENGTH_LONG).show();
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
+                                    if(getIntent() != null && getIntent().getStringExtra(INTENT_FROM) != null && getIntent().getStringExtra(INTENT_FROM).equals(USER_NOT_SIGNED_IN)){
+                                        setResult(Activity.RESULT_OK);
+                                    }
+                                    else{
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
                                     finish();
                                 }
                             }
@@ -140,11 +129,8 @@ public class LoginActivity extends AppCompatActivity {
     private void showIntentFromSnackbar() {
         if (getIntent() != null && getIntent().getStringExtra(INTENT_FROM) != null) {
             switch (getIntent().getStringExtra(INTENT_FROM)) {
-                case FROM_EMAIL_CHANGE:
-                    Snackbar.make(coordinatorLayout, R.string.updated_email_address_message, Snackbar.LENGTH_LONG).show();
-                    break;
-                case FROM_PASSWORD_CHANGE:
-                    Snackbar.make(coordinatorLayout, R.string.updated_pwd_message, Snackbar.LENGTH_LONG).show();
+                case USER_NOT_SIGNED_IN:
+                    Snackbar.make(coordinatorLayout, R.string.signed_in_required_messsage, Snackbar.LENGTH_LONG).show();
                     break;
                 case FROM_ACCOUNT_DELETE:
                     Snackbar.make(coordinatorLayout, R.string.account_deleted_message, Snackbar.LENGTH_LONG).show();
@@ -171,5 +157,24 @@ public class LoginActivity extends AppCompatActivity {
                     Log.w(TAG, "SIGNUP_REQUEST_CODE cancelled");
                 }
         }
+    }
+
+    private boolean isAnyInputFieldEmpty(String email, String password) {
+        boolean warningShown = false;
+        if (TextUtils.isEmpty(email)) {
+            textInputEmail.setError(getString(R.string.enter_email));
+            warningShown = true;
+        } else {
+            textInputEmail.setError(null);
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            textInputPassword.setError(getString(R.string.enter_password));
+            warningShown = true;
+        } else {
+            textInputPassword.setError(null);
+        }
+
+        return warningShown;
     }
 }

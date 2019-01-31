@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DirectoryViewModel extends ViewModel {
-    private static final String TAG = "DirectoryViewModel";
+    private final String TAG = getClass().getCanonicalName();
 
     // teams can be ordered in treemap because their key is team name
     // members cannot be ordered in treemap because their key is user id (to allow for duplicate names)

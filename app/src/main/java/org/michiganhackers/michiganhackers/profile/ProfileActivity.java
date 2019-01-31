@@ -10,7 +10,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import android.os.Bundle;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -45,7 +47,8 @@ import java.util.Set;
 
 public class ProfileActivity extends FirebaseAuthActivity {
     private static final int PICK_IMAGE = 1;
-    private static final String TAG = ProfileActivity.class.getName();
+    public static final String CROPPED_IMAGE_FILE_URI = "croppedImageFileUri";
+    private final String TAG = getClass().getCanonicalName();
     private Uri croppedImageFileUri;
 
     private Boolean teamsSelectedSet = false;
@@ -54,69 +57,56 @@ public class ProfileActivity extends FirebaseAuthActivity {
 
     private TextInputEditText etProfileName, etBio;
     private AutoCompleteTextView autoCompleteTvYear, autoCompleteTvTitle;
-    private MultiAutoCompleteTextView autoCompleteTvTeams, autoCompleteTvMajors;
     private TextInputLayout textInputProfileName, textInputMajors, textInputTeams, textInputBio, textInputTitle, textInputYear;
     private ImageView imgProfilePic;
     private CoordinatorLayout coordinatorLayout;
+    CustomMultiAutoCompleteTextView customAutoCompleteTeams, customAutoCompleteMajors;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        if (firebaseUser != null) {
-            String uid = firebaseUser.getUid();
-            ProfileViewModelFactory profileViewModelFactory = new ProfileViewModelFactory(uid);
-            profileViewModel = ViewModelProviders.of(this, profileViewModelFactory).get(ProfileViewModel.class);
-        } else{
+        if (firebaseUser == null) {
             return;
         }
 
+        String uid = firebaseUser.getUid();
+        ProfileViewModelFactory profileViewModelFactory = new ProfileViewModelFactory(uid);
+        profileViewModel = ViewModelProviders.of(this, profileViewModelFactory).get(ProfileViewModel.class);
+
         imgProfilePic = findViewById(R.id.image_profile_pic);
         if (savedInstanceState != null) {
-            croppedImageFileUri = savedInstanceState.getParcelable("croppedImageFileUri");
-            if (croppedImageFileUri != null) {
-                GlideApp.with(ProfileActivity.this)
-                        .load(croppedImageFileUri)
-                        .placeholder(Util.getThemedDrawable(R.attr.ic_profile, this))
-                        .centerCrop()
-                        .into(imgProfilePic);
-            } else {
-                Member member = profileViewModel.getMember().getValue();
-                if (member != null) {
-                    GlideApp.with(ProfileActivity.this)
-                            .load(member.getPhotoUrl())
-                            .placeholder(Util.getThemedDrawable(R.attr.ic_profile, this))
-                            .centerCrop()
-                            .into(imgProfilePic);
-                }
-            }
+            recoverImage(savedInstanceState);
             teamsSelectedSet = savedInstanceState.getBoolean("teamsSelectedSet");
         }
 
         etProfileName = findViewById(R.id.et_profile_name);
 
-        autoCompleteTvMajors = findViewById(R.id.tv_majors);
-        setupMultiAutoCompleteTextView(autoCompleteTvMajors, R.array.majors_array);
+        customAutoCompleteMajors =
+                new CustomMultiAutoCompleteTextView((MultiAutoCompleteTextView) findViewById(R.id.tv_majors),
+                        (TextInputLayout) findViewById(R.id.text_input_majors), R.string.empty_majors_input,
+                        R.string.invalid_major_input, R.array.majors_array, this);
+
 
         autoCompleteTvYear = findViewById(R.id.tv_year);
         setupFauxSpinner(autoCompleteTvYear, R.array.year_array);
 
-        autoCompleteTvTeams = findViewById(R.id.tv_teams);
-        setupMultiAutoCompleteTextView(autoCompleteTvTeams, null);
+        customAutoCompleteTeams =
+                new CustomMultiAutoCompleteTextView((MultiAutoCompleteTextView) findViewById(R.id.tv_teams),
+                        (TextInputLayout) findViewById(R.id.text_input_teams), R.string.empty_teams_input,
+                        R.string.invalid_team_input, null, this);
+
         final Observer<List<String>> teamNamesObserver = new Observer<List<String>>() {
             @Override
             public void onChanged(@Nullable List<String> teamNames) {
                 if (teamNames != null) {
-                    // Populate team spinner
-                    ArrayAdapter adapter = (ArrayAdapter) autoCompleteTvTeams.getAdapter();
-                    adapter.clear();
-                    adapter.addAll(teamNames);
-                    adapter.notifyDataSetChanged();
+                    customAutoCompleteTeams.addAll(teamNames);
 
                     // Display the user's previous team selection if it hasn't been yet
                     if (!teamsSelectedSet) {
-                        setTeamsSelection(adapter);
+                        setTeamsSelection();
                     }
                 }
             }
@@ -141,14 +131,10 @@ public class ProfileActivity extends FirebaseAuthActivity {
                     etProfileName.setText(member.getName());
                     // Display the user's previous team selection if it hasn't been yet
                     if (!teamsSelectedSet) {
-                        setTeamsSelection((ArrayAdapter) autoCompleteTvTeams.getAdapter());
+                        setTeamsSelection();
                     }
-                    for (String major : member.getMajors()) {
-                        if (((ArrayAdapter) autoCompleteTvMajors.getAdapter()).getPosition(major) != -1) {
-                            String newText = autoCompleteTvMajors.getText().toString() + major + "; ";
-                            autoCompleteTvMajors.setText(newText);
-                        }
-                    }
+                    customAutoCompleteMajors.fill(member.getMajors());
+
                     if (((ArrayAdapter) autoCompleteTvYear.getAdapter()).getPosition(member.getYear()) != -1) {
                         autoCompleteTvYear.setText(member.getYear());
                         ((ArrayAdapter) autoCompleteTvYear.getAdapter()).getFilter().filter(null);
@@ -164,26 +150,24 @@ public class ProfileActivity extends FirebaseAuthActivity {
             }
 
         };
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null || savedInstanceState.getParcelable(CROPPED_IMAGE_FILE_URI) == null) {
             profileViewModel.getMember().observe(this, memberObserver);
         }
         Button btnSubmitChanges = findViewById(R.id.btn_submit_changes);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         textInputProfileName = findViewById(R.id.text_input_profile_name);
-        textInputMajors = findViewById(R.id.text_input_majors);
-        textInputTeams = findViewById(R.id.text_input_teams);
         textInputBio = findViewById(R.id.text_input_bio);
         textInputTitle = findViewById(R.id.text_input_title);
         textInputYear = findViewById(R.id.text_input_year);
         btnSubmitChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> teamNamesInput = getMultiAutoCompleteTextViewInput(autoCompleteTvTeams);
-                List<String> majorsInput = getMultiAutoCompleteTextViewInput(autoCompleteTvMajors);
+                List<String> teamNamesInput = customAutoCompleteTeams.getInput();
+                List<String> majorsInput = customAutoCompleteMajors.getInput();
 
                 // Check user input and show warnings accordingly
-                Boolean warningShown = checkMultiAutoCompleteTextViewInput(teamNamesInput, autoCompleteTvTeams, textInputTeams, R.string.empty_teams_input, R.string.invalid_team_input);
-                warningShown = checkMultiAutoCompleteTextViewInput(majorsInput, autoCompleteTvMajors, textInputMajors, R.string.empty_majors_input, R.string.invalid_major_input) || warningShown;
+                boolean warningShown = customAutoCompleteTeams.checkInput(teamNamesInput);
+                warningShown = customAutoCompleteMajors.checkInput(majorsInput) || warningShown;
 
                 String profileNameInput = etProfileName.getText().toString().trim();
                 String bioInput = etBio.getText().toString().trim();
@@ -196,16 +180,11 @@ public class ProfileActivity extends FirebaseAuthActivity {
                 warningShown = checkEmptyInput(titleInput, textInputTitle, R.string.empty_title_input) || warningShown;
 
                 if (!warningShown) {
-                    FirebaseUser user = auth.getCurrentUser();
-                    if (user != null) {
-                        String uid = user.getUid();
-                        Member member = new Member(profileNameInput, uid, bioInput, teamNamesInput, yearInput, majorsInput, titleInput);
-                        // Todo: Add listener to setMember to add progressBar as well as snackbar if failed to update profile
-                        profileViewModel.setMember(member, croppedImageFileUri);
-                        finish();
-                    } else {
-                        Snackbar.make(coordinatorLayout, R.string.profile_update_failed, Snackbar.LENGTH_LONG).show();
-                    }
+                    String uid = firebaseUser.getUid();
+                    Member member = new Member(profileNameInput, uid, bioInput, teamNamesInput, yearInput, majorsInput, titleInput);
+                    // Todo: Add listener to setMember to add progressBar as well as snackbar if failed to update profile
+                    profileViewModel.setMember(member, croppedImageFileUri);
+                    finish();
                 }
             }
         });
@@ -225,29 +204,24 @@ public class ProfileActivity extends FirebaseAuthActivity {
 
     }
 
-    private void setupMultiAutoCompleteTextView(MultiAutoCompleteTextView multiAutoCompleteTextView, Integer stringArrayResource) {
-        List<CharSequence> items = new ArrayList<>();
-        if (stringArrayResource != null) {
-            items.addAll(Arrays.asList(getResources().getStringArray(stringArrayResource)));
+    private void recoverImage(Bundle savedInstanceState) {
+        croppedImageFileUri = savedInstanceState.getParcelable(CROPPED_IMAGE_FILE_URI);
+        if (croppedImageFileUri != null) {
+            GlideApp.with(ProfileActivity.this)
+                    .load(croppedImageFileUri)
+                    .placeholder(Util.getThemedDrawable(R.attr.ic_profile, this))
+                    .centerCrop()
+                    .into(imgProfilePic);
         }
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, items);
-        multiAutoCompleteTextView.setAdapter(adapter);
-        multiAutoCompleteTextView.setTokenizer(new SemicolonTokenizer());
     }
 
-    void setTeamsSelection(ArrayAdapter<CharSequence> teamsMultiAutoCompleteTextViewAdapter) {
+
+    void setTeamsSelection() {
         Member member = profileViewModel.getMember().getValue();
         if (member != null) {
             if (member.getTeams().size() != 0) {
                 teamsSelectedSet = true;
-                for (String team : member.getTeams()) {
-                    if (teamsMultiAutoCompleteTextViewAdapter.getPosition(team) != -1) {
-                        String newText = autoCompleteTvTeams.getText().toString() + team + "; ";
-                        autoCompleteTvTeams.setText(newText);
-                    } else {
-                        teamsSelectedSet = false;
-                    }
-                }
+                customAutoCompleteTeams.fill(member.getTeams());
             }
 
         }
@@ -276,41 +250,8 @@ public class ProfileActivity extends FirebaseAuthActivity {
         });
     }
 
-    private List<String> getMultiAutoCompleteTextViewInput(MultiAutoCompleteTextView multiAutoCompleteTextView) {
-        List<String> list = new ArrayList<>(Arrays.asList(multiAutoCompleteTextView.getText().toString().trim().split("\\s*;\\s*")));
-        // remove duplicates
-        Set<String> set = new HashSet<>(list);
-        list.clear();
-        list.addAll(set);
-        // if input is empty, list will have 1 empty string
-        if (list.size() == 1 && list.get(0).isEmpty()) {
-            list.remove(0);
-        }
-        return list;
-    }
-
-    private Boolean checkMultiAutoCompleteTextViewInput(List<String> inputList, MultiAutoCompleteTextView multiAutoCompleteTextView, TextInputLayout textInputLayout, int emptyErrorResource, int invalidErrorSuffixResource) {
-        Boolean warningShown = false;
-        if (inputList.size() == 0) {
-            textInputLayout.setError(getString(emptyErrorResource));
-            warningShown = true;
-        } else {
-            for (String item : inputList) {
-                if (((ArrayAdapter) multiAutoCompleteTextView.getAdapter()).getPosition(item) == -1) {
-                    textInputLayout.setError("\"" + item + "\" " + getString(invalidErrorSuffixResource));
-                    warningShown = true;
-                    break;
-                }
-            }
-        }
-        if (!warningShown) {
-            textInputLayout.setError(null);
-        }
-        return warningShown;
-    }
-
-    private Boolean checkEmptyInput(String input, TextInputLayout textInputLayout, int emptyErrorResource) {
-        Boolean warningShown = false;
+    private boolean checkEmptyInput(String input, TextInputLayout textInputLayout, int emptyErrorResource) {
+        boolean warningShown = false;
         if (input.isEmpty()) {
             textInputLayout.setError(getString(emptyErrorResource));
             warningShown = true;
@@ -360,10 +301,9 @@ public class ProfileActivity extends FirebaseAuthActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (croppedImageFileUri != null) {
-            outState.putParcelable("croppedImageFileUri", croppedImageFileUri);
+            outState.putParcelable(CROPPED_IMAGE_FILE_URI, croppedImageFileUri);
         }
         outState.putBoolean("teamsSelectedSet", teamsSelectedSet);
         super.onSaveInstanceState(outState);
     }
-
 }

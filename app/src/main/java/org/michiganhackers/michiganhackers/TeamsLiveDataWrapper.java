@@ -36,7 +36,7 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 public class TeamsLiveDataWrapper {
-    private static final String TAG = "TeamsLiveDataWrapper";
+    private final String TAG = getClass().getCanonicalName();
 
     // Note: This livedata is not updated in realtime
     private MutableLiveData<Map<String, Team>> teams;

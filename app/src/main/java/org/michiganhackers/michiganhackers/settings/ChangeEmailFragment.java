@@ -2,6 +2,7 @@ package org.michiganhackers.michiganhackers.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +30,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
 
-import static org.michiganhackers.michiganhackers.login.LoginActivity.FROM_EMAIL_CHANGE;
-import static org.michiganhackers.michiganhackers.login.LoginActivity.INTENT_FROM;
-
 public class ChangeEmailFragment extends Fragment {
-    private static final String TAG = "AccountSettingsFragment";
+    private final String TAG = getClass().getCanonicalName();
     private static final String actionBarTitle = "Change Email";
 
     private TextInputLayout textInputPassword, textInputEmail;
@@ -73,32 +71,50 @@ public class ChangeEmailFragment extends Fragment {
                     Log.e(TAG, "getActivity() == null in btnSubmit onClick()");
                     return;
                 }
+
+                String email = etEmail.getText().toString();
+                final String password = etPassword.getText().toString();
+
+                if (isAnyInputFieldEmpty(email, password)) {
+                    return;
+                }
+
                 final FirebaseAuth auth = ((FirebaseAuthActivity) getActivity()).auth;
                 FirebaseUser user = auth.getCurrentUser();
-                if (user != null && !etEmail.getText().toString().trim().equals("")) {
-                    user.updateEmail(etEmail.getText().toString().trim())
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                        intent.putExtra(INTENT_FROM, FROM_EMAIL_CHANGE);
-                                        startActivity(intent);
-                                        getActivity().finish();
-                                    } else {
-                                        Snackbar.make(coordinatorLayout, R.string.failed_to_update_email, Snackbar.LENGTH_LONG).show();
-                                    }
+
+                user.updateEmail(etEmail.getText().toString().trim())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (!task.isSuccessful()) {
+                                    Snackbar.make(coordinatorLayout, R.string.failed_to_update_email, Snackbar.LENGTH_LONG).show();
                                 }
-                            });
-                } else if (user == null) {
-                    Snackbar.make(coordinatorLayout, "Error with user", Snackbar.LENGTH_LONG).show();
-                } else if (etEmail.getText().toString().trim().equals("")) {
-                    etEmail.setError("Enter email");
-                }
+                            }
+                        });
+
             }
         });
 
         return layout;
+    }
+
+    private boolean isAnyInputFieldEmpty(String email, String password) {
+        boolean warningShown = false;
+        if (TextUtils.isEmpty(email)) {
+            textInputEmail.setError(getString(R.string.enter_email));
+            warningShown = true;
+        } else {
+            textInputEmail.setError(null);
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            textInputPassword.setError(getString(R.string.enter_password));
+            warningShown = true;
+        } else {
+            textInputPassword.setError(null);
+        }
+
+        return warningShown;
     }
 }
 

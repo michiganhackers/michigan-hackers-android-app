@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -36,7 +37,7 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 public class MemberLiveDataWrapper {
-    private static final String TAG = "MemberLiveDataWrapper";
+    private final String TAG = getClass().getCanonicalName();
 
     // Note: This livedata is not updated in realtime
     private MutableLiveData<Member> member;
@@ -85,22 +86,35 @@ public class MemberLiveDataWrapper {
             Member memberLocal = member.getValue();
             // If the member already exists and the name is different, change firebase auth display name
             if (memberLocal != null && memberLocal.getName() != null && !memberLocal.getName().equals(newMember.getName())) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newMember.getName()).build();
-                    user.updateProfile(profileUpdates)
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.e(TAG, "Failed to update auth display name", e);
-                                }
-                            });
-                }
+                changeFirebaseAuthDisplayName(newMember);
             }
 
-            memberRef.set(newMember);
+            // newMember.photoUrl is always null, so newMemberMap never has that field
+            Map newMemberMap = Util.pojoToMap(newMember);
+
+            // merge because we don't want to change the photoUrl field
+            memberRef.set(newMemberMap, SetOptions.merge());
         } else {
             Log.e(TAG, "Attempted to add member whose uid did not match that of the ProfileViewModel uid");
+        }
+    }
+
+
+
+    private void changeFirebaseAuthDisplayName(Member newMember) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newMember.getName()).build();
+            user.updateProfile(profileUpdates)
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "Failed to update auth display name", e);
+                        }
+                    });
+        }
+        else{
+            Log.e(TAG, "user == null in changeFirebaseAuthDisplayName()");
         }
     }
 
@@ -149,6 +163,9 @@ public class MemberLiveDataWrapper {
                                             Log.e(TAG, "Failed to update user photoUri", e);
                                         }
                                     });
+                        }
+                        else{
+                            Log.e(TAG, "user == null in updateUserPhotoUrl");
                         }
                     }
                 })

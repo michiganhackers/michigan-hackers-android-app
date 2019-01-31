@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private CalendarAPI calAPI;
     private NotificationHandler notification;
     private ViewPager viewPager;
-    private static final String TAG = "MainActivity";
+    private final String TAG = getClass().getCanonicalName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

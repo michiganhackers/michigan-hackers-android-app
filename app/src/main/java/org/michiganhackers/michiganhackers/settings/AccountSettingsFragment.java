@@ -17,7 +17,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class AccountSettingsFragment extends PreferenceFragmentCompat {
-    private static final String TAG = "AccountSettingsFragment";
+    private final String TAG = getClass().getCanonicalName();
 
     public AccountSettingsFragment() {
     }

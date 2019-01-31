@@ -14,7 +14,7 @@ import java.util.List;
 
 
 public class ProfileViewModel extends ViewModel {
-    private static final String TAG = "ProfileViewModel";
+    private final String TAG = getClass().getCanonicalName();
 
     private MemberLiveDataWrapper memberLiveDataWrapper;
     private TeamsLiveDataWrapper teamsLiveDataWrapper;
