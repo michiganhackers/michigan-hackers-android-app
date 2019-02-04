@@ -83,6 +83,8 @@
     <string name="pref_account_sign_out_key">accountSignOutKey</string>
     <string name="failed_to_update_email">Failed to update email</string>
     <string name="current_password">Current Password</string>
+    <string name="incorrect_password">Password is incorrect</string>
+    <string name="email_change_success">Successfully changed email</string>
 
     <!--Mixed-->
     <string name="hint_email">Email</string>

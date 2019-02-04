@@ -16,7 +16,7 @@ import org.michiganhackers.michiganhackers.eventList.CalendarEvent;
 public class SettingsActivity extends FirebaseAuthActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
-    public static String START_FRAGMENT = "start_fragment";
+    public static final String START_FRAGMENT = "start_fragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

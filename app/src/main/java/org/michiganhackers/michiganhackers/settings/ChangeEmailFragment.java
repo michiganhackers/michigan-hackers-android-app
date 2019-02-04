@@ -1,6 +1,5 @@
 package org.michiganhackers.michiganhackers.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,15 +18,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.michiganhackers.michiganhackers.FirebaseAuthActivity;
 import org.michiganhackers.michiganhackers.R;
-import org.michiganhackers.michiganhackers.Util;
-import org.michiganhackers.michiganhackers.login.LoginActivity;
-import org.michiganhackers.michiganhackers.login.SignupActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceFragmentCompat;
 
 public class ChangeEmailFragment extends Fragment {
     private final String TAG = getClass().getCanonicalName();
@@ -79,19 +73,34 @@ public class ChangeEmailFragment extends Fragment {
                     return;
                 }
 
-                final FirebaseAuth auth = ((FirebaseAuthActivity) getActivity()).auth;
-                FirebaseUser user = auth.getCurrentUser();
+                FirebaseAuth auth = ((FirebaseAuthActivity) getActivity()).auth;
+                final FirebaseUser user = auth.getCurrentUser();
+                if (user == null) {
+                    Log.e(TAG, "null user in onCreateView");
 
-                user.updateEmail(etEmail.getText().toString().trim())
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (!task.isSuccessful()) {
-                                    Snackbar.make(coordinatorLayout, R.string.failed_to_update_email, Snackbar.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                }
+                PasswordValidator passwordValidator = new PasswordValidator(password, user, textInputPassword, getActivity()) {
+                    @Override
+                    public void onSuccess() {
+                        user.updateEmail(etEmail.getText().toString().trim())
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Snackbar.make(coordinatorLayout, R.string.email, Snackbar.LENGTH_SHORT).show();
+                                        } else{
+                                            Snackbar.make(coordinatorLayout, R.string.failed_to_update_email, Snackbar.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                    }
 
+                    @Override
+                    public void onFailure() {
+
+                    }
+                };
+                passwordValidator.validatePassword();
             }
         });
 
