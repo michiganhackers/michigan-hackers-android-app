@@ -18,7 +18,7 @@ import static org.michiganhackers.michiganhackers.login.LoginActivity.INTENT_FRO
 import static org.michiganhackers.michiganhackers.login.LoginActivity.USER_NOT_SIGNED_IN;
 
 public abstract class FirebaseAuthActivity extends AppCompatActivity {
-    public FirebaseAuth auth;
+    protected FirebaseAuth auth;
     protected FirebaseAuth.AuthStateListener authListener;
     protected FirebaseUser firebaseUser;
     private final String TAG = getClass().getCanonicalName();
@@ -78,5 +78,13 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void signOut(){
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
+        finish();
+        auth.signOut();
     }
 }
