@@ -62,11 +62,6 @@ public class ChangePasswordFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() == null) {
-                    Log.e(TAG, "getActivity() == null in btnSubmit onClick()");
-                    return;
-                }
-
                 final String oldPwd = etInputPwdOld.getText().toString();
                 final String pwdNew = etInputPwdNew.getText().toString();
                 final String pwdConfirm = etInputPwdConfirm.getText().toString();

@@ -53,7 +53,6 @@
     <string name="auth_failed_signup">Authentication failed</string>
     <string name="pwd_reset_email_failed">Failed to send reset email!</string>
     <string name="enter_registered_email">Enter your registered email id</string>
-    <string name="account_deleted_message">Your profile has been deleted :( Create an account now!</string>
     <string name="signed_in_required_messsage">You must sign in to use this feature</string>
 
     <!--Notifications-->
@@ -88,6 +87,9 @@
     <string name="passwords_dont_match">Passwords do not match!</string>
     <string name="pwd_change_success">Successfully changed password!</string>
     <string name="pwd_change_failure">Failed to change password!</string>
+    <string name="account_delete_warning_message">Are you sure you want to delete your account? This cannot be undone!</string>
+    <string name="sign_out_warning_message">Are you sure you want to sign out?</string>
+    <string name="post_account_deleted_message">Your profile has been deleted :( Create an account now!</string>
 
     <!--Mixed-->
     <string name="hint_email">Email</string>

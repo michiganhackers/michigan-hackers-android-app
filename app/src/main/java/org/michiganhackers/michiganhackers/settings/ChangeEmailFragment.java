@@ -62,11 +62,6 @@ public class ChangeEmailFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getActivity() == null) {
-                    Log.e(TAG, "getActivity() == null in btnSubmit onClick()");
-                    return;
-                }
-
                 String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 

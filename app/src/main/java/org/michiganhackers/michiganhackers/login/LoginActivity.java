@@ -13,7 +13,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
     public static final int SIGNUP_REQUEST_CODE = 2;
     public static final String USER_NOT_SIGNED_IN = "User not signed in";
     public static final String INTENT_FROM = "Intent from";
-    public static final String FROM_ACCOUNT_DELETE = "From account delete";
     private final String TAG = getClass().getCanonicalName();
 
     @Override
@@ -112,10 +110,9 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!task.isSuccessful()) {
                                     Snackbar.make(coordinatorLayout, R.string.auth_failed_login, Snackbar.LENGTH_LONG).show();
                                 } else {
-                                    if(getIntent() != null && getIntent().getStringExtra(INTENT_FROM) != null && getIntent().getStringExtra(INTENT_FROM).equals(USER_NOT_SIGNED_IN)){
+                                    if (getIntent() != null && getIntent().getStringExtra(INTENT_FROM) != null && getIntent().getStringExtra(INTENT_FROM).equals(USER_NOT_SIGNED_IN)) {
                                         setResult(Activity.RESULT_OK);
-                                    }
-                                    else{
+                                    } else {
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     }
@@ -135,9 +132,6 @@ public class LoginActivity extends AppCompatActivity {
             switch (getIntent().getStringExtra(INTENT_FROM)) {
                 case USER_NOT_SIGNED_IN:
                     Snackbar.make(coordinatorLayout, R.string.signed_in_required_messsage, Snackbar.LENGTH_LONG).show();
-                    break;
-                case FROM_ACCOUNT_DELETE:
-                    Snackbar.make(coordinatorLayout, R.string.account_deleted_message, Snackbar.LENGTH_LONG).show();
             }
         }
     }

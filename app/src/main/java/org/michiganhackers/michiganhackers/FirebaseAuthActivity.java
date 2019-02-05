@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.michiganhackers.michiganhackers.login.LoginActivity;
+import org.michiganhackers.michiganhackers.login.SignupActivity;
+import org.michiganhackers.michiganhackers.settings.SettingsViewModel;
+import org.michiganhackers.michiganhackers.settings.SettingsViewModelFactory;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import static org.michiganhackers.michiganhackers.login.LoginActivity.INTENT_FROM;
 import static org.michiganhackers.michiganhackers.login.LoginActivity.USER_NOT_SIGNED_IN;
+import static org.michiganhackers.michiganhackers.login.SignupActivity.FROM_ACCOUNT_DELETE;
 
 public abstract class FirebaseAuthActivity extends AppCompatActivity {
     protected FirebaseAuth auth;
@@ -23,11 +27,11 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
     protected FirebaseUser firebaseUser;
     private final String TAG = getClass().getCanonicalName();
     public static final int REQUIRE_USER_SIGNED_IN_REQUEST_CODE = 999;
+    private SettingsViewModel settingsViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         auth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -37,13 +41,24 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
             }
         };
 
-        firebaseUser = auth.getCurrentUser();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        firebaseUser = auth.getCurrentUser();
+        if (firebaseUser != null) {
+            SettingsViewModelFactory settingsViewModelFactory = new SettingsViewModelFactory(firebaseUser.getUid());
+            settingsViewModel = ViewModelProviders.of(this, settingsViewModelFactory).get(SettingsViewModel.class);
+        } else {
+            Log.w(TAG, "null user in onResume");
+        }
     }
 
     @Override
@@ -80,11 +95,24 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
 
     }
 
-    public void signOut(){
+    public void signOut() {
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
         finish();
         auth.signOut();
     }
+
+    public void deleteAccount() {
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
+        settingsViewModel.removeMember(firebaseUser.getUid());
+        Intent intent = new Intent(this, SignupActivity.class);
+        intent.putExtra(INTENT_FROM, FROM_ACCOUNT_DELETE);
+        startActivity(intent);
+        finish();
+    }
+
+
 }

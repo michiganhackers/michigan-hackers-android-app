@@ -38,14 +38,14 @@ public class AccountSettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if(preference.getKey() != null && preference.getKey().equals(getString(R.string.pref_account_sign_out_key))){
+        if (preference.getKey() != null && preference.getKey().equals(getString(R.string.pref_account_sign_out_key))) {
             showSignOutDialog();
         }
         return super.onPreferenceTreeClick(preference);
     }
 
     private void showSignOutDialog() {
-        if(getActivity() == null){
+        if (getActivity() == null) {
             Log.e(TAG, "getActivity() == null in showSignOutDialog()");
             return;
         }
@@ -55,12 +55,12 @@ public class AccountSettingsFragment extends PreferenceFragmentCompat {
         } else {
             builder = new AlertDialog.Builder(getActivity());
         }
-        builder.setTitle("Sign Out")
-                .setMessage("Are you sure you want to sign out?")
+        builder.setTitle(R.string.sign_out)
+                .setMessage(R.string.sign_out_warning_message)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if(getActivity() != null){
-                            ((FirebaseAuthActivity)getActivity()).signOut();
+                        if (getActivity() != null) {
+                            ((FirebaseAuthActivity) getActivity()).signOut();
                         }
                     }
                 })
