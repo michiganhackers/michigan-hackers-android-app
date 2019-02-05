@@ -1,6 +1,7 @@
 package org.michiganhackers.michiganhackers.settings;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
@@ -8,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.view.View;
 
 import org.michiganhackers.michiganhackers.FirebaseAuthActivity;
 import org.michiganhackers.michiganhackers.R;
@@ -18,12 +20,28 @@ public class SettingsActivity extends FirebaseAuthActivity implements
 
     public static final String START_FRAGMENT = "start_fragment";
 
+    private Toolbar toolbar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        setupToolbar();
         initializeStartFragment();
+    }
+
+    private void setupToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void initializeStartFragment() {
@@ -55,4 +73,9 @@ public class SettingsActivity extends FirebaseAuthActivity implements
                 .commit();
         return true;
     }
+
+    public void setToolbarTitle(String title) {
+        toolbar.setTitle(title);
+    }
+
 }

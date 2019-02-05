@@ -18,15 +18,15 @@ import androidx.preference.PreferenceFragmentCompat;
 
 public class AccountSettingsFragment extends PreferenceFragmentCompat {
     private final String TAG = getClass().getCanonicalName();
+    private static final String actionBarTitle = "Account";
 
     public AccountSettingsFragment() {
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final String actionBarTitle = "Account";
-        if (getActivity() != null && getActivity().getActionBar() != null) {
-            getActivity().getActionBar().setTitle(actionBarTitle);
+        if (getActivity() != null) {
+            ((SettingsActivity) getActivity()).setToolbarTitle(actionBarTitle);
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }

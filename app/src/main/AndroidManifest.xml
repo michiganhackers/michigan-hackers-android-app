@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BaseTheme">
-        <activity android:name=".settings.SettingsActivity" android:theme="@style/BaseTheme.WithActionBar">
+        <activity android:name=".settings.SettingsActivity">
             <intent-filter>
                 <action android:name="org.michiganhackers.michiganhackers.settings.SettingsActivity" />
                 <category android:name="android.intent.category.DEFAULT" />

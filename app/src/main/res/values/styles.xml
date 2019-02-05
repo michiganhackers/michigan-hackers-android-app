@@ -28,16 +28,11 @@
 
     </style>
 
-    <style name="BaseTheme.WithActionBar">
-        <item name = "android:windowActionBar">true</item>
-        <item name = "android:windowNoTitle">false</item>
-    </style>
-
     <style name="BaseTheme.SplashTheme">
         <item name="android:background">@color/primary</item>
     </style>
 
-    <style name="BaseEventNameText.EventNameText"/>
+    <style name="BaseEventNameText.EventNameText" />
 
     <style name="BaseEventNameText">
         <item name="android:textColor">@android:color/white</item>
@@ -59,22 +54,22 @@
     </style>
 
     <!--Icons-->
-    <attr name="ic_arrow_down" format="reference"/>
-    <attr name="ic_arrow_up" format="reference"/>
+    <attr name="ic_arrow_down" format="reference" />
+    <attr name="ic_arrow_up" format="reference" />
 
-    <attr name="ic_calendar_date" format="reference"/>
-    <attr name="ic_description" format="reference"/>
-    <attr name="ic_location" format="reference"/>
+    <attr name="ic_calendar_date" format="reference" />
+    <attr name="ic_description" format="reference" />
+    <attr name="ic_location" format="reference" />
 
-    <attr name="ic_profile" format="reference"/>
-    <attr name="ic_account" format="reference"/>
-    <attr name="ic_moon" format="reference"/>
+    <attr name="ic_profile" format="reference" />
+    <attr name="ic_account" format="reference" />
+    <attr name="ic_moon" format="reference" />
 
-    <attr name="ic_add_photo" format="reference"/>
+    <attr name="ic_add_photo" format="reference" />
 
-    <attr name="ic_email" format="reference"/>
-    <attr name="ic_key" format="reference"/>
-    <attr name="ic_delete_forever" format="reference"/>
-    <attr name="ic_sign_out" format="reference"/>
+    <attr name="ic_email" format="reference" />
+    <attr name="ic_key" format="reference" />
+    <attr name="ic_delete_forever" format="reference" />
+    <attr name="ic_sign_out" format="reference" />
 
 </resources>

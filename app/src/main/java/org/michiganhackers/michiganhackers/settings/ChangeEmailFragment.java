@@ -48,8 +48,8 @@ public class ChangeEmailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_change_email, container, false);
 
-        if (getActivity() != null && getActivity().getActionBar() != null) {
-            getActivity().getActionBar().setTitle(actionBarTitle);
+        if (getActivity() != null) {
+            ((SettingsActivity) getActivity()).setToolbarTitle(actionBarTitle);
         }
 
         textInputPassword = layout.findViewById(R.id.text_input_pwd);
