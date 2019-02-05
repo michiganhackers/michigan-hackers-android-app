@@ -40,7 +40,7 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
                 requireUserSignedIn(user);
             }
         };
-
+        setFirebaseUser();
     }
 
     @Override
@@ -52,6 +52,10 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setFirebaseUser();
+    }
+
+    private void setFirebaseUser() {
         firebaseUser = auth.getCurrentUser();
         if (firebaseUser != null) {
             SettingsViewModelFactory settingsViewModelFactory = new SettingsViewModelFactory(firebaseUser.getUid());
