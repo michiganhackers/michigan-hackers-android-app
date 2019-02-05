@@ -84,10 +84,6 @@ public class MemberLiveDataWrapper {
         if (newMember.getUid().equals(uid)) {
             uploadProfilePhoto(filePath);
             Member memberLocal = member.getValue();
-            // If the member already exists and the name is different, change firebase auth display name
-            if (memberLocal != null && memberLocal.getName() != null && !memberLocal.getName().equals(newMember.getName())) {
-                changeFirebaseAuthDisplayName(newMember);
-            }
 
             // newMember.photoUrl is always null, so newMemberMap never has that field
             Map newMemberMap = Util.pojoToMap(newMember);
@@ -98,26 +94,6 @@ public class MemberLiveDataWrapper {
             Log.e(TAG, "Attempted to add member whose uid did not match that of the ProfileViewModel uid");
         }
     }
-
-
-
-    private void changeFirebaseAuthDisplayName(Member newMember) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newMember.getName()).build();
-            user.updateProfile(profileUpdates)
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "Failed to update auth display name", e);
-                        }
-                    });
-        }
-        else{
-            Log.e(TAG, "user == null in changeFirebaseAuthDisplayName()");
-        }
-    }
-
 
     private void uploadProfilePhoto(Uri filePath) {
         if (filePath != null) {
@@ -146,27 +122,13 @@ public class MemberLiveDataWrapper {
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        if (user != null) {
-                            memberRef.update("photoUrl", uri.toString())
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.e(TAG, "Failed to update member photoUrl", e);
-                                        }
-                                    });
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(uri).build();
-                            user.updateProfile(profileUpdates)
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.e(TAG, "Failed to update user photoUri", e);
-                                        }
-                                    });
-                        }
-                        else{
-                            Log.e(TAG, "user == null in updateUserPhotoUrl");
-                        }
+                        memberRef.update("photoUrl", uri.toString())
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e(TAG, "Failed to update member photoUrl", e);
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
