@@ -50,7 +50,7 @@
     <string name="pwd_reset_confirmation">We have sent you instructions to reset your password!</string>
     <string name="enter_email">Enter email address!</string>
     <string name="enter_password">Enter password!</string>
-    <string name="auth_failed_signup">Authentication failed.</string>
+    <string name="auth_failed_signup">Authentication failed</string>
     <string name="pwd_reset_email_failed">Failed to send reset email!</string>
     <string name="enter_registered_email">Enter your registered email id</string>
     <string name="account_deleted_message">Your profile has been deleted :( Create an account now!</string>

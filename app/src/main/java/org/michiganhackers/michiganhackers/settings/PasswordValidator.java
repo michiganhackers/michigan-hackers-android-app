@@ -6,11 +6,13 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.michiganhackers.michiganhackers.FirebaseAuthActivity;
 import org.michiganhackers.michiganhackers.R;
 
 import androidx.annotation.NonNull;
@@ -20,14 +22,14 @@ public abstract class PasswordValidator {
     private String password;
     private FirebaseUser firebaseUser;
     private TextInputLayout passwordTextInputLayout;
-    private Context context;
+    private String incorrectPwdMsg;
 
     public abstract void onSuccess();
 
     public abstract void onFailure();
 
     public PasswordValidator(String password, FirebaseUser firebaseUser,
-                             TextInputLayout passwordTextInputLayout, Context context) {
+                             TextInputLayout passwordTextInputLayout, String incorrectPwdMsg) {
         this.password = password;
         this.firebaseUser = firebaseUser;
         if (firebaseUser == null) {
@@ -35,7 +37,7 @@ public abstract class PasswordValidator {
 
         }
         this.passwordTextInputLayout = passwordTextInputLayout;
-        this.context = context;
+        this.incorrectPwdMsg = incorrectPwdMsg;
     }
 
     public void validatePassword() {
@@ -48,7 +50,7 @@ public abstract class PasswordValidator {
                             passwordTextInputLayout.setError(null);
                             onSuccess();
                         } else {
-                            passwordTextInputLayout.setError((context.getString(R.string.incorrect_password)));
+                            passwordTextInputLayout.setError(incorrectPwdMsg);
                             onFailure();
                         }
                     }

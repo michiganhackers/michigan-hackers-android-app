@@ -52,4 +52,30 @@ public final class Util {
         String json = gson.toJson(obj);
         return new Gson().fromJson(json, Map.class);
     }
+
+    public static class InputFieldObject{
+        private String input;
+        private String errorMsg;
+        private TextInputLayout textInputLayout;
+
+        public InputFieldObject(String input, String errorMsg, TextInputLayout textInputLayout) {
+            this.input = input;
+            this.errorMsg = errorMsg;
+            this.textInputLayout = textInputLayout;
+        }
+
+    }
+
+    public static boolean isAnyInputFieldEmpty(InputFieldObject... inputObjs) {
+        boolean errorShown = false;
+        for(InputFieldObject inputObj : inputObjs){
+            if (TextUtils.isEmpty(inputObj.input)) {
+                inputObj.textInputLayout.setError(inputObj.errorMsg);
+                errorShown = true;
+            } else {
+                inputObj.textInputLayout.setError(null);
+            }
+        }
+        return errorShown;
+    }
 }

@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.michiganhackers.michiganhackers.MainActivity;
 import org.michiganhackers.michiganhackers.R;
+import org.michiganhackers.michiganhackers.Util;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -90,7 +91,10 @@ public class LoginActivity extends AppCompatActivity {
                 String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 
-                if (isAnyInputFieldEmpty(email, password)) {
+                Util.InputFieldObject emailInputFieldObj = new Util.InputFieldObject(email, getString(R.string.enter_email), textInputEmail);
+                Util.InputFieldObject passwordInputFieldObj = new Util.InputFieldObject(password, getString(R.string.enter_password), textInputPassword);
+
+                if (Util.isAnyInputFieldEmpty(emailInputFieldObj, passwordInputFieldObj)) {
                     return;
                 }
 
@@ -157,24 +161,5 @@ public class LoginActivity extends AppCompatActivity {
                     Log.w(TAG, "SIGNUP_REQUEST_CODE cancelled");
                 }
         }
-    }
-
-    private boolean isAnyInputFieldEmpty(String email, String password) {
-        boolean warningShown = false;
-        if (TextUtils.isEmpty(email)) {
-            textInputEmail.setError(getString(R.string.enter_email));
-            warningShown = true;
-        } else {
-            textInputEmail.setError(null);
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            textInputPassword.setError(getString(R.string.enter_password));
-            warningShown = true;
-        } else {
-            textInputPassword.setError(null);
-        }
-
-        return warningShown;
     }
 }

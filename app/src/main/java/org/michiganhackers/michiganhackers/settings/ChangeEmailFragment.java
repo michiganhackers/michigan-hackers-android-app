@@ -13,11 +13,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.michiganhackers.michiganhackers.FirebaseAuthActivity;
 import org.michiganhackers.michiganhackers.R;
+import org.michiganhackers.michiganhackers.Util;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,8 +42,6 @@ public class ChangeEmailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -69,30 +70,22 @@ public class ChangeEmailFragment extends Fragment {
                 String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
 
-                if (isAnyInputFieldEmpty(email, password)) {
+                Util.InputFieldObject emailInputFieldObj = new Util.InputFieldObject(email, getString(R.string.enter_email), textInputEmail);
+                Util.InputFieldObject passwordInputFieldObj = new Util.InputFieldObject(password, getString(R.string.enter_password), textInputPassword);
+
+                if (Util.isAnyInputFieldEmpty(emailInputFieldObj, passwordInputFieldObj)) {
                     return;
                 }
 
-                FirebaseAuth auth = ((FirebaseAuthActivity) getActivity()).auth;
-                final FirebaseUser user = auth.getCurrentUser();
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user == null) {
                     Log.e(TAG, "null user in onCreateView");
 
                 }
-                PasswordValidator passwordValidator = new PasswordValidator(password, user, textInputPassword, getActivity()) {
+                PasswordValidator passwordValidator = new PasswordValidator(password, user, textInputPassword, getString(R.string.incorrect_password)) {
                     @Override
                     public void onSuccess() {
-                        user.updateEmail(etEmail.getText().toString().trim())
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Snackbar.make(coordinatorLayout, R.string.email, Snackbar.LENGTH_SHORT).show();
-                                        } else{
-                                            Snackbar.make(coordinatorLayout, R.string.failed_to_update_email, Snackbar.LENGTH_LONG).show();
-                                        }
-                                    }
-                                });
+                        updateEmail(user);
                     }
 
                     @Override
@@ -101,29 +94,28 @@ public class ChangeEmailFragment extends Fragment {
                     }
                 };
                 passwordValidator.validatePassword();
+
+
             }
         });
 
         return layout;
     }
 
-    private boolean isAnyInputFieldEmpty(String email, String password) {
-        boolean warningShown = false;
-        if (TextUtils.isEmpty(email)) {
-            textInputEmail.setError(getString(R.string.enter_email));
-            warningShown = true;
-        } else {
-            textInputEmail.setError(null);
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            textInputPassword.setError(getString(R.string.enter_password));
-            warningShown = true;
-        } else {
-            textInputPassword.setError(null);
-        }
-
-        return warningShown;
+    private void updateEmail(final FirebaseUser user) {
+        user.updateEmail(etEmail.getText().toString().trim())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Snackbar.make(coordinatorLayout, getString(R.string.email_change_success), Snackbar.LENGTH_LONG).show();
+                        } else {
+                            Exception exception = task.getException();
+                            String msg = exception == null ? "" : ": " + exception.getLocalizedMessage();
+                            Snackbar.make(coordinatorLayout, getString(R.string.failed_to_update_email) + msg, Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 }
 

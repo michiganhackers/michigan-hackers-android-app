@@ -90,7 +90,9 @@ public class SignupActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
-                                    Snackbar.make(coordinatorLayout, getString(R.string.auth_failed_signup) + task.getException(), Snackbar.LENGTH_LONG).show();
+                                    Exception exception = task.getException();
+                                    String msg = exception == null ? "" : ": " + exception.getLocalizedMessage();
+                                    Snackbar.make(coordinatorLayout, getString(R.string.auth_failed_signup) + msg, Snackbar.LENGTH_LONG).show();
                                 } else {
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     setResult(Activity.RESULT_OK);
