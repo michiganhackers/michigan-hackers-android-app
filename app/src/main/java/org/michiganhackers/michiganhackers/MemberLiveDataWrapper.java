@@ -157,7 +157,6 @@ public class MemberLiveDataWrapper {
         memberRef.delete();
     }
 
-
 }
 
 

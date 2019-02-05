@@ -68,11 +68,11 @@ public class ProfileActivity extends FirebaseAuthActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        if (firebaseUser == null) {
+        if (auth.getCurrentUser() == null) {
             return;
         }
 
-        String uid = firebaseUser.getUid();
+        String uid = auth.getCurrentUser().getUid();
         ProfileViewModelFactory profileViewModelFactory = new ProfileViewModelFactory(uid);
         profileViewModel = ViewModelProviders.of(this, profileViewModelFactory).get(ProfileViewModel.class);
 
@@ -180,7 +180,7 @@ public class ProfileActivity extends FirebaseAuthActivity {
                 warningShown = checkEmptyInput(titleInput, textInputTitle, R.string.empty_title_input) || warningShown;
 
                 if (!warningShown) {
-                    String uid = firebaseUser.getUid();
+                    String uid = auth.getCurrentUser().getUid();
                     Member member = new Member(profileNameInput, uid, bioInput, teamNamesInput, yearInput, majorsInput, titleInput);
                     // Todo: Add listener to setMember to add progressBar as well as snackbar if failed to update profile
                     profileViewModel.setMember(member, croppedImageFileUri);

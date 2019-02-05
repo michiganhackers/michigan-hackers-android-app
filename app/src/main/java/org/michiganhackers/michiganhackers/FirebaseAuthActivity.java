@@ -24,7 +24,6 @@ import static org.michiganhackers.michiganhackers.login.SignupActivity.FROM_ACCO
 public abstract class FirebaseAuthActivity extends AppCompatActivity {
     protected FirebaseAuth auth;
     protected FirebaseAuth.AuthStateListener authListener;
-    protected FirebaseUser firebaseUser;
     private final String TAG = getClass().getCanonicalName();
     public static final int REQUIRE_USER_SIGNED_IN_REQUEST_CODE = 999;
     private SettingsViewModel settingsViewModel;
@@ -40,7 +39,7 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
                 requireUserSignedIn(user);
             }
         };
-        setFirebaseUser();
+        setViewModel();
     }
 
     @Override
@@ -52,16 +51,16 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setFirebaseUser();
+        setViewModel();
     }
 
-    private void setFirebaseUser() {
-        firebaseUser = auth.getCurrentUser();
+    private void setViewModel() {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
         if (firebaseUser != null) {
             SettingsViewModelFactory settingsViewModelFactory = new SettingsViewModelFactory(firebaseUser.getUid());
             settingsViewModel = ViewModelProviders.of(this, settingsViewModelFactory).get(SettingsViewModel.class);
         } else {
-            Log.w(TAG, "null user in onResume");
+            Log.e(TAG, "null user in FirebaseAuthActivity");
         }
     }
 
@@ -111,7 +110,13 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
         }
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if (firebaseUser == null) {
+            Log.e(TAG, "null user in deleteAccount");
+        }
         settingsViewModel.removeMember(firebaseUser.getUid());
+        firebaseUser.delete();
+
         Intent intent = new Intent(this, SignupActivity.class);
         intent.putExtra(INTENT_FROM, FROM_ACCOUNT_DELETE);
         startActivity(intent);
