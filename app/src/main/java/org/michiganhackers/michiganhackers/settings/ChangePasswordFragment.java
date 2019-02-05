@@ -1,5 +1,6 @@
 package org.michiganhackers.michiganhackers.settings;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,7 @@ import org.michiganhackers.michiganhackers.login.LoginActivity;
 import org.michiganhackers.michiganhackers.login.ResetPasswordActivity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
@@ -29,6 +31,7 @@ import androidx.preference.PreferenceFragmentCompat;
 public class ChangePasswordFragment extends Fragment {
     private static final String actionBarTitle = "Change Password";
     private final String TAG = getClass().getCanonicalName();
+    public static final int RESET_PASSWORD_REQUEST_CODE = 1;
 
     private TextInputLayout txtInputPwdOld, txtInputPwdNew, txtInputPwdConfirm;
     private TextInputEditText etInputPwdOld, etInputPwdNew, etInputPwdConfirm;
@@ -117,7 +120,7 @@ public class ChangePasswordFragment extends Fragment {
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ResetPasswordActivity.class));
+                startActivityForResult(new Intent(getActivity(), ResetPasswordActivity.class), RESET_PASSWORD_REQUEST_CODE);
             }
         });
 
@@ -138,6 +141,20 @@ public class ChangePasswordFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RESET_PASSWORD_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Snackbar.make(coordinatorLayout, R.string.pwd_reset_confirmation, Snackbar.LENGTH_LONG).show();
+                } else {
+                    Log.w(TAG, "RESET_PASSWORD_REQUEST_CODE cancelled");
+                }
+        }
     }
 }
 
