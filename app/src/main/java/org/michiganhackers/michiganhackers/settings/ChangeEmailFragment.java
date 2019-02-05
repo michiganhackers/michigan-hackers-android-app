@@ -72,15 +72,13 @@ public class ChangeEmailFragment extends Fragment {
 
                 Util.InputFieldObject emailInputFieldObj = new Util.InputFieldObject(email, getString(R.string.enter_email), textInputEmail);
                 Util.InputFieldObject passwordInputFieldObj = new Util.InputFieldObject(password, getString(R.string.enter_password), textInputPassword);
-
                 if (Util.isAnyInputFieldEmpty(emailInputFieldObj, passwordInputFieldObj)) {
                     return;
                 }
 
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user == null) {
-                    Log.e(TAG, "null user in onCreateView");
-
+                    Log.e(TAG, "null user in onClick");
                 }
                 PasswordValidator passwordValidator = new PasswordValidator(password, user, textInputPassword, getString(R.string.incorrect_password)) {
                     @Override
@@ -90,12 +88,9 @@ public class ChangeEmailFragment extends Fragment {
 
                     @Override
                     public void onFailure() {
-
                     }
                 };
                 passwordValidator.validatePassword();
-
-
             }
         });
 

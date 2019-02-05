@@ -85,6 +85,9 @@
     <string name="current_password">Current Password</string>
     <string name="incorrect_password">Password is incorrect</string>
     <string name="email_change_success">Successfully changed email</string>
+    <string name="passwords_dont_match">Passwords do not match!</string>
+    <string name="pwd_change_success">Successfully changed password!</string>
+    <string name="pwd_change_failure">Failed to change password!</string>
 
     <!--Mixed-->
     <string name="hint_email">Email</string>
