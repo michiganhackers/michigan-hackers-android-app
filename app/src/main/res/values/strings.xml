@@ -89,7 +89,7 @@
     <string name="pwd_change_failure">Failed to change password!</string>
     <string name="account_delete_warning_message">Are you sure you want to delete your account? This cannot be undone!</string>
     <string name="sign_out_warning_message">Are you sure you want to sign out?</string>
-    <string name="post_account_deleted_message">Your profile has been deleted :( Create an account now!</string>
+    <string name="post_account_deleted_message">Your account has been deleted</string>
 
     <!--Mixed-->
     <string name="hint_email">Email</string>

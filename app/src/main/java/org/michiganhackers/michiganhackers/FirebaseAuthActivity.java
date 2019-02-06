@@ -17,9 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import static org.michiganhackers.michiganhackers.MainActivity.ACCOUNT_DELETE;
 import static org.michiganhackers.michiganhackers.login.LoginActivity.INTENT_FROM;
 import static org.michiganhackers.michiganhackers.login.LoginActivity.USER_NOT_SIGNED_IN;
-import static org.michiganhackers.michiganhackers.login.SignupActivity.FROM_ACCOUNT_DELETE;
 
 public abstract class FirebaseAuthActivity extends AppCompatActivity {
     protected FirebaseAuth auth;
@@ -116,9 +116,10 @@ public abstract class FirebaseAuthActivity extends AppCompatActivity {
         }
         settingsViewModel.removeMember(firebaseUser.getUid());
         firebaseUser.delete();
+        auth.signOut();
 
-        Intent intent = new Intent(this, SignupActivity.class);
-        intent.putExtra(INTENT_FROM, FROM_ACCOUNT_DELETE);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(INTENT_FROM, ACCOUNT_DELETE);
         startActivity(intent);
         finish();
     }

@@ -7,9 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +23,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -53,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     private NotificationHandler notification;
     private ViewPager viewPager;
     private final String TAG = getClass().getCanonicalName();
+
+    public static final String ACCOUNT_DELETE = "Account delete";
+    public static final String INTENT_FROM = "Intent from";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,16 +134,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        showIntentFromSnackbar();
     }
 
     private void setTheme() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isDarkThemeSet = sharedPreferences.getBoolean(getString(R.string.pref_is_dark_theme_set_key), false);
-        if(isDarkThemeSet){
+        if (isDarkThemeSet) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        else{
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
@@ -206,5 +213,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void showIntentFromSnackbar() {
+        if (getIntent() != null && getIntent().getStringExtra(INTENT_FROM) != null) {
+            switch (getIntent().getStringExtra(INTENT_FROM)) {
+                case ACCOUNT_DELETE:
+                    Snackbar.make(coordinatorLayout, R.string.post_account_deleted_message, Snackbar.LENGTH_LONG).show();
+            }
+        }
     }
 }

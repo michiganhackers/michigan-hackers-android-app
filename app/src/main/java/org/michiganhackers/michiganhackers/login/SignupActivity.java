@@ -27,8 +27,6 @@ import org.michiganhackers.michiganhackers.MainActivity;
 import org.michiganhackers.michiganhackers.R;
 
 public class SignupActivity extends AppCompatActivity {
-    public static final String INTENT_FROM = "Intent from";
-    public static final String FROM_ACCOUNT_DELETE = "From account delete";
 
     private TextInputEditText etEmail, etPassword;
     private Button btnLogin, btnSignUp;
@@ -109,21 +107,11 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
-        showIntentFromSnackbar();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
-    }
-
-    private void showIntentFromSnackbar() {
-        if (getIntent() != null && getIntent().getStringExtra(INTENT_FROM) != null) {
-            switch (getIntent().getStringExtra(INTENT_FROM)) {
-                case FROM_ACCOUNT_DELETE:
-                    Snackbar.make(coordinatorLayout, R.string.post_account_deleted_message, Snackbar.LENGTH_LONG).show();
-            }
-        }
     }
 }
