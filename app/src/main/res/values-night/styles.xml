@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="BaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!--Colors-->
         <item name="colorPrimary">@color/primary_light</item>
@@ -25,5 +26,19 @@
         <item name="ic_delete_forever">@drawable/ic_delete_forever_dark</item>
         <item name="ic_sign_out">@drawable/ic_sign_out_dark</item>
 
+        <item name="snackbarStyle">@style/CustomSnackbar</item>
+
     </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <!--buttons color-->
+        <item name="colorAccent">@color/primary_light</item>
+        <!--title and message color-->
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+
+    <style name="CustomSnackbar" parent="Widget.Design.Snackbar">
+        <item name="android:background">@color/primary</item>
+    </style>
+
 </resources>

@@ -22,6 +22,7 @@ import org.michiganhackers.michiganhackers.directory.DirectoryViewModel;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -84,12 +85,7 @@ public class DeleteAccountFragment extends Fragment {
             Log.e(TAG, "getActivity() == null in showDeleteAccountDialog()");
             return;
         }
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(getActivity());
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
         builder.setTitle(R.string.delete_account)
                 .setMessage(R.string.account_delete_warning_message)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

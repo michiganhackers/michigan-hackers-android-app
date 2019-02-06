@@ -14,6 +14,7 @@ import org.michiganhackers.michiganhackers.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -49,12 +50,7 @@ public class AccountSettingsFragment extends PreferenceFragmentCompat {
             Log.e(TAG, "getActivity() == null in showSignOutDialog()");
             return;
         }
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(getActivity());
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialog);
         builder.setTitle(R.string.sign_out)
                 .setMessage(R.string.sign_out_warning_message)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
