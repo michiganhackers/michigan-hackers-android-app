@@ -27,7 +27,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 public class DeleteAccountFragment extends Fragment {
-    private static final String actionBarTitle = "Delete Account";
     private final String TAG = getClass().getCanonicalName();
 
     private TextInputLayout textInputPassword;
@@ -42,7 +41,7 @@ public class DeleteAccountFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_delete_account, container, false);
 
         if (getActivity() != null) {
-            ((SettingsActivity) getActivity()).setToolbarTitle(actionBarTitle);
+            ((SettingsActivity) getActivity()).setToolbarTitle(R.string.delete_account);
         }
 
         textInputPassword = layout.findViewById(R.id.text_input_pwd);

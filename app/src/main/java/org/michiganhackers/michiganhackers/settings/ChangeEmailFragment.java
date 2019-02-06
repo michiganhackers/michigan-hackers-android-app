@@ -29,7 +29,6 @@ import androidx.fragment.app.Fragment;
 
 public class ChangeEmailFragment extends Fragment {
     private final String TAG = getClass().getCanonicalName();
-    private static final String actionBarTitle = "Change Email";
 
     private TextInputLayout textInputPassword, textInputEmail;
     private TextInputEditText etEmail, etPassword;
@@ -49,7 +48,7 @@ public class ChangeEmailFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_change_email, container, false);
 
         if (getActivity() != null) {
-            ((SettingsActivity) getActivity()).setToolbarTitle(actionBarTitle);
+            ((SettingsActivity) getActivity()).setToolbarTitle(R.string.change_email);
         }
 
         textInputPassword = layout.findViewById(R.id.text_input_pwd);

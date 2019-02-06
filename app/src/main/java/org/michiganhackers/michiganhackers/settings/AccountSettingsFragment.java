@@ -12,13 +12,13 @@ import org.michiganhackers.michiganhackers.FirebaseAuthActivity;
 import org.michiganhackers.michiganhackers.R;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class AccountSettingsFragment extends PreferenceFragmentCompat {
     private final String TAG = getClass().getCanonicalName();
-    private static final String actionBarTitle = "Account";
 
     public AccountSettingsFragment() {
     }
@@ -26,7 +26,7 @@ public class AccountSettingsFragment extends PreferenceFragmentCompat {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getActivity() != null) {
-            ((SettingsActivity) getActivity()).setToolbarTitle(actionBarTitle);
+            ((SettingsActivity) getActivity()).setToolbarTitle(R.string.account);
         }
         return super.onCreateView(inflater, container, savedInstanceState);
     }

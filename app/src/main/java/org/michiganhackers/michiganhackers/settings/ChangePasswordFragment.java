@@ -29,7 +29,6 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class ChangePasswordFragment extends Fragment {
-    private static final String actionBarTitle = "Change Password";
     private final String TAG = getClass().getCanonicalName();
     public static final int RESET_PASSWORD_REQUEST_CODE = 1;
 
@@ -47,7 +46,7 @@ public class ChangePasswordFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_change_password, container, false);
 
         if (getActivity() != null) {
-            ((SettingsActivity) getActivity()).setToolbarTitle(actionBarTitle);
+            ((SettingsActivity) getActivity()).setToolbarTitle(R.string.change_password);
         }
 
         txtInputPwdOld = layout.findViewById(R.id.text_input_old_pwd);

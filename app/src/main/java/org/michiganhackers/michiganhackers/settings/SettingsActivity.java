@@ -33,6 +33,7 @@ public class SettingsActivity extends FirebaseAuthActivity implements
 
     private void setupToolbar() {
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -74,8 +75,8 @@ public class SettingsActivity extends FirebaseAuthActivity implements
         return true;
     }
 
-    public void setToolbarTitle(String title) {
-        toolbar.setTitle(title);
+    public void setToolbarTitle(int titleStringResource) {
+        toolbar.setTitle(titleStringResource);
     }
 
 }
