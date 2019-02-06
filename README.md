@@ -1,6 +1,6 @@
 # Michigan Hackers Android App
 <a href="https://play.google.com/store/apps/details?id=michiganhackers.michiganhackers"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download from Google Play" height="80"></a>  
-<img src="appStoreImages/original/Screenshot_20190205-215004.jpg" width="210"/>  <img src="appStoreImages/original/Screenshot_20190205-223450.jpg" width="210"/>  <img src="appStoreImages/original/Screenshot_20190205-223357.jpg" width="210"/>  <img src="appStoreImages/original/Screenshot_20190205-224503.jpg" width="210"/>  
+<img src="appStoreImages/original/Screenshot_20190205-215004.jpg" width="210"/>  <img src="appStoreImages/original/Screenshot_20190205-223436.jpg" width="210"/>  <img src="appStoreImages/original/Screenshot_20190205-223357.jpg" width="210"/>  <img src="appStoreImages/original/Screenshot_20190205-224559.jpg" width="210"/>  
 
 
 This project is the Android application for the University of Michigan, Ann Arbor student organization called Michigan Hackers. The goal of this project is to make a user-friendly application that will provide information about and tools for Michigan Hackers. This project is also used to help the members of the Michigan Hackers Android App Team learn the skills related to Android application development.
